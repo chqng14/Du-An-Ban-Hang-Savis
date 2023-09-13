@@ -8,5 +8,9 @@ namespace App_Data.Models
 {
     public class Size
     {
+        public Guid Id { get; set; }
+        public string Ma { get; set; }
+        public string Ten { get; set; }
+        //public virtual List<ProductDetail> ProductDetails { get; set; }
     }
 }
