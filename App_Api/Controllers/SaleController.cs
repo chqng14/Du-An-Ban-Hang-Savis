@@ -1,4 +1,6 @@
-﻿using App_Data.Models;
+﻿using App_Data.IRepositories;
+using App_Data.Models;
+using App_Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +12,14 @@ namespace App_Api.Controllers
     [ApiController]
     public class SaleController : ControllerBase
     {
-
+        private readonly IAllRepo<Sale> repos;
         DbContextModel context = new DbContextModel();
         DbSet<Sale> sale;
         public SaleController()
         {
             sale = context.Sales;
+            AllRepo<Sale> all = new AllRepo<Sale>(context, sale);
+            repos = all;
         }
 
         // GET: api/<SaleController>
