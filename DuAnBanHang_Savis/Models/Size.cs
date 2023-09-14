@@ -10,7 +10,9 @@ namespace App_Data.Models
     {
         public Guid Id { get; set; }
         public string Ma { get; set; }
-        public string Ten { get; set; }
+        public string Size1 { get; set; }
+        public decimal Cm { get; set; }
+        public int TrangThai { get; set; }
         public virtual List<ProductDetails> ProductDetails { get; set; }
     }
 }

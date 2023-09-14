@@ -11,9 +11,9 @@ namespace App_Data.Configurations
             builder.ToTable("Size");
             builder.HasKey(x => x.Id);
             builder.Property(c => c.Ma).HasColumnType("nvarchar(1000)").IsRequired(true);
-            builder.Property(c => c.Ten).HasColumnType("nvarchar(1000)").IsRequired(true);
-            //builder.Property(c => c.Cm).HasColumnType("decimal").IsRequired(true);
-            //builder.Property(c => c.TrangThai).HasColumnType("int");
+            builder.Property(c => c.Size1).HasColumnType("nvarchar(1000)").IsRequired(true);
+            builder.Property(c => c.Cm).HasColumnType("decimal").IsRequired(true);
+            builder.Property(c => c.TrangThai).HasColumnType("int");
         }
     }
 }
