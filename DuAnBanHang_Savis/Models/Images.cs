@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace App_Data.Models
 {
-    internal class Images
+    public class Images
     {
+        public Guid Id { get; set; }
+        public Guid IdProductDetail { get; set; }
+        public string TenAnh { get; set; }
+        public string DuongDan { get; set; }
+        public int TrangThai { get; set; }
+        public virtual IEnumerable<ProductDetails> ProductDetails { get; set; }
     }
 }

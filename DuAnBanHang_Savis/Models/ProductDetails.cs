@@ -22,7 +22,7 @@ namespace App_Data.Models
         public decimal? GiaBan { get; set; }
         public int? TrangThai { get; set; }
 
-        //public virtual Product Products { get; set; }
+        public virtual Product Products { get; set; }
 
         public virtual Color Color { get; set; }
 
@@ -30,7 +30,7 @@ namespace App_Data.Models
 
         public virtual TypeProduct TypeProduct { get; set; }
 
-        //public virtual Material Material { get; set; }
+        public virtual Material Material { get; set; }
 
         public virtual IEnumerable<BillDetails> BillDetail { get; set; }
 

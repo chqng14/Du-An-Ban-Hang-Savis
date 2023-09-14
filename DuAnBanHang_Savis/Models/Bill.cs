@@ -27,6 +27,6 @@ namespace App_Data.Models
         public int? TrangThai { get; set; }
         public virtual User User { get; set; }
         public virtual Voucher Voucher { get; set; }
-       // public virtual List<BillDetail> BillDetails { get; set; }
+        public virtual List<BillDetails> BillDetails { get; set; }
     }
 }
