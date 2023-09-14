@@ -13,5 +13,6 @@ namespace App_Data.Models
         [MaxLength(250)]
         public string Ten { get; set; }
         public int TrangThai { get; set; }
+        public virtual IEnumerable<ProductDetails> ProductDetails { get; set; }
     }
 }
