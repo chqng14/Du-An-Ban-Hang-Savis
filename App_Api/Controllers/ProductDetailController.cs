@@ -1,5 +1,6 @@
 ﻿using App_Data.IRepositories;
 using App_Data.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App_Api.Controllers
 {
@@ -11,5 +12,7 @@ namespace App_Api.Controllers
         {
             _allRepoProduct = allRepoProduct;
         }
+
+        
     }
 }
