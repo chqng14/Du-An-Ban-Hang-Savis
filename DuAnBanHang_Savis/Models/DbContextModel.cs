@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace App_Data.Models
 {
-    public class DbContextModel:DbContext
+    public class DbContextModel : DbContext
     {
         public DbContextModel()
         {
@@ -41,7 +41,7 @@ namespace App_Data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=LAPTOP-OF-KHAI;Initial Catalog=Savis;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-8RSAFN0\HKLADOI;Initial Catalog=Savis;Integrated Security=True");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
