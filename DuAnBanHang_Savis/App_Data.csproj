@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Context\" />
     <Folder Include="IRepositories\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
