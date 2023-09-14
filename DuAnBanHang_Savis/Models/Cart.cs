@@ -16,5 +16,6 @@ namespace App_Data.Models
         public int Trangthai { get; set; }
         [ForeignKey("IdUser")]
         public virtual User Users { get; set; }
+        public virtual IEnumerable<CartDetails> CartDetail { get; set; }
     }
 }
