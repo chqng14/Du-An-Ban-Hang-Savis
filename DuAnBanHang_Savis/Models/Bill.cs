@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace App_Data.Models
 {
     public class Bill
     {
-        
+
         public Guid Id { get; set; }
         public Guid? IdUser { get; set; }
         public Guid? IdVoucher { get; set; }

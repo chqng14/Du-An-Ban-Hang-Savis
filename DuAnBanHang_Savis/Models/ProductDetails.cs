@@ -37,5 +37,6 @@ namespace App_Data.Models
         public virtual IEnumerable<SaleDetail> DetailSale { get; set; }
 
         public virtual IEnumerable<CartDetails> CartDetail { get; set; }
+        public virtual IEnumerable<Images> Image { get; set; }
     }
 }

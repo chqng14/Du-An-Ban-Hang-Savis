@@ -13,6 +13,7 @@ namespace App_Data.Models
         public string TenAnh { get; set; }
         public string DuongDan { get; set; }
         public int TrangThai { get; set; }
-        public virtual IEnumerable<ProductDetails> ProductDetails { get; set; }
+
+        public virtual ProductDetails ProductDetails { get; set; }
     }
 }
