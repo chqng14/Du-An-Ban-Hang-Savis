@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace App_Data.Models
 {
-    internal class Product
+    public class Product
     {
+        public Guid Id { get; set; }
+        public string Ma { get; set; }
+        public string Ten { get; set; }
+        public int TrangThai { get; set; }
     }
 }

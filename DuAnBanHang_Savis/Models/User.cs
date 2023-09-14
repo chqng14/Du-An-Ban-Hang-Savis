@@ -22,6 +22,7 @@ namespace App_Data.Models
         public int TrangThai { get; set; }
         public virtual Role Roles { get; set; }
         public virtual List<Bill> Bills { get; set; }
+
         public virtual Cart Carts { get; set; }
     }
 }

@@ -17,6 +17,6 @@ namespace App_Data.Models
         public DateTime? NgayKetThuc { get; set; }
         public int? TrangThai { get; set; }
        
-        //public virtual List<Bill> Bills { get; set; }
+        public virtual List<Bill> Bills { get; set; }
     }
 }
