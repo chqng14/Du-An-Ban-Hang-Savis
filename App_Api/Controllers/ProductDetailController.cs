@@ -48,8 +48,8 @@ namespace App_Api.Controllers
                 Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
                 MauSac = _allRepoColor.GetAll().FirstOrDefault(co => co.Id == item.IdColor)?.Ten,
                 MoTa = item.MoTa,
-                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na => na.Id == item.IdProduct)?.Ten,
-                Size = _allRepoSize.GetAll().FirstOrDefault(si => si.Id == item.IdSize)?.Size1,
+                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na=>na.Id == item.IdProduct)?.Ten,
+                Size = _allRepoSize.GetAll().FirstOrDefault(si=>si.Id == item.IdSize)?.Ten,
                 SoLuongTon = item.SoLuongTon,
                 TrangThai = item.TrangThai,
 
