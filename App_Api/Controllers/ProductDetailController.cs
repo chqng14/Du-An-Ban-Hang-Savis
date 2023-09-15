@@ -12,10 +12,10 @@ namespace App_Api.Controllers
         private readonly IAllRepo<ProductDetails> _allRepoProductDetail;
         private readonly IAllRepo<Material> _allRepoMaterial;
         private readonly IAllRepo<TypeProduct> _allRepoTypeProduct;
-        private readonly IAllRepo<Color> _allRepoColor;
+        private readonly IAllRepo<App_Data.Models.Color> _allRepoColor;
         private readonly IAllRepo<Product> _allRepoProduct;
-        private readonly IAllRepo<Size> _allRepoSize;
-        public ProductDetailController(IAllRepo<ProductDetails> allRepoProductDetail, IAllRepo<Material> allRepoMaterial, IAllRepo<TypeProduct> allRepoTypeProduct, IAllRepo<Color> allRepoColor, IAllRepo<Product> allRepoProduct, IAllRepo<Size> allRepoSize)
+        private readonly IAllRepo<App_Data.Models.Size> _allRepoSize;
+        public ProductDetailController(IAllRepo<ProductDetails> allRepoProductDetail, IAllRepo<Material> allRepoMaterial, IAllRepo<TypeProduct> allRepoTypeProduct, IAllRepo<App_Data.Models.Color> allRepoColor, IAllRepo<Product> allRepoProduct, IAllRepo<App_Data.Models.Size> allRepoSize)
         {
             _allRepoProductDetail = allRepoProductDetail;
             _allRepoMaterial = allRepoMaterial;

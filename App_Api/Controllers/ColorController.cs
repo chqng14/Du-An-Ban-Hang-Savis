@@ -11,20 +11,20 @@ namespace AppAPI.Controllers
     [ApiController]
     public class ColorController : ControllerBase
     {
-        private readonly IAllRepo<Color> _allRepo;
+        private readonly IAllRepo<App_Data.Models.Color> _allRepo;
 
-        public ColorController(IAllRepo<Color> allRepo)
+        public ColorController(IAllRepo<App_Data.Models.Color> allRepo)
         {
             _allRepo = allRepo;
         }
 
         [HttpGet("GetAllColor")]
-        public IEnumerable<Color> Get()
+        public IEnumerable<App_Data.Models.Color> Get()
         {
             return _allRepo.GetAll();
         }
         [HttpGet("GetColorByName")]
-        public IEnumerable<Color> Get(string name)
+        public IEnumerable<App_Data.Models.Color> Get(string name)
         {
             return _allRepo.GetAll().Where(c => c.Ten.Contains(name));
         }
@@ -39,7 +39,7 @@ namespace AppAPI.Controllers
             }
             else ma = "Color" + _allRepo.GetAll().Max(c => Convert.ToInt32(c.Ma.Substring(5, c.Ma.Length - 5)) + 1);
 
-            var color = new Color();
+            var color = new App_Data.Models.Color();
             color.Ten = ten; color.Id = Guid.NewGuid();
             color.Ma = ma;
             color.TrangThai = 0;
