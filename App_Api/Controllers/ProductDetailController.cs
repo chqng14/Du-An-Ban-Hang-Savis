@@ -1,4 +1,5 @@
-﻿using App_Data.IRepositories;
+﻿using App_Data.Configurations;
+using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.ViewModels.ProductDetail;
 using AutoMapper;
@@ -25,7 +26,7 @@ namespace App_Api.Controllers
         }
 
         [HttpPost("create-productdetail")]
-        public IActionResult CreateProductDetail([FromBody]ProductDetailDTO productDetailDTO)
+        public IActionResult CreateProductDetail([FromBody] ProductDetailDTO productDetailDTO)
         {
             productDetailDTO.TrangThai = 1;
             var productDetail = new MapperConfiguration(cfg =>
@@ -33,6 +34,12 @@ namespace App_Api.Controllers
             ).CreateMapper().Map<ProductDetails>(productDetailDTO);
 
             return new OkObjectResult(new { success = _allRepoProductDetail.AddItem(productDetail), id = productDetail.Id });
+        }
+
+        [HttpGet("get-productdetail")]
+        public ProductDetails? GetProductDetail(Guid idProductDetail)
+        {
+            return _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == idProductDetail);
         }
 
         [HttpGet("get-list-productdetail")]
@@ -76,10 +83,14 @@ namespace App_Api.Controllers
         }
 
         [HttpPut("update")]
-        public bool Update([FromBody]ProductDetailDTO productDetailDTO)
+        public bool Update([FromBody] ProductDetailDTO productDetailDTO)
         {
             try
             {
+                if (GetProductDetail(productDetailDTO.Id) == null)
+                {
+                    return false;
+                }
                 var productDetail = new MapperConfiguration(cfg =>
                 cfg.CreateMap<ProductDetailDTO, ProductDetails>()
             ).CreateMapper().Map<ProductDetails>(productDetailDTO);
