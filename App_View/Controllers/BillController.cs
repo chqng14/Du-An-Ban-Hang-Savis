@@ -1,20 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using App_View.IServices;
+using App_View.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App_View.Controllers
 {
     public class BillController : Controller
     {
-        // GET: BillController
-        public ActionResult Index()
+        private IBillServices billServices;
+        public BillController()
         {
-            return View();
+            billServices = new BillServices();
+        }
+        // GET: BillController
+        public async Task<ActionResult> ShowAllBill()
+        {
+            var lst = await billServices.GetAllBillsAsync();
+            return View(lst);
         }
 
         // GET: BillController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(Guid id)
         {
-            return View();
+            var lst = (await billServices.GetAllBillsAsync()).FirstOrDefault(c => c.Id == id);
+            return View(lst);
         }
 
         // GET: BillController/Create
