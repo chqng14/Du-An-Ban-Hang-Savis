@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App_Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class VoucherController : Controller
     {
         private readonly IAllRepo<Voucher> allRepo;
@@ -24,7 +26,7 @@ namespace App_Api.Controllers
         {
             return allRepo.GetAll();
         }
-        [HttpGet("{ma}")]
+        [HttpGet("GetVoucherByMa")]
         public Voucher GetAll(string ma)
         {
             return allRepo.GetAll().FirstOrDefault(c => c.Ma == ma);
