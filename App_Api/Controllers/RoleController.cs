@@ -25,10 +25,43 @@ namespace App_Api.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public async Task<IActionResult> Post(Role obj)
+        public async Task<IActionResult> Post(string TenRole)
         {
-            var result = iRepos.AddItem(obj);
+            Role role = new Role();
+            Random random = new Random();
+            role.Id = Guid.NewGuid();
+            role.Ten = TenRole;
+            role.Ma = "ROLE" + random.Next(100, 999).ToString();
+            role.TrangThai = 0;
+            var result = iRepos.AddItem(role);  
             return Ok(result);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, string TenRole)
+        {
+            var role = iRepos.GetAll().FirstOrDefault(c => c.Id == id);
+            role.Ten = TenRole;
+            var result = iRepos.EditItem(role);
+            return Ok(result);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var role = iRepos.GetAll().FirstOrDefault(c => c.Id == id);
+            var result = iRepos.RemoveItem(role);
+            return Ok(result);
+        }
+        [HttpGet("{id}")]
+        public async Task<Role> GetById(Guid id)
+        {
+            var role = iRepos.GetAll().FirstOrDefault(c => c.Id == id);
+            return role;
+        }
+        [HttpGet("[action]")]
+        public async Task<Role> GetRoleByName(string TenRole)
+        {
+            var role = iRepos.GetAll().Where(c=>c.Ten.Contains(TenRole)).FirstOrDefault();
+            return role;
         }
     }
 }

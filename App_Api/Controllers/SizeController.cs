@@ -11,19 +11,19 @@ namespace AppAPI.Controllers
     [ApiController]
     public class SizeController : ControllerBase
     {
-        private readonly IAllRepo<Size> _allRepo;
+        private readonly IAllRepo<App_Data.Models.Size> _allRepo;
 
-        public SizeController(IAllRepo<Size> allRepo)
+        public SizeController(IAllRepo<App_Data.Models.Size> allRepo)
         {
             _allRepo = allRepo;
         }
         [HttpGet("GetAllSize")]
-        public IEnumerable<Size> Get()
+        public IEnumerable<App_Data.Models.Size> Get()
         {
             return _allRepo.GetAll();
         }
         [HttpGet("GetSizeByName")]
-        public IEnumerable<Size> Get(string name)
+        public IEnumerable<App_Data.Models.Size> Get(string name)
         {
             return _allRepo.GetAll().Where(c => c.Size1.Contains(name));
         }
@@ -37,7 +37,7 @@ namespace AppAPI.Controllers
             }
             else ma = "Size" + _allRepo.GetAll().Max(c => Convert.ToInt32(c.Ma.Substring(4, c.Ma.Length - 4)) + 1);
 
-            var Size = new Size();
+            var Size = new App_Data.Models.Size();
             Size.Id = Guid.NewGuid();
             Size.Size1 = tenSize;
             Size.Cm = CM;
