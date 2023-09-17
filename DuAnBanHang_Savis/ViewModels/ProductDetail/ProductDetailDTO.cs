@@ -20,5 +20,6 @@ namespace App_Data.ViewModels.ProductDetail
         public decimal? GiaNhap { get; set; }
         public decimal? GiaBan { get; set; }
         public int? TrangThai { get; set; }
+        public List<string>? LstTenAnh { get; set; }
     }
 }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App_Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class ProductDetailController
     {
         private readonly IAllRepo<ProductDetails> _allRepoProductDetail;
@@ -15,7 +17,9 @@ namespace App_Api.Controllers
         private readonly IAllRepo<App_Data.Models.Color> _allRepoColor;
         private readonly IAllRepo<Product> _allRepoProduct;
         private readonly IAllRepo<App_Data.Models.Size> _allRepoSize;
-        public ProductDetailController(IAllRepo<ProductDetails> allRepoProductDetail, IAllRepo<Material> allRepoMaterial, IAllRepo<TypeProduct> allRepoTypeProduct, IAllRepo<App_Data.Models.Color> allRepoColor, IAllRepo<Product> allRepoProduct, IAllRepo<App_Data.Models.Size> allRepoSize)
+        private readonly IAllRepo<App_Data.Models.Images> _allImages;
+        private readonly IMapper _mapper;
+        public ProductDetailController(IAllRepo<ProductDetails> allRepoProductDetail, IAllRepo<Material> allRepoMaterial, IAllRepo<TypeProduct> allRepoTypeProduct, IAllRepo<App_Data.Models.Color> allRepoColor, IAllRepo<Product> allRepoProduct, IAllRepo<App_Data.Models.Size> allRepoSize, IMapper mapper, IAllRepo<Images> allImages)
         {
             _allRepoProductDetail = allRepoProductDetail;
             _allRepoMaterial = allRepoMaterial;
@@ -23,29 +27,21 @@ namespace App_Api.Controllers
             _allRepoColor = allRepoColor;
             _allRepoProduct = allRepoProduct;
             _allRepoSize = allRepoSize;
+            _mapper = mapper;
+            _allImages = allImages;
         }
 
         [HttpPost("create-productdetail")]
         public IActionResult CreateProductDetail([FromBody] ProductDetailDTO productDetailDTO)
         {
             productDetailDTO.TrangThai = 1;
-            var productDetail = new MapperConfiguration(cfg =>
-                cfg.CreateMap<ProductDetailDTO, ProductDetails>()
-            ).CreateMapper().Map<ProductDetails>(productDetailDTO);
-
+            var productDetail = _mapper.Map<ProductDetails>(productDetailDTO);
             return new OkObjectResult(new { success = _allRepoProductDetail.AddItem(productDetail), id = productDetail.Id });
         }
 
-        [HttpGet("get-productdetail")]
-        public ProductDetails? GetProductDetail(Guid idProductDetail)
+        private ProductViewModel CreatProductViewModel(ProductDetails item)
         {
-            return _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == idProductDetail);
-        }
-
-        [HttpGet("get-list-productdetail")]
-        public IActionResult GetListProductDetail()
-        {
-            var listProductDetailViewModel = _allRepoProductDetail.GetAll().Select(item => new ProductViewModel
+            return new ProductViewModel
             {
                 Id = item.Id,
                 BaoHanh = item.BaoHanh,
@@ -59,20 +55,69 @@ namespace App_Api.Controllers
                 Size = _allRepoSize.GetAll().FirstOrDefault(si => si.Id == item.IdSize)?.Size1,
                 SoLuongTon = item.SoLuongTon,
                 TrangThai = item.TrangThai,
+            };
+        }
 
-            }).ToList();
+        [HttpGet("get-productdetail/{id}")]
+        public ProductDetails? GetProductDetail(Guid idProductDetail)
+        {
+            return _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == idProductDetail);
+        }
+
+        [HttpGet("get-list-productdetail")]
+        public IActionResult GetListProductDetail()
+        {
+            var listProductDetailViewModel = _allRepoProductDetail.GetAll().Select(item => CreatProductViewModel(item)).ToList();
             return new OkObjectResult(listProductDetailViewModel);
         }
 
-        [HttpDelete("delete")]
-        public bool DeleteProductDetail(List<Guid> lstGuid)
+        [HttpGet("get-add-or-update")]
+        public IActionResult GetProductDetailForAddOrUpdate([FromBody] ProductDetailDTO productDetailDTO)
+        {
+            var productDetails = _allRepoProductDetail.GetAll()
+                .FirstOrDefault(pro => pro.IdProduct == productDetailDTO.IdProduct && pro.IdColor == productDetailDTO.IdColor && pro.IdSize == productDetailDTO.IdSize && pro.IdTypeProduct == productDetailDTO.IdTypeProduct && pro.IdMaterial == productDetailDTO.IdMaterial);
+
+            if (productDetails != null)
+            {
+                var productDetaiDTOMap = _mapper.Map<ProductDetailDTO>(productDetails);
+                productDetaiDTOMap.LstTenAnh = _allImages.GetAll()
+                                .Where(img => img.IdProductDetail == productDetaiDTOMap.Id)
+                                .Select(x => x.DuongDan)
+                                .ToList();
+                return new OkObjectResult(new { success = true, data = productDetaiDTOMap });
+            }
+
+            return new OkObjectResult(new { success = false });
+        }
+
+        [HttpDelete("delete-lst-product")]
+        public bool DeleteListProductDetail(List<Guid> lstGuid)
         {
             try
             {
                 foreach (var id in lstGuid)
                 {
-                    _allRepoProductDetail.RemoveItem(_allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id));
+                    var productDetailRemove = _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id);
+                    productDetailRemove!.TrangThai = 0;
+                    _allRepoProductDetail.EditItem(productDetailRemove);
                 }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
+
+        [HttpDelete("delete-product-detail/{id}")]
+        public bool DeleteProductDetail(Guid id)
+        {
+            try
+            {
+                var productDetailRemove = _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id);
+                productDetailRemove!.TrangThai = 0;
+                _allRepoProductDetail.EditItem(productDetailRemove);
                 return true;
             }
             catch (Exception ex)
@@ -91,9 +136,7 @@ namespace App_Api.Controllers
                 {
                     return false;
                 }
-                var productDetail = new MapperConfiguration(cfg =>
-                cfg.CreateMap<ProductDetailDTO, ProductDetails>()
-            ).CreateMapper().Map<ProductDetails>(productDetailDTO);
+                var productDetail = _mapper.Map<ProductDetails>(productDetailDTO);
                 _allRepoProductDetail.EditItem(productDetail);
                 return true;
             }
