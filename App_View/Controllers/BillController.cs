@@ -63,5 +63,6 @@ namespace App_View.Controllers
             await billServices.DeleteBillAsync(id);
             return RedirectToAction("ShowAllBill");
         }
+        //chang
     }
 }
