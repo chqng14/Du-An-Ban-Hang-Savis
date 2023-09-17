@@ -1,7 +1,9 @@
-﻿using App_View.IServices;
+﻿using App_Data.Models;
+using App_View.IServices;
 using App_View.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace App_View.Controllers
 {
@@ -35,58 +37,31 @@ namespace App_View.Controllers
         // POST: BillController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Bill bill)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await billServices.CreateBillAsync(bill);
+            return RedirectToAction("ShowAllBill");
         }
 
         // GET: BillController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(Guid id)
         {
-            return View();
+            var lst = (await billServices.GetAllBillsAsync()).FirstOrDefault(c => c.Id == id);
+            return View(lst);
         }
 
         // POST: BillController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(Bill bill)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await billServices.UpdateBillAsync(bill);
+            return RedirectToAction("ShowAllBill");
         }
-
-        // GET: BillController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            return View();
-        }
-
-        // POST: BillController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await billServices.DeleteBillAsync(id);
+            return RedirectToAction("ShowAllBill");
         }
     }
 }

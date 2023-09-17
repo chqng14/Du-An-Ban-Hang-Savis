@@ -11,7 +11,7 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/BillDetails?idBill={item.IdBill}&idProduct={item.IdProductDetail}&sl={item.SoLuong}&trangthai={item.TrangThai}";
+                string apiUrl = $"https://localhost:7165/api/BillDetails?idBill={item.IdBill}&idProduct={item.IdProductDetail}&sl={item.SoLuong}&dongia={item.DonGia}&trangthai={item.TrangThai}";
                 HttpClient httpClient = new HttpClient();
                 var response = await httpClient.PostAsync(apiUrl, null);
 
@@ -37,7 +37,8 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/BillDetails/{item.Id}?idBill={item.IdBill}&idProduct={item.IdProductDetail}&sl={item.SoLuong}&trangthai={item.TrangThai}";
+        
+                string apiUrl = $"https://localhost:7165/api/BillDetails/EditBillDetails{item.Id}?idBill={item.IdBill}&idProduct={item.IdProductDetail}&dongia={item.DonGia}&sl={item.SoLuong}&trangthai={item.TrangThai}";
                 HttpClient httpClient = new HttpClient();
 
                 var response = await httpClient.PutAsync(apiUrl, null);
