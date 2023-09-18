@@ -25,14 +25,14 @@ namespace AppAPI.Controllers
         {
             return _allRepo.GetAll().First(x => x.Id == id);
         }
-        [HttpGet]
+        [HttpGet("GetAllTypeProduct")]
         public IEnumerable<TypeProduct> Get()
         {
             return _allRepo.GetAll();
         }
 
-        [HttpPost]
-        public bool CreateBill(string ten, int trangThai)
+        [HttpPost("CreateTypeProduct")]
+        public bool CreateTypeProduct(string ten, int trangThai)
         {
             string ma;
             if (_allRepo.GetAll().Count() == null)
@@ -54,23 +54,22 @@ namespace AppAPI.Controllers
         }
 
 
-        [HttpDelete("Delete-TypeProduct")]
+        [HttpDelete("DeleteTypeProduct")]
         public bool Delete(Guid id)
         {
             var typeProduct = _allRepo.GetAll().First(x => x.Id == id);
             return _allRepo.RemoveItem(typeProduct);
         }
 
-        [HttpPut("{id}")]
-        public bool Put(string ten, string ma, int trangThai)
+        [HttpPut("UpdateTypeProduct")]
+        public bool Put(Guid id,string ten, string ma, int trangThai)
         {
-            TypeProduct typeProduct = new TypeProduct()
-            {
-                Ten = ten,
-                Ma = ma,
-                TrangThai = trangThai
-            };
-            return _allRepo.EditItem(typeProduct);
+            var tpProduct = _allRepo.GetAll().FirstOrDefault(x => x.Id == id);
+
+            tpProduct.Ten = ten;
+            tpProduct.Ma = ma;
+            tpProduct.TrangThai = trangThai;
+            return _allRepo.EditItem(tpProduct);
         }
     }
 }
