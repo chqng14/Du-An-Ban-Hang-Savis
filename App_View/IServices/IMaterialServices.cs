@@ -7,7 +7,7 @@ namespace App_View.IServices
     {
         public Task<List<Material>> GetAllMateroal();
         public Task<bool> AddMaterial(Material material);
-        public Task<bool> RemoveMaterial(Material material);
-        public Task<bool> Edit(Guid id);
+        public Task<bool> RemoveMaterial(Guid id);
+        public Task<bool> Edit(Material material);
     }
 }

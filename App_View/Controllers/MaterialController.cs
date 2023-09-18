@@ -2,24 +2,26 @@
 using App_View.IServices;
 using App_View.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
 
 namespace App_View.Controllers
 {
-    public class ColorController : Controller
+    public class MaterialController : Controller
     {
-        private readonly IColorServices colorServices;
+        private readonly IMaterialServices materialServices;
 
-        public ColorController()
+        public MaterialController()
         {
-            colorServices = new ColorServices();
+            materialServices = new MaterialServices();
         }
         public async Task<IActionResult> Index()
         {
-            var allColor = await colorServices.GetAllColor();
-            return View(allColor);
+            var allMaterial = await materialServices.GetAllMateroal();
+            return View(allMaterial);
         }
         public IActionResult Create() 
         {
@@ -27,25 +29,25 @@ namespace App_View.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Color color)
+        public async Task<IActionResult> Create(Material material)
         {
-            await colorServices.AddColor(color);
+            await materialServices.AddMaterial(material);
             return RedirectToAction("Index");
         }
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var editColor = (await colorServices.GetAllColor()).FirstOrDefault(x => x.Id == id);
+            var editColor = (await materialServices.GetAllMateroal()).FirstOrDefault(x => x.Id == id);
             return View(editColor);
         }
-        public async Task<IActionResult> Edit(Color color)
+        public async Task<IActionResult> Edit(Material material)
         {
-            await colorServices.EditColor(color);
+            await materialServices.Edit(material);
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> Delete(Guid id)
         {
-            await colorServices.DeleteColor(id);
+            await materialServices.RemoveMaterial(id);
             return RedirectToAction("Index");
         }
     }
