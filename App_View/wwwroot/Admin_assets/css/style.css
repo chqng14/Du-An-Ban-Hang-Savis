@@ -1,0 +1,103 @@
+
+.wrapper-file {
+    position: relative;
+    height: 185px;
+    width: 145px;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px dashed #c2cdda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.wrapper-file.active {
+    border: none;
+}
+
+.wrapper-file .image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper-file img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.wrapper-file .icon {
+    font-size: 80px;
+    color: #9658fe;
+    margin-left: 4px;
+}
+
+.wrapper-file .text {
+    font-size: 11px;
+    font-weight: 300;
+    color: #5B5B7B;
+}
+
+.wrapper-file .cancel-btn i {
+    position: absolute;
+    font-size: 20px;
+    right: 15px;
+    top: 15px;
+    color: #9658fe;
+    cursor: pointer;
+    display: none;
+}
+
+.wrapper-file.active:hover .cancel-btn i {
+    display: block;
+}
+
+.wrapper-file .cancel-btn i:hover {
+    color: #e74c3c;
+}
+
+.wrapper-file .file-name {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 11px;
+    color: #fff;
+    display: none;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+.wrapper-file.active:hover .file-name {
+    display: block;
+}
+
+.custom-btn {
+    margin-top: 10px;
+    display: block;
+    width: 145px;
+    height: 30px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+.btnn-close{
+    display: none;
+}
+
+.item-accordion:hover .btnn-close{
+    display: block;
+}
+

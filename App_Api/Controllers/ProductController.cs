@@ -21,13 +21,13 @@ namespace AppAPI.Controllers
         {
             _allRepo = allRepo;
         }
-        [HttpGet]
+        [HttpGet("GetAllProduct")]
         public IEnumerable<Product> Get()
         {
             return _allRepo.GetAll();
         }
       
-        [HttpPost]
+        [HttpPost("CreateProduct")]
      
         public bool CreateProduct(string ma, string ten, int trangthai)
         {
@@ -40,7 +40,7 @@ namespace AppAPI.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateProduct")]
         public bool Put(Guid id, string ma, string ten, int trangthai)
         {
             var Product = _allRepo.GetAll().First(p => p.Id == id);
@@ -50,7 +50,7 @@ namespace AppAPI.Controllers
             return _allRepo.EditItem(Product);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteProduct")]
         public bool Delete(Guid id)
         {
             var Product = _allRepo.GetAll().First(p => p.Id == id);
