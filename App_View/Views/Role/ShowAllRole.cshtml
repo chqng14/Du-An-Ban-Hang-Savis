@@ -1,0 +1,51 @@
+﻿@using App_Data.Models
+@model IEnumerable<App_Data.Models.Role>
+
+@{
+    IEnumerable<Role> roles = ViewBag.Role;
+    ViewData["Title"] = "ShowAllRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ShowAllRole</h1>
+
+<p>
+    <a asp-action="AddRole" asp-controller="Role">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in roles)
+        {
+        <tr>
+            <td>
+                @(item.Ma)
+            </td>
+            <td>
+                @( item.Ten)
+            </td>
+            <td>
+                @(item.TrangThai)
+            </td>
+            <td>
+                <a asp-action="EditRole" asp-controller="Role" asp-route-id="@item.Id">Sua</a>
+                <a asp-action="DetailRole" asp-controller="Role" asp-route-id="@item.Id">ChiTiet</a>
+                    <a asp-action="DeleteRole" asp-controller="Role" asp-route-id="@item.Id">Xoa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

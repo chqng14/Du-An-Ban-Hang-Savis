@@ -25,6 +25,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
 
+
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -32,7 +33,6 @@
 
     <Folder Include="IServices\" />
     <Folder Include="Services\" />
-
   </ItemGroup>
 
   <ItemGroup>

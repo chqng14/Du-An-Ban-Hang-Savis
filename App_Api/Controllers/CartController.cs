@@ -15,18 +15,27 @@ namespace App_Api.Controllers
         {
             iCartRepos = _iCartRepos;
         }
+        [HttpPost]
+        public async Task<IActionResult> Post(Guid IdUser, int TrangThai)
+        {
+            Cart cart = new Cart();
+            cart.IdUser = IdUser;
+            cart.Trangthai = TrangThai;
+            var result = iCartRepos.AddItem(cart);
+            return Ok(result);
+        }
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             var result = iCartRepos.GetAll();
             return Ok(result);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{IdUser}")]
         public async Task<Cart> GetById(Guid IdUser)
         {
             return iCartRepos.GetAll().FirstOrDefault(c => c.IdUser == IdUser);
         }
-        [HttpPut("{id}")]
+        [HttpPut("{IdUser}")]
         public async Task<IActionResult> Put(Guid IdUser, int TrangThai)
         {
             var cart = iCartRepos.GetAll().FirstOrDefault(c => c.IdUser == IdUser);

@@ -37,10 +37,11 @@ namespace App_Api.Controllers
             return Ok(result);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, string TenRole)
+        public async Task<IActionResult> Put(Guid id, string TenRole, int TrangThai)
         {
             var role = iRepos.GetAll().FirstOrDefault(c => c.Id == id);
             role.Ten = TenRole;
+            role.TrangThai =TrangThai;
             var result = iRepos.EditItem(role);
             return Ok(result);
         }

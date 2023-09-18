@@ -1,0 +1,51 @@
+﻿@using App_Data.Models
+@model IEnumerable<App_Data.Models.Role>
+
+@{
+    ViewData["Title"] = "ShowAllRole";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    IEnumerable<Role> roles = ViewBag.Role;
+}
+
+<h1>ShowAllRole</h1>
+
+<p>
+    <a asp-area="Admin" asp-controller="Role" asp-action="AddRole">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Ma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in roles) {
+        <tr>
+            <td>
+                @item.Ma
+            </td>
+            <td>
+                    @item.Ten
+            </td>
+            <td>
+                    @item.TrangThai
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                <a asp-action="DetailRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id">Chi Tiet</a>
+                <a asp-action="RemoveRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id">Xoa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
