@@ -54,7 +54,7 @@ namespace App_Api.Controllers
             return Ok(result);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, Guid IdRole, string Ten, int GioiTinh, DateTime NgaySinh, string DiaChi, string SDT, string MatKhau, string Email, string TaiKhoan, int TrangThai)
+        public async Task<IActionResult> Put(Guid id, Guid IdRole, string Ten, int GioiTinh, DateTime NgaySinh, string DiaChi, string SDT, string MatKhau, string Email, int TrangThai)
         {
             var obj = iUserRepos.GetAll().FirstOrDefault(c => c.Id == id);
             obj.Ten = Ten;
@@ -62,7 +62,6 @@ namespace App_Api.Controllers
             obj.NgaySinh = NgaySinh;
             obj.DiaChi = DiaChi;
             obj.Sdt = SDT;
-            obj.TaiKhoan = TaiKhoan;
             obj.MatKhau = MatKhau;
             obj.Email = Email;
             obj.IdRole = IdRole;

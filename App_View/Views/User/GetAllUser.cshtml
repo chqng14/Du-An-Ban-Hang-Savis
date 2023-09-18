@@ -1,0 +1,100 @@
+﻿@using App_Data.Models
+@model IEnumerable<App_Data.Models.User>
+
+@{
+    ViewData["Title"] = "GetAllUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<User> users = ViewBag.User;
+}
+
+<h1>GetAllUser</h1>
+
+<p>
+    <a asp-controller="User" asp-action="CreateUser">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdRole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GioiTinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgaySinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaChi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sdt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatKhau)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaiKhoan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in users)
+        {
+        <tr>
+          
+            <td>
+               @item.IdRole
+            </td>
+            <td>
+                @(item.Ma)
+            </td>
+            <td>
+                @(item.Ten)
+            </td>
+            <td>
+                @(item.GioiTinh)
+            </td>
+            <td>
+                @(item.NgaySinh)
+            </td>
+            <td>
+                @(item.DiaChi)
+            </td>
+            <td>
+                @(item.Sdt)
+            </td>
+            <td>
+                @(item.MatKhau)
+            </td>
+            <td>
+                @(item.Email)
+            </td>
+            <td>
+                @(item.TaiKhoan)
+            </td>
+            <td>
+                @(item.TrangThai)
+            </td>
+            <td>
+                    <a asp-action="EditUser" asp-controller="User" asp-route-id="@item.Id">Sua</a>
+                    <a asp-action="DetailUSer" asp-controller="User" asp-route-id="@item.Id">Chi Tiet</a>
+                    <a asp-action="DeleteUser" asp-controller="User" asp-route-id="@item.Id">Xoa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
