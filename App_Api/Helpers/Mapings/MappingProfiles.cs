@@ -10,7 +10,7 @@ namespace App_Api.Helpers.Mapings
        
         public MappingProfiles()
         {
-            CreateMap<ProductDetailDTO, ProductDetails>();
+            CreateMap<ProductDetailDTO, ProductDetails>().ReverseMap();
         }
     }
 }

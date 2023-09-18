@@ -15,10 +15,9 @@ namespace App_View.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IActionResult> CreatProductDetailAsync(ProductDetailDTO productDetailDTO)
+        public async Task<HttpResponseMessage> CreatProductDetailAsync(ProductDetailDTO productDetailDTO)
         {
-            var respose = await _httpClient.PutAsJsonAsync("/api/ProductDetail/create-productdetail", productDetailDTO);
-            return await respose.Content.ReadAsAsync<OkObjectResult>();
+            return await _httpClient.PostAsJsonAsync("/api/ProductDetail/create-productdetail", productDetailDTO);
         }
 
         public async Task DeleteListProductDetailAsync(List<Guid> lstIdProductDetailRemove)
@@ -50,9 +49,10 @@ namespace App_View.Services
             await _httpClient.DeleteAsync($"/api/ProductDetail/delete-product-detail/{id}");
         }
 
-        public async Task<IActionResult> GetProductDetailForUpdateOrAdd(ProductDetailDTO productDetailDTO)
+        public async Task<HttpResponseMessage> GetProductDetailForUpdateOrAdd(ProductDetailDTO productDetailDTO)
         {
-            return (await _httpClient.GetFromJsonAsync<OkObjectResult>("/api/ProductDetail/get-add-or-update"))!;
+            return await _httpClient.PostAsJsonAsync("/api/ProductDetail/get-add-or-update",productDetailDTO);
+            
         }
     }
 }

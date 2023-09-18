@@ -1,6 +1,7 @@
 ﻿using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.ViewModel;
+using App_Data.ViewModels.Image;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,13 @@ namespace App_Api.Controllers
             _allRepoImage = allRepoImage;
         }
         [HttpPost("create-list-image")]
-        public async Task<IActionResult> CreateImage([FromForm] Guid? idProductDetail, [FromForm] List<IFormFile> lstIFormFile)
+        public async Task<IActionResult> CreateImage([FromForm] Guid idProductDetail, [FromForm] List<IFormFile> lstIFormFile)
         {
             try
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 string rootPath = Directory.GetParent(currentDirectory).FullName;
-                string uploadDirectory = Path.Combine(rootPath, "App_Api", "wwwroot", "Images");
+                string uploadDirectory = Path.Combine(rootPath, "App_View", "wwwroot", "images", "AnhSanPham");
 
                 foreach (var file in lstIFormFile)
                 {
@@ -59,7 +60,7 @@ namespace App_Api.Controllers
                                 {
                                     await image.SaveAsync(outputStream, encoder);
                                 }
-                                //_allRepoImage.RemoveItem(new Images { DuongDan = fileName, TenAnh = file.FileName,IdProductDetail=idProductDetail ,TrangThai = 1 });
+                                _allRepoImage.AddItem(new Images { DuongDan = fileName, TenAnh = file.FileName, IdProductDetail = idProductDetail, TrangThai = 1 });
 
                             }
                         }
@@ -77,16 +78,17 @@ namespace App_Api.Controllers
 
 
         [HttpDelete("delete-list-image")]
-        public async Task<IActionResult> DeleteListImage([FromForm] Guid idProductDetail, [FromForm] List<string> lstImageRemove)
+        public IActionResult DeleteListImage(ResponseImageDeleteVM responseImageDeleteVM)
         {
             string currentDirectory = Directory.GetCurrentDirectory();
             string rootPath = Directory.GetParent(currentDirectory).FullName;
-            string uploadDirectory = Path.Combine(rootPath, "App_Api", "wwwroot", "Images");
+            string uploadDirectory = Path.Combine(rootPath, "App_View", "wwwroot", "images", "AnhSanPham");
             try
             {
-                foreach (var item in _allRepoImage.GetAll().Where(im => im.IdProductDetail == idProductDetail && lstImageRemove.Contains(im.DuongDan)))
+                foreach (var item in _allRepoImage.GetAll().Where(im => im.IdProductDetail == responseImageDeleteVM.idProductDetail && responseImageDeleteVM.lstImageRemove!.Contains(im.DuongDan)))
                 {
-                    _allRepoImage.RemoveItem(item);
+                    item.TrangThai = 0;
+                    _allRepoImage.EditItem(item);
                     string filePath = Path.Combine(uploadDirectory, item.DuongDan);
 
                     if (System.IO.File.Exists(filePath))
