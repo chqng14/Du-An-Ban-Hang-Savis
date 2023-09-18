@@ -1,0 +1,63 @@
+﻿@using App_Data.Models
+@model IEnumerable<App_Data.Models.CartDetails>
+
+@{
+    IEnumerable<CartDetails> cartDetails = ViewBag.CartDetail;
+    ViewData["Title"] = "ShowAllCartDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ShowAllCartDetail</h1>
+
+<p>
+    <a asp-action="AddCartDetail" asp-controller="CartDetail">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.IDUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IDCTSP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaKhuyenMai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in cartDetails) {
+        <tr>
+            <td>
+                @(item.IDUser)
+            </td>
+            <td>
+                @( item.IDCTSP)
+            </td>
+            <td>
+                @( item.SoLuong)
+            </td>
+            <td>
+                @(item.GiaKhuyenMai)
+            </td>
+            <td>
+                @(item.TrangThai)
+            </td>
+            <td>
+               <a asp-controller="CartDetail" asp-action="EditCartDetail" asp-route-id="@item.ID">Sua</a>
+                    <a asp-controller="CartDetail" asp-action="DetailCartDetail" asp-route-id="@item.ID">Chi Tiet</a>
+                    <a asp-controller="CartDetail" asp-action="DeleteCartDetail" asp-route-id="@item.ID">Xoa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

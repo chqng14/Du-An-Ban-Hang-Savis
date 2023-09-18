@@ -1,3 +1,4 @@
+using App_Api.Helpers.CustomJson;
 using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
@@ -6,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = new CustomNamingPolicy();
+}); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

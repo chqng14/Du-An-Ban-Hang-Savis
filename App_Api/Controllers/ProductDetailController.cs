@@ -55,6 +55,10 @@ namespace App_Api.Controllers
                 Size = _allRepoSize.GetAll().FirstOrDefault(si => si.Id == item.IdSize)?.Size1,
                 SoLuongTon = item.SoLuongTon,
                 TrangThai = item.TrangThai,
+                LstTenAnh = _allImages.GetAll()
+                                .Where(img => img.TrangThai == 1 && img.IdProductDetail == item.Id)
+                                .Select(x => x.DuongDan)
+                                .ToList()
             };
         }
 
@@ -71,7 +75,7 @@ namespace App_Api.Controllers
             return new OkObjectResult(listProductDetailViewModel);
         }
 
-        [HttpGet("get-add-or-update")]
+        [HttpPost("get-add-or-update")]
         public IActionResult GetProductDetailForAddOrUpdate([FromBody] ProductDetailDTO productDetailDTO)
         {
             var productDetails = _allRepoProductDetail.GetAll()
@@ -81,7 +85,7 @@ namespace App_Api.Controllers
             {
                 var productDetaiDTOMap = _mapper.Map<ProductDetailDTO>(productDetails);
                 productDetaiDTOMap.LstTenAnh = _allImages.GetAll()
-                                .Where(img => img.IdProductDetail == productDetaiDTOMap.Id)
+                                .Where(img => img.TrangThai == 1 && img.IdProductDetail == productDetaiDTOMap.Id)
                                 .Select(x => x.DuongDan)
                                 .ToList();
                 return new OkObjectResult(new { success = true, data = productDetaiDTOMap });
@@ -132,12 +136,13 @@ namespace App_Api.Controllers
         {
             try
             {
-                if (GetProductDetail(productDetailDTO.Id) == null)
+                var existingProductDetail = GetProductDetail(productDetailDTO.Id);
+                if (existingProductDetail == null)
                 {
                     return false;
                 }
-                var productDetail = _mapper.Map<ProductDetails>(productDetailDTO);
-                _allRepoProductDetail.EditItem(productDetail);
+                _mapper.Map(productDetailDTO, existingProductDetail);
+                _allRepoProductDetail.EditItem(existingProductDetail);
                 return true;
             }
             catch (Exception ex)

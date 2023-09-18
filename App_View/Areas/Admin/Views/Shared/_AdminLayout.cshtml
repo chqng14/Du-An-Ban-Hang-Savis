@@ -9,9 +9,19 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="~/Admin_assets/images/logo/favicon.png">
 
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <!-- page css -->
+    <link href="~/Admin_assets/vendors/select2/select2.css" rel="stylesheet">
+    <link href="~/Admin_assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+
+
     <!-- Core css -->
     <link href="~/Admin_assets/css/app.min.css" rel="stylesheet">
+    <link href="~/Admin_assets/css/style.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -190,16 +200,6 @@
 
                 <!-- Content Wrapper START -->
                 <div class="main-content">
-                    <div class="page-header">
-                        <h2 class="header-title">Basic Table</h2>
-                        <div class="header-sub-title">
-                            <nav class="breadcrumb breadcrumb-dash">
-                                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
-                                <a class="breadcrumb-item" href="#">Tables</a>
-                                <span class="breadcrumb-item active">Basic Table</span>
-                            </nav>
-                        </div>
-                    </div>
                     @RenderBody()
                     <!-- Content Wrapper END -->
                     <!-- Footer START -->
@@ -382,12 +382,21 @@
     </div>
 
 
+    
+
     <!-- Core Vendors JS -->
-    <script src="~/Admin_assets/js/vendors.min.js"></script>
+    <script src="~/Admin_assets/js/vendors.min.js" defer></script>
 
     <!-- page js -->
+    <script src="~/Admin_assets/vendors/chartjs/Chart.min.js" defer></script>
+    <script src="~/Admin_assets/js/pages/dashboard-crm.js" defer></script>
+
     <!-- Core JS -->
-    <script src="~/Admin_assets/js/app.min.js"></script>
+    <script src="~/Admin_assets/js/app.min.js" defer></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
 
 </body>
 

@@ -1,8 +1,13 @@
+using App_View.IServices;
+using App_View.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7165") });
+builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,111 @@
+﻿@model IEnumerable<App_Data.ViewModels.ProductDetail.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected="">Catergory</option>
+                            <option value="all">All</option>
+                            <option value="homeDeco">Home Decoration</option>
+                            <option value="eletronic">Eletronic</option>
+                            <option value="jewellery">Jewellery</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected="">Status</option>
+                            <option value="all">All</option>
+                            <option value="inStock">In Stock </option>
+                            <option value="outOfStock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Add Product</span>
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0"></label></div></div></div><div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-hover e-commerce-table dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" : activate to sort column descending" style="width: 79.0156px;">
+                                        <div class="checkbox">
+                                            <input id="checkAll" type="checkbox">
+                                            <label for="checkAll" class="m-b-0"></label>
+                                        </div>
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="ID: activate to sort column ascending" style="width: 52.7656px;">ID</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Product: activate to sort column ascending" style="width: 295.891px;">Product</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Category: activate to sort column ascending" style="width: 185.562px;">Category</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Price: activate to sort column ascending" style="width: 84.5312px;">Price</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Stock Left: activate to sort column ascending" style="width: 133.203px;">Stock Left</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 159.797px;">Status</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 110.234px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr role="row">
+                                        <td class="sorting_1">
+                                            <div class="checkbox">
+                                                <input id="check-item-1" type="checkbox">
+                                                <label for="check-item-1" class="m-b-0"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            #31
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img class="img-fluid rounded" src="assets/images/others/thumb-9.jpg" style="max-width: 60px" alt="">
+                                                <h6 class="m-b-0 m-l-10">@item.NameProduct</h6>
+                                            </div>
+                                        </td>
+                                        <td>@item.Loai</td>
+                                        <td>$@item.GiaBan</td>
+                                        <td>@item.SoLuongTon</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-success badge-dot m-r-10"></div>
+                                                <div>In Stock</div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                                <i class="anticon anticon-edit"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                                <i class="anticon anticon-delete"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 7 of 7 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Admin_assets/js/pages/e-commerce-order-list.js"></script>
+}

@@ -26,7 +26,7 @@
     <!-- =====  CSS  ===== -->
     <link rel="stylesheet" type="text/css" href="~/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link href="~/css/style.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="~/css/owl.carousel.css">
     <link rel="shortcut icon" href="~/images/favicon.png">
@@ -315,10 +315,10 @@
         <div class="banner">
             <div class="main-banner owl-carousel">
                 <div class="item">
-                    <a href="#"><img src="~/images/main_banner1.jpg" alt="Main Banner" class="img-responsive" /></a>
+                    <a href="#"><img src="~/images/main_banner3.jpg" alt="Main Banner" style="width: 63.55%; TEXT-ALIGN: CENTER; MARGIN-LEFT: auto; MARGIN-RIGHT: auto;" class="img-responsive" /></a>
                 </div>
                 <div class="item">
-                    <a href="#"><img src="~/images/main_banner2.jpg" alt="Main Banner" class="img-responsive" /></a>
+                    <a href="#"><img src="~/images/main_banner4.jpg" alt="Main Banner" style="width: 63.55%; TEXT-ALIGN: CENTER; MARGIN-LEFT: auto; MARGIN-RIGHT: auto;" class="img-responsive" /></a>
                 </div>
             </div>
         </div>
@@ -332,7 +332,7 @@
         <main role="main" class="pb-3">
 >>>>>>> 917c06bb2761507124a1487eede2f4cbf62e0c82
             @RenderBody()
-           
+
         </div>
         <!-- =====  CONTAINER END  ===== -->
         <!-- =====  FOOTER START  ===== -->
@@ -445,6 +445,6 @@
     <script src="~/js/jquery.magnific-popup.js"></script>
     <script src="~/js/jquery.firstVisitPopup.js"></script>
     <script src="~/js/custom.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-@await RenderSectionAsync("Scripts", required: false)
