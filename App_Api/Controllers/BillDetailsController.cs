@@ -69,27 +69,58 @@ namespace App_Api.Controllers
         }
 
         // POST api/<BillDetailsController>
-        [HttpPost]
-        public string Post(Guid idBill, Guid idProduct, int sl, int trangthai)
-        {
-            var b = BillRepo.GetAll().FirstOrDefault(c => c.IdBill == idBill && c.IdProductDetail == idProduct);
-            var c = ProductDetailRepo.GetAll().FirstOrDefault(a => a.Id == idProduct);
-            if (b != null)
-            {
-                b.SoLuong = b.SoLuong + sl;
-                if (b.SoLuong > c.SoLuongTon)
-                {
-                    return "khum du so luong";
-                }
-                if (BillRepo.EditItem(b))
-                    return "san pham nay da co tron bill va da duoc cap nhap";
-                return "khong thanh cong";
+        //[HttpPost]
+        //public string Post(Guid idBill, Guid idProduct, int sl, decimal dongia, int trangthai)
+        //{
+        //    var b = BillRepo.GetAll().FirstOrDefault(c => c.IdBill == idBill && c.IdProductDetail == idProduct);
+        //    var c = ProductDetailRepo.GetAll().FirstOrDefault(a => a.Id == idProduct);
+        //    if (b != null)
+        //    {
+        //        b.SoLuong = b.SoLuong + sl;
+        //        if (b.SoLuong > c.SoLuongTon)
+        //        {
+        //            return "khum du so luong";
+        //        }
+        //        if (BillRepo.EditItem(b))
+        //            return "san pham nay da co tron bill va da duoc cap nhap";
+        //        return "khong thanh cong";
 
-            }
-            var d = new BillDetails() { Id = Guid.NewGuid(), IdBill = idBill, IdProductDetail = idProduct, DonGia = c.GiaBan, SoLuong = sl, TrangThai = trangthai };
-            if (BillRepo.AddItem(d)) return "Them thanh cong";
-            return "them khong thanh cong";
+        //    }
+        //    var d = new BillDetails() { Id = Guid.NewGuid(), IdBill = idBill, IdProductDetail = idProduct, DonGia = c.GiaBan, SoLuong = sl, TrangThai = trangthai };
+        //    if (BillRepo.AddItem(d)) return "Them thanh cong";
+        //    return "them khong thanh cong";
+        //}
+
+        // POST api/<BillDetailsController>
+        [HttpPost]
+        public bool Post(Guid idBill, Guid idProduct, int sl, decimal dongia, int trangthai)
+        {
+            var billDetails = new BillDetails()
+            {
+                Id = Guid.NewGuid(),
+                IdProductDetail = idProduct,
+                IdBill = idBill,
+                SoLuong = sl,
+                DonGia = dongia,
+                TrangThai = trangthai
+            };
+            return BillRepo.AddItem(billDetails);
         }
+        [HttpPut("EditBillDetails{id}")]
+        public bool Put(Guid id, Guid idBill, Guid idProduct, decimal dongia, int sl, int trangthai)
+        {
+            var bill = BillRepo.GetAll().First(p => p.Id == id);
+
+            bill.Id = id;
+            bill.IdBill = idBill;
+            bill.IdProductDetail = idProduct;
+            bill.DonGia = dongia;
+            bill.SoLuong = sl;
+            bill.TrangThai = trangthai;
+            return BillRepo.EditItem(bill);
+        }
+
+
 
         // PUT api/<BillDetailsController>/5
         [HttpPut("{id}")]
@@ -106,5 +137,6 @@ namespace App_Api.Controllers
         {
             return BillRepo.RemoveItem(BillRepo.GetAll().FirstOrDefault(c => c.Id == id));
         }
+    
     }
 }

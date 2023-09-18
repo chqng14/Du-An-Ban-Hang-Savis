@@ -52,10 +52,11 @@ namespace AppAPI.Controllers
             return _allRepo.RemoveItem(idColor);
         }
         [HttpPut("EditColor")]
-        public bool editColor(Guid id, string ten, int trangthai)
+        public bool editColor(Guid id, string ma, string ten, int trangthai)
         {
             var idColor = _allRepo.GetAll().First(c => c.Id == id);
             idColor.Ten = ten;
+            idColor.Ma = ma;
             idColor.TrangThai = trangthai;
             return _allRepo.EditItem(idColor);
         }
