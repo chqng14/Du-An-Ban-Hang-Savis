@@ -26,14 +26,14 @@ namespace App_View.Services
             return true;
         }
 
-        public Task<bool> EditTypeProduct(TypeProduct typeProduct)
+        public async Task<bool> EditTypeProduct(TypeProduct typeProduct)
         {
             string url = $"https://localhost:7165/api/TypeProduct/UpdateTypeProduct?id={typeProduct.Id}&ten={typeProduct.Ten}&ma={typeProduct.Ma}&trangthai={typeProduct.TrangThai}";
             await httpClient.PutAsJsonAsync(url, typeProduct);
             return true;
         }
 
-        public Task<List<TypeProduct>> GetAllTypeProduct()
+        public async Task<List<TypeProduct>> GetAllTypeProduct()
         {
             var httpClient = new HttpClient();
             string apiUrl = "https://localhost:7165/TypeProduct/Size/GetAllSize";
