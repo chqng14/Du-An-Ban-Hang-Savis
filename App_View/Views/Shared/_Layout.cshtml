@@ -35,31 +35,26 @@
     <link rel="apple-touch-icon" sizes="114x114" href="~/images/apple-touch-icon-114x114.png">
 </head>
 <body>
-    <!-- =====  LODER  ===== -->
-    <div class="loder"></div>
-    <div class="wrapper">
-        <div id="subscribe-me" class="modal animated fade in" role="dialog" data-keyboard="true" tabindex="-1">
-            <div class="newsletter-popup">
-                <img class="offer" src="~/images/newsbg.jpg" alt="offer">
-                <div class="newsletter-popup-static newsletter-popup-top">
-                    <div class="popup-text">
-                        <div class="popup-title">50% <span>off</span></div>
-                        <div class="popup-desc">
-                            <div>Sign up and get 50% off your next Order</div>
-                        </div>
-                    </div>
-                    <form onsubmit="return  validatpopupemail();" method="post">
-                        <div class="form-group required">
-                            <input type="email" name="email-popup" id="email-popup" placeholder="Enter Your Email"
-                                   class="form-control input-lg" required />
-                            <button type="submit" class="btn btn-default btn-lg" id="email-popup-submit">Subscribe</button>
-                            <label class="checkme">
-                                <input type="checkbox" value="" id="checkme" /> Dont show again
-                            </label>
-                        </div>
-                    </form>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App_View</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+<<<<<<< HEAD
         </div>
         <!-- =====  HEADER START  ===== -->
         <header id="header">
@@ -330,6 +325,12 @@
         <!-- =====  BANNER END  ===== -->
         <!-- =====  CONTAINER START  ===== -->
         <div class="container">
+=======
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+>>>>>>> 917c06bb2761507124a1487eede2f4cbf62e0c82
             @RenderBody()
            
         </div>

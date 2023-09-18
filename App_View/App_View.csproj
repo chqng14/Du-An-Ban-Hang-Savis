@@ -18,6 +18,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+<<<<<<< HEAD
+=======
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\" />
+    <Folder Include="IServices\" />
+    <Folder Include="Services\" />
+>>>>>>> 917c06bb2761507124a1487eede2f4cbf62e0c82
   </ItemGroup>
 
   <ItemGroup>
