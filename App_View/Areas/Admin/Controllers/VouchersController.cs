@@ -36,6 +36,7 @@ namespace App_View.Areas.Admin.Controllers
         {
             await voucherServices.AddVoucherAsync(voucher);
             return RedirectToAction("ShowAllVoucher");
+
         }
         public async Task<ActionResult> Edit(Guid id)
         {
@@ -64,5 +65,6 @@ namespace App_View.Areas.Admin.Controllers
             await voucherServices.RemoveVoucher((await voucherServices.GetAllAsync()).FirstOrDefault(x => x.Id == id));
             return RedirectToAction("ShowAllVoucher");
         }
+
     }
 }
