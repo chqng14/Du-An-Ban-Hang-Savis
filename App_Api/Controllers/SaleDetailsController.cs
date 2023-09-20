@@ -1,6 +1,7 @@
 ﻿using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,19 +13,39 @@ namespace App_Api.Controllers
     [ApiController]
     public class SaleDetailController : ControllerBase
     {
-        private readonly IAllRepo<SaleDetail> repos;
-        DbContextModel context = new DbContextModel();
-        DbSet<SaleDetail> SaleDetail;
+        private readonly IAllRepo<SaleDetail> SaleDetailRepos;
+        private readonly IAllRepo<Sale> SaleRepos;
+        private readonly IAllRepo<Product> ProductRepos;
+        private readonly IAllRepo<ProductDetails> productDTRepos;
+        private DbContextModel context = new DbContextModel();
+
         public SaleDetailController()
         {
-            SaleDetail = context.DetailSales;
-            AllRepo<SaleDetail> all = new AllRepo<SaleDetail>(context, SaleDetail);
-            repos = all;
+            DbSet<SaleDetail> SaleDetail = context.DetailSales;
+            DbSet<Sale> Sale = context.Sales;
+            DbSet<Product> Product = context.Products;
+            DbSet<ProductDetails> productDetails = context.ProductDetails;
+
+            SaleDetailRepos = new AllRepo<SaleDetail>(context, SaleDetail);
+            SaleRepos = new AllRepo<Sale>(context, Sale);
+            ProductRepos = new AllRepo<Product>(context, Product);
+            productDTRepos = new AllRepo<ProductDetails>(context, productDetails);
         }
+
         [HttpGet]
-        public IEnumerable<SaleDetail> Get()
+        public IEnumerable<SaleDTViewModel> Get()
         {
-            return repos.GetAll();
+            var saleDetail = SaleDetailRepos.GetAll();
+            var saleDetails = saleDetail.Select(pd => new SaleDTViewModel
+            {
+                Id = pd.Id,
+                Sale = SaleRepos.GetAll().FirstOrDefault(sale => sale.Id == pd.IdSale)?.Ten,
+                ChiTietSp = ProductRepos.GetAll().FirstOrDefault(x => x.Id == productDTRepos.GetAll().FirstOrDefault(p => p.Id == pd.IdChiTietSp).IdProduct).Ten,
+                MoTa = pd.MoTa,
+                TrangThai = pd.TrangThai,
+                
+            });
+            return saleDetails;
         }
 
         [HttpPost]
@@ -36,26 +57,26 @@ namespace App_Api.Controllers
             saleDetail.TrangThai = trangthai;
             saleDetail.Id = Guid.NewGuid();
             saleDetail.MoTa = mota;
-            return repos.AddItem(saleDetail);
+            return SaleDetailRepos.AddItem(saleDetail);
         }
 
 
         [HttpPut("{id}")]
         public bool Put(Guid id, string mota, int trangthai, Guid IdSale, Guid IdChiTietSp)
         {
-            var SaleDetail = repos.GetAll().First(p => p.Id == id);
+            var SaleDetail = SaleDetailRepos.GetAll().First(p => p.Id == id);
             SaleDetail.IdSale = IdSale;
             SaleDetail.IdChiTietSp = IdChiTietSp;
             SaleDetail.TrangThai = trangthai;
             SaleDetail.MoTa = mota;
-            return repos.EditItem(SaleDetail);
+            return SaleDetailRepos.EditItem(SaleDetail);
         }
 
         [HttpDelete("{id}")]
         public bool Delete(Guid id)
         {
-            var SaleDetail = repos.GetAll().First(p => p.Id == id);
-            return repos.RemoveItem(SaleDetail);
+            var SaleDetail = SaleDetailRepos.GetAll().First(p => p.Id == id);
+            return SaleDetailRepos.RemoveItem(SaleDetail);
         }
     }
 }

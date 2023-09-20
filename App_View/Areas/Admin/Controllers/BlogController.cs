@@ -35,8 +35,30 @@ namespace App_View.Areas.Admin.Controllers
             return View(await blogServices.GetAllBlog());
         }
 
+        public async Task<IActionResult> Index()
+        {
+            return View(await blogServices.GetAllBlog());
+        }
+
         // GET: Admin/Blog/Details/5
         public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || blogServices.GetAllBlog() == null)
+            {
+                return NotFound();
+            }
+
+            var blog = repos.GetAll()
+                .FirstOrDefault(m => m.Id == id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            return View(blog);
+        }
+
+        public async Task<IActionResult> DetailUser(Guid? id)
         {
             if (id == null || blogServices.GetAllBlog() == null)
             {
@@ -68,7 +90,7 @@ namespace App_View.Areas.Admin.Controllers
         {
             if (await blogServices.CreateBlog(blog))
             {
-                return RedirectToAction("GetAllBlog");
+                return RedirectToAction("Index");
             }
             else return BadRequest();
         }
@@ -90,7 +112,7 @@ namespace App_View.Areas.Admin.Controllers
         {
             if (await blogServices.EditBlog(blog))
             {
-                return RedirectToAction("GetAllBlog");
+                return RedirectToAction("Index");
             }
             else return BadRequest();
         }
@@ -100,7 +122,7 @@ namespace App_View.Areas.Admin.Controllers
         {
             if (await blogServices.DeleteBlog(id))
             {
-                return RedirectToAction("GetAllBlog");
+                return RedirectToAction("Index");
             }
             else return BadRequest();
         }

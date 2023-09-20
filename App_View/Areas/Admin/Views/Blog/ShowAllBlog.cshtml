@@ -7,48 +7,71 @@
 
 <h1>ShowAllBlog</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ma)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenBlog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoiDung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MoTa)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ma)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenBlog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoiDung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MoTa)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="">
+    <div class="container">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-fluid" src="~/admin_assets/images/avatars/avatar.jpg" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="m-b-10">
+                                @{
+                                    var ten = item.TenBlog;
+                                    if (ten.Length > 20)
+                                    {
+                                        ten = ten.Substring(0, 20) + "...";
+                                    }
+                                }
+                                @Html.DisplayFor(modelItem => ten)
+                            </h4>
+                            <div class="d-flex align-items-center m-t-5 m-b-15">
+                                <div class="avatar avatar-image avatar-sm">
+                                    <img src="~/admin_assets/images/avatars/avatar.jpg" alt="">
+                                </div>
+                                <div class="m-l-10">
+                                    <span class="text-gray font-weight-semibold">
+                                        @{
+                                            var moTa = item.MoTa;
+                                            if (moTa.Length > 10)
+                                            {
+                                                moTa = moTa.Substring(0, 10) + "...";
+                                            }
+                                        }
+                                        @Html.DisplayFor(modelItem => moTa)
+                                    </span>
+                                    <span class="m-h-5 text-gray">|</span>
+                                    <span class="text-gray">Jan 2, 2019</span>
+                                </div>
+                            </div>
+                            <p class="m-b-20">@Html.DisplayFor(modelItem => item.NoiDung)</p>
+                            <div class="text-right">
+                                <a asp-action="DetailUser" asp-route-id="@item.Id" class="btn btn-hover font-weight-semibold">
+                                    <span>Read More</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        }
+        
+    </div>
+    <div class="m-t-30">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
