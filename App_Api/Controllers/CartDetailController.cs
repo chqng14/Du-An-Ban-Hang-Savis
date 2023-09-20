@@ -54,7 +54,7 @@ namespace App_Api.Controllers
             return Ok(result);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, int SoLuong, decimal? GiaKhuyenMai, int TrangThai)
+        public async Task<IActionResult> Put(Guid id, int SoLuong, decimal GiaKhuyenMai, int TrangThai)
         {
             var cartDetails = iCartDetailRepos.GetAll().FirstOrDefault(c => c.ID == id);
             cartDetails.SoLuong = SoLuong;
