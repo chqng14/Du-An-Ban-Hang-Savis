@@ -15,10 +15,8 @@ namespace App_View.Areas.Admin.Controllers
             _roleService = new RoleService();
         }
         public async Task<IActionResult> ShowAllRole()
-        {
-            ViewBag.Role = await _roleService.GetRolesAsync();
-            
-            return View();
+        {   
+            return View(await _roleService.GetRolesAsync());
         }
         public ActionResult AddRole()
         {
@@ -40,6 +38,18 @@ namespace App_View.Areas.Admin.Controllers
         public async Task<IActionResult> DetailRole(Guid id)
         {
             ViewBag.Role = await _roleService.GetRoleByIdAsync(id);
+            return View();
+        }
+        public async Task<IActionResult> EditRole(Guid id)
+        {
+            var result = await _roleService.GetRoleByIdAsync(id);
+            return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRole(Guid id, Role obj)
+        {
+            var result = await _roleService.EditRoleAsync(id, obj);
+            if (result) return RedirectToAction("ShowAllRole");
             return View();
         }
     }

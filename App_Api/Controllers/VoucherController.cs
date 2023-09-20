@@ -32,8 +32,17 @@ namespace App_Api.Controllers
             return allRepo.GetAll().FirstOrDefault(c => c.Ma == ma);
         }
         [HttpPost("AddVoucher")]
-        public bool AddVoucher(string ma, string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
+        public bool AddVoucher(string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
         {
+            string ma;
+            if (allRepo.GetAll().Count() == null)
+            {
+                ma = "VC1";
+            }
+            else
+            {
+                ma = "VC" + (allRepo.GetAll().Count() + 1);
+            }
             var voucher = new Voucher()
             {
                 Id = Guid.NewGuid(),

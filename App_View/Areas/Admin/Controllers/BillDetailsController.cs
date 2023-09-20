@@ -1,15 +1,21 @@
-﻿using App_Data.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using App_Data.Models;
 using App_View.IServices;
 using App_View.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
-namespace App_View.Controllers
+namespace App_View.Areas.Admin.Controllers
 {
-    public class BillDetailController : Controller
+    [Area("Admin")]
+    public class BillDetailsController : Controller
     {
         private IBillDetailsServices billDetailsServices;
-        public BillDetailController()
+        public BillDetailsController()
         {
             billDetailsServices = new BillDetailServices();
         }

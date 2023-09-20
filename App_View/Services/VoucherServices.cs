@@ -1,5 +1,6 @@
 ﻿using App_Data.Models;
 using App_View.IServices;
+using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
 
 namespace App_View.Services
@@ -10,9 +11,10 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Voucher/{item.Id}?ma={item.Ma}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLanSuDung}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
+
+                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
                 var httpclient = new HttpClient();
-                var response = await httpclient.PutAsync(apiUrl, null);
+                var response = await httpclient.PostAsync(apiUrl, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -21,13 +23,13 @@ namespace App_View.Services
                 else
                 {
                     Console.WriteLine($"Yêu cầu API AddVoucher thất bại với mã trạng thái: {response.StatusCode}");
-                    return false; 
+                    return false;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Lỗi xảy ra: {ex}");
-                throw; 
+                throw;
             }
         }
 
@@ -38,7 +40,6 @@ namespace App_View.Services
                 string apiUrl = $"https://localhost:7165/api/Voucher/{item.Id}?ma={item.Ma}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLanSuDung}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
                 var httpclient = new HttpClient();
                 var response = await httpclient.PutAsync(apiUrl, null);
-
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
