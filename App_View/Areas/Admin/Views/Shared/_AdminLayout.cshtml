@@ -12,11 +12,11 @@
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+
     <!-- page css -->
     <link href="~/Admin_assets/vendors/select2/select2.css" rel="stylesheet">
     <link href="~/Admin_assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
-
 
     <!-- Core css -->
     <link href="~/Admin_assets/css/app.min.css" rel="stylesheet">
@@ -26,6 +26,7 @@
 
 <body>
     <div class="app">
+        <div id="preloader"></div>
         <div class="layout">
             <!-- Header START -->
             <div class="header">
@@ -202,19 +203,20 @@
                 <div class="main-content">
                     @RenderBody()
                     <!-- Content Wrapper END -->
-                    <!-- Footer START -->
-                    <footer class="footer">
-                        <div class="footer-content">
-                            <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
-                            <span>
-                                <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
-                                <a href="" class="text-gray">Privacy &amp; Policy</a>
-                            </span>
-                        </div>
-                    </footer>
-                    <!-- Footer END -->
+
 
                 </div>
+                <!-- Footer START -->
+                <footer class="footer">
+                    <div class="footer-content">
+                        <p class="m-b-0">Copyright © 2019 Theme_Nate. All rights reserved.</p>
+                        <span>
+                            <a href="" class="text-gray m-r-15">Term &amp; Conditions</a>
+                            <a href="" class="text-gray">Privacy &amp; Policy</a>
+                        </span>
+                    </div>
+                </footer>
+                <!-- Footer END -->
                 <!-- Page Container END -->
                 <!-- Search Start-->
                 <div class="modal modal-left fade search" id="search-drawer">
@@ -382,10 +384,10 @@
     </div>
 
 
-    
+
 
     <!-- Core Vendors JS -->
-    <script src="~/Admin_assets/js/vendors.min.js" defer></script>
+    <script src="~/Admin_assets/js/vendors.min.js"></script>
 
     <!-- page js -->
     <script src="~/Admin_assets/vendors/chartjs/Chart.min.js" defer></script>
@@ -397,7 +399,9 @@
     @await RenderSectionAsync("Scripts", required: false)
 
 
-
+    <script>
+        $(window).on('load', () => $('#preloader').hide());
+    </script>
 </body>
 
 </html>
