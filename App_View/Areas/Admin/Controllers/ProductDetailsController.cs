@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using App_Data.Models;
+using App_Data.ViewModels.ProductDetail;
+using App_View.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using App_Data.Models;
-using App_View.IServices;
-using App_Data.ViewModels.ProductDetail;
-using System.ComponentModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -78,13 +73,42 @@ namespace App_View.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetProducts(int draw, int start, int length, string searchValue)
+        {
+            var query = (await _productDetailService.GetListProductViewModelAsync())
+                .Skip(start)
+                .Take(length)
+                .ToList();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                string searchValueLower = searchValue.ToLower();
+                query = (await _productDetailService.GetListProductViewModelAsync()).Where(x => x.NameProduct.ToLower().Contains(searchValueLower) || x.Loai.ToLower().Contains(searchValueLower) || x.ChatLieu.ToLower().Contains(searchValueLower) || x.MauSac.ToLower().Contains(searchValueLower))
+                .Skip(start)
+                .Take(length)
+                .ToList();
+
+            }
+
+            var totalRecords = (await _productDetailService.GetListProductViewModelAsync()).Count();
+            
+            return Json(new
+            {
+                draw = draw,
+                recordsTotal = totalRecords,
+                recordsFiltered = totalRecords,
+                data = query
+            });
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody]ProductDetailDTO productDetailDTO)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductDetailDTO productDetailDTO)
         {
             var response = await _productDetailService.CreatProductDetailAsync(productDetailDTO);
             if (response.IsSuccessStatusCode)
             {
-                return Content(await response.Content.ReadAsStringAsync(),"application/json");
+                return Content(await response.Content.ReadAsStringAsync(), "application/json");
             }
             return BadRequest();
         }
@@ -180,28 +204,12 @@ namespace App_View.Areas.Admin.Controllers
         //    return View(productDetails);
         //}
 
-        // GET: Admin/ProductDetails/Delete/5
-        //public async Task<IActionResult> Delete(Guid? id)
-        //{
-        //    if (id == null || _context.ProductDetails == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var productDetails = await _context.ProductDetails
-        //        .Include(p => p.Color)
-        //        .Include(p => p.Material)
-        //        .Include(p => p.Products)
-        //        .Include(p => p.Size)
-        //        .Include(p => p.TypeProduct)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (productDetails == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(productDetails);
-        //}
+        //GET: Admin/ProductDetails/Delete/5
+        [HttpPost]
+        public async Task Delete(Guid id)
+        {
+             await _productDetailService.DeleteProductDetail(id);
+        }
 
         // POST: Admin/ProductDetails/Delete/5
         //[HttpPost, ActionName("Delete")]

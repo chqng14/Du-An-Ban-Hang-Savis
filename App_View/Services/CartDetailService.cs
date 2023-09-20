@@ -59,7 +59,7 @@ namespace App_View.Services
             try
             {
                 var httpClient = new HttpClient();
-                string apiURL = $"https://localhost:7165/api/CartDetail/{id}?SoLuong={cartDetails.SoLuong}&TrangThai={cartDetails.TrangThai}";
+                string apiURL = $"https://localhost:7165/api/CartDetail/{id}?SoLuong={cartDetails.SoLuong}&GiaKhuyenMai={cartDetails.GiaKhuyenMai}&TrangThai={cartDetails.TrangThai}";
                 var response = await httpClient.PutAsync(apiURL, null);
                 if (response.IsSuccessStatusCode)
                 {

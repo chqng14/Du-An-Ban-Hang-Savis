@@ -1,0 +1,120 @@
+﻿@model IEnumerable<App_Data.Models.Bill>
+
+@{
+    ViewData["Title"] = "ShowAllBill";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>ShowAllBill</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayTao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayThanhToan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayShip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayNhan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenNguoiNhan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaChi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sdt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoTienGiam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TienShip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Voucher)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayThanhToan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayShip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayNhan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenNguoiNhan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sdt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoTienGiam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TienShip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MoTa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Voucher.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

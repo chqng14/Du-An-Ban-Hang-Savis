@@ -9,7 +9,7 @@ namespace App_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductDetailController
+    public class ProductDetailController : ControllerBase
     {
         private readonly IAllRepo<ProductDetails> _allRepoProductDetail;
         private readonly IAllRepo<Material> _allRepoMaterial;
@@ -34,8 +34,8 @@ namespace App_Api.Controllers
         [HttpPost("create-productdetail")]
         public IActionResult CreateProductDetail([FromBody] ProductDetailDTO productDetailDTO)
         {
-            productDetailDTO.TrangThai = 1;
             var productDetail = _mapper.Map<ProductDetails>(productDetailDTO);
+            productDetail.TrangThai = 0;
             return new OkObjectResult(new { success = _allRepoProductDetail.AddItem(productDetail), id = productDetail.Id });
         }
 
@@ -65,7 +65,7 @@ namespace App_Api.Controllers
         [HttpGet("get-productdetail/{id}")]
         public ProductDetails? GetProductDetail(Guid idProductDetail)
         {
-            return _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == idProductDetail);
+            return _allRepoProductDetail.GetAll().Where(item=>item.TrangThai == 0).FirstOrDefault(pro => pro.Id == idProductDetail);
         }
 
         [HttpGet("get-list-productdetail")]
@@ -120,9 +120,8 @@ namespace App_Api.Controllers
             try
             {
                 var productDetailRemove = _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id);
-                productDetailRemove!.TrangThai = 0;
-                _allRepoProductDetail.EditItem(productDetailRemove);
-                return true;
+                productDetailRemove!.TrangThai = 1;
+                return _allRepoProductDetail.EditItem(productDetailRemove);
             }
             catch (Exception ex)
             {
@@ -142,8 +141,7 @@ namespace App_Api.Controllers
                     return false;
                 }
                 _mapper.Map(productDetailDTO, existingProductDetail);
-                _allRepoProductDetail.EditItem(existingProductDetail);
-                return true;
+                return _allRepoProductDetail.EditItem(existingProductDetail);
             }
             catch (Exception ex)
             {

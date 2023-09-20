@@ -23,7 +23,7 @@ namespace App_View.Controllers
         // GET: BillDetailController/Details/5
         public async Task<ActionResult> Details(Guid id)
         {
-            var a = (await billDetailsServices.GetAllAsync()).Where(x => x.IdBill == id);
+            var a = (await billDetailsServices.GetAllAsync()).FirstOrDefault(x => x.IdBill == id);
             return View(a);
         }
 

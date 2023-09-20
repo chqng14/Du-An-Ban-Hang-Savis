@@ -16,19 +16,38 @@ namespace App_View.Services
 
         public async Task CreatImage(Guid idProductDetail, List<IFormFile> lstIFormFile)
         {
-            using (var content = new MultipartFormDataContent())
+            try
             {
-                content.Add(new StringContent(idProductDetail.ToString()), "idProductDetail");
-
-                foreach (var file in lstIFormFile)
+                using (var content = new MultipartFormDataContent())
                 {
-                    var streamContent = new StreamContent(file.OpenReadStream());
-                    content.Add(streamContent, "lstIFormFile", file.FileName);
+                    content.Add(new StringContent(idProductDetail.ToString()), "idProductDetail");
+
+                    foreach (var file in lstIFormFile)
+                    {
+                        var streamContent = new StreamContent(file.OpenReadStream());
+                        content.Add(streamContent, "lstIFormFile", file.FileName);
+                    }
+
+                    var response = await _httpClient.PostAsync("/api/Image/create-list-image", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Delete successful. Response: " + responseContent);
+                    }
+                    else
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine("Delete failed. Response: " + responseContent);
+                    }
+
                 }
-
-                var response = await _httpClient.PostAsync("/api/Image/create-list-image", content);
-
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace); ;
+            }
+            
         }
 
         public async Task DeleteImage(Guid idProductDetail, List<string> lstImageRemove)

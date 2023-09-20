@@ -24,7 +24,7 @@ namespace App_Api.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public async Task<string> Post(Guid IDUSer, Guid IDCTSP, int SoLuong, decimal? GiaKhuyenMai, int TrangThai)
+        public async Task<string> Post(Guid IDUSer, Guid IDCTSP, int SoLuong, decimal GiaKhuyenMai, int TrangThai)
         {
             var cartDetail = iCartDetailRepos.GetAll().FirstOrDefault(c => c.IDUser == IDUSer && c.IDCTSP == IDCTSP);
             var productDetail = iProductDetailRepos.GetAll().FirstOrDefault(c => c.Id == IDCTSP);
@@ -54,7 +54,7 @@ namespace App_Api.Controllers
             return Ok(result);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, int SoLuong, decimal? GiaKhuyenMai, int TrangThai)
+        public async Task<IActionResult> Put(Guid id, int SoLuong, decimal GiaKhuyenMai, int TrangThai)
         {
             var cartDetails = iCartDetailRepos.GetAll().FirstOrDefault(c => c.ID == id);
             cartDetails.SoLuong = SoLuong;

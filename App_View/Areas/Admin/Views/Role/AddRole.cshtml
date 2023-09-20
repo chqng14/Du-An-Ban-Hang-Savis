@@ -4,39 +4,24 @@
     ViewData["Title"] = "AddRole";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>AddRole</h1>
-
-<h4>Role</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddRole">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Ma" class="control-label"></label>
-                <input asp-for="Ma" class="form-control" />
-                <span asp-validation-for="Ma" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ten" class="control-label"></label>
-                <input asp-for="Ten" class="form-control" />
-                <span asp-validation-for="Ten" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="AddRole">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Ma" class="control-label">Mã</label>
+            <input asp-for="Ma" class="form-control" />
+            <span asp-validation-for="Ma" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Ten" class="control-label">Tên</label>
+            <input asp-for="Ten" class="form-control" />
+            <span asp-validation-for="Ten" class="text-danger"></span>
+        </div>
     </div>
-</div>
-
+    <button type="submit" class="btn btn-primary">Thêm</button>
+</form>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ShowAllRole" asp-controller="Role" asp-area="Admin">Trở Về</a>
 </div>
 
 @section Scripts {

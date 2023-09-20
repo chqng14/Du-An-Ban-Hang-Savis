@@ -4,32 +4,29 @@
 @{
     ViewData["Title"] = "ShowAllRole";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    IEnumerable<Role> roles = ViewBag.Role;
 }
-
-<h1>ShowAllRole</h1>
-
-<p>
-    <a asp-area="Admin" asp-controller="Role" asp-action="AddRole">Create New</a>
-</p>
-<table class="table">
+<link href="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+<script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+<a asp-controller="Role" asp-area="Admin" asp-action="AddRole" class="btn btn-info" style="margin-bottom: 30px;">Thêm</a>
+<table id="data-table" class="table">
     <thead>
-        <tr>
-           
-            <th>
-                @Html.DisplayNameFor(model => model.Ma)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ten)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th></th>
-        </tr>
+		<tr>
+
+			<th>
+				@Html.DisplayNameFor(model => model.Ma)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Ten)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TrangThai)
+			</th>
+			<th></th>
+		</tr>
     </thead>
     <tbody>
-@foreach (var item in roles) {
+      @foreach (var item in Model) {
         <tr>
             <td>
                 @item.Ma
@@ -41,11 +38,29 @@
                     @item.TrangThai
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                <a asp-action="DetailRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id">Chi Tiet</a>
-                <a asp-action="RemoveRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id">Xoa</a>
+                    <a asp-action="EditRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-warning"><i class="anticon anticon-edit"></i></a>
+					<a asp-action="DetailRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-info"><i class="anticon anticon-eye"></i></a>
+					<a asp-action="RemoveRole" asp-controller="Role" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-danger"><i class="anticon anticon-delete"></i></a>
             </td>
         </tr>
 }
     </tbody>
+    <tfoot>
+		<tr>
+
+			<th>
+				@Html.DisplayNameFor(model => model.Ma)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Ten)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TrangThai)
+			</th>
+			<th></th>
+		</tr>
+    </tfoot>
 </table>
+<script>
+	$('#data-table').DataTable();
+</script>
