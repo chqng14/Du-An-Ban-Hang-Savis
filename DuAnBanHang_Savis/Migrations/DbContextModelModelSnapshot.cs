@@ -300,7 +300,7 @@ namespace App_Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("MoTa")
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SoLuongTon")
                         .HasColumnType("int");
