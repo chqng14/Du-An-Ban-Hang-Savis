@@ -1,0 +1,90 @@
+﻿@using App_Data.Models
+@using App_Data.ViewModels
+@using App_Data.ViewModels.ProductDetail
+
+@model IEnumerable<App_Data.Models.CartDetails>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<CartDetails> cartDetails = ViewBag.CartDetail;
+    IEnumerable<ProductViewModel> productDetail = ViewBag.ProductDetail;
+    List<User> users = ViewBag.User;
+}
+<link href="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+<script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+<a asp-controller="CartDetails" asp-area="Admin" asp-action="Create" class="btn btn-info" style="margin-bottom: 30px;">Thêm</a>
+<table id="data-table" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaKhuyenMai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDetail)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in cartDetails)
+        {
+            <tr>
+                <td>
+                    @(item.SoLuong)
+                </td>
+                <td>
+                    @(item.GiaKhuyenMai)
+                </td>
+                <td>
+                    @(item.TrangThai)
+                </td>
+
+                <td>
+                    @(users.FirstOrDefault(c => c.Id == item.IDUser).Ten)
+                </td>
+                <td>
+                    @(productDetail.FirstOrDefault(c => c.Id == item.IDCTSP).NameProduct)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="CartDetails" asp-area="Admin" asp-route-id="@item.ID" class="btn btn-warning"><i class="anticon anticon-edit"></i></a>
+                    <a asp-action="Details" asp-controller="CartDetails" asp-area="Admin" asp-route-id="@item.ID" class="btn btn-info"><i class="anticon anticon-eye"></i></a>
+                    <a asp-action="Delete" asp-controller="CartDetails" asp-area="Admin" asp-route-id="@item.ID" class="btn btn-danger"><i class="anticon anticon-delete"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaKhuyenMai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDetail)
+            </th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+<script>
+	$('#data-table').DataTable();
+</script>

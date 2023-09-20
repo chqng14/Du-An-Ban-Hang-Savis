@@ -1,0 +1,141 @@
+﻿@using App_Data.Models
+@model IEnumerable<App_Data.Models.User>
+
+@{
+	IEnumerable<Role> roles = ViewBag.Role;
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
+<script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+<a asp-controller="Users" asp-area="Admin" asp-action="Create" class="btn btn-info" style="margin-bottom: 30px;">Thêm</a>
+<table id="data-table" class="table">
+    <thead>
+        <tr>
+           <th>
+				@Html.DisplayNameFor(model => model.Ma)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Ten)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.GioiTinh)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.NgaySinh)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DiaChi)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Sdt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MatKhau)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Email)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TaiKhoan)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TrangThai)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Roles)
+			</th>
+			<th>Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@(item.Ma)
+				</td>
+				<td>
+					@(item.Ten)
+				</td>
+				<td>
+					@(item.GioiTinh)
+				</td>
+				<td>
+					@(item.NgaySinh)
+				</td>
+				<td>
+					@(item.DiaChi)
+				</td>
+				<td>
+					@(item.Sdt)
+				</td>
+				<td>
+					@(item.MatKhau)
+				</td>
+				<td>
+					@(item.Email)
+				</td>
+				<td>
+					@(item.TaiKhoan)
+				</td>
+				<td>
+					@(item.TrangThai)
+				</td>
+				
+					<td>
+						@(roles.FirstOrDefault(c=>c.Id == item.IdRole).Ten)
+					</td>
+
+				<td>
+					<a asp-action="Edit" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-warning"><i class="anticon anticon-edit"></i></a> 
+					<a asp-action="Details" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-info"><i class="anticon anticon-eye"></i></a> 
+						<a asp-action="Delete" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-danger"><i class="anticon anticon-delete"></i></a>
+				</td>
+			</tr>
+		}
+    </tbody>
+    <tfoot>
+        <tr>
+             <th>
+				@Html.DisplayNameFor(model => model.Ma)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Ten)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.GioiTinh)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.NgaySinh)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DiaChi)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Sdt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MatKhau)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Email)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TaiKhoan)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TrangThai)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Roles)
+			</th>
+			<th>Thao Tác</th>
+        </tr>
+    </tfoot>
+</table>
+<script>
+	$('#data-table').DataTable();
+</script>
