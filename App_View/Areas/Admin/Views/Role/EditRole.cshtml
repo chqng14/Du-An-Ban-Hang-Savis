@@ -1,10 +1,11 @@
 ﻿@model App_Data.Models.Role
 
 @{
-    ViewData["Title"] = "AddRole";
+    ViewData["Title"] = "EditRole";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<form asp-action="AddRole">
+
+<form asp-action="EditRole">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -18,12 +19,11 @@
             <span asp-validation-for="Ten" class="text-danger"></span>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Thêm</button>
+    <button type="submit" class="btn btn-primary">Sửa</button>
 </form>
 <div>
     <a asp-action="ShowAllRole" asp-controller="Role" asp-area="Admin">Trở Về</a>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
