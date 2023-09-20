@@ -1,13 +1,10 @@
 ﻿#preloader {
-    /*            display: none;*/
-    margin-top: -50px;
-    margin-left: -25px;
     background: #000 url('../images/load/loader.gif') no-repeat center center;
     background-size: 15%;
-    height: 100vh;
-    width: 90%;
+    height: 100%;
+    width: 100%;
     position: fixed;
-    z-index: 100
+    z-index: 9999
 }
 
 .wrapper-file {

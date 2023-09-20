@@ -5,6 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
+<div class="notification-toast top-right" id="notification-toast"></div>
 
 <div class="page-header">
     <div class="header-sub-title">
@@ -14,8 +15,6 @@
         </nav>
     </div>
 </div>
-
-<div id="preloader"></div>
 
 <div class="card">
     <div class="card-body" id="formGen">
@@ -27,7 +26,7 @@
             <div class="row">
                 <div class="col-4" style="margin-top: 10px">
                     <label>NameProduct</label>
-                    <select id="IdProduct" class="select2" asp-for="IdProduct">
+                    <select id="IdProduct" class="select2" name="IdProduct">
                         @foreach (var item in (SelectList)ViewData["IdProduct"])
                         {
                             <option value="@item.Value">@item.Text</option>
@@ -37,7 +36,7 @@
 
                 <div class="col-4" style="margin-top: 10px">
                     <label>TypeProduct</label>
-                    <select id="IdTypeProduct" class="select2" asp-for="IdTypeProduct">
+                    <select id="IdTypeProduct" class="select2" name="IdTypeProduct">
                         @foreach (var item in (SelectList)ViewData["IdTypeProduct"])
                         {
                             <option value="@item.Value">@item.Text</option>
@@ -47,7 +46,7 @@
 
                 <div class="col-4" style="margin-top: 10px">
                     <label>Material</label>
-                    <select class="select2" id="IdMaterial" asp-for="IdMaterial">
+                    <select class="select2" id="IdMaterial" name="IdMaterial">
                         @foreach (var item in (SelectList)ViewData["IdMaterial"])
                         {
                             <option value="@item.Value">@item.Text</option>
@@ -102,10 +101,9 @@
 </div>
 
 <script>
-    const disabledFormMain = () => $('#formGen').find('*').prop("disabled", true);
-    const unDisabledFormMain = () => $('#formGen').find('*').prop("disabled", false);
 
-    $(() => $('.select2').select2());
+
+
     const URL_CHECK_UPDATE_OR_ADD = 'CheckProductDetailForAddOrUpdate';
     const URL_CREATE_PRODUCT = 'CreateProduct';
     const URL_CREATE_IMAGE = '@Url.Action("CreateImage", "Images", new { area = "Admin" })';
@@ -115,18 +113,48 @@
     const lstAnhRemove = {};
 
 
+
+    const AddEditor = () => {
+        var lstThucThe = $('.accordion').find('.moTa');
+        lstThucThe.each(function (index, item) {
+            new Quill(item, {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'], // Kiểu văn bản
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Danh sách
+                        [{ 'align': [] }], // Căn chỉnh văn bản
+                        ['link', 'image'], // Liên kết và hình ảnh
+                    ],
+                    //imageResize: {
+                    //    module: 'image-resize-and-move', // Sử dụng module image-resize-and-move
+                    //    displaySize: true, // Hiển thị kích thước hình ảnh
+                    //    handleStyles: {
+                    //        backgroundColor: 'black',
+                    //        border: 'none',
+                    //        color: 'white',
+                    //    },
+                    //},
+                },
+            });
+        });
+        
+
+    }
+
+
+    $(() => $('.select2').select2());
+    const disabledFormMain = () => $('#formGen').find('*').prop("disabled", true);
+    const unDisabledFormMain = () => $('#formGen').find('*').prop("disabled", false);
     //Huy
     async function Huy() {
         await window.location.reload();
     }
 
-    //Load
-    $(window).on('load', () => $('#preloader').hide());
-
-
     //itemTemplate
-    const ItemTemplate = (index, isUpdate, idProduct, idcolor, idsize, Title, giaNhap, giaBan, soLuong, moTa) =>
-        `
+    const ItemTemplate = (index, isUpdate, idProduct, idcolor, idsize, Title, giaNhap, giaBan, soLuong, moTa) => {
+        //const escapedMoTa = escape(moTa);
+        return         `
 <div class="card item-accordion" data-update="${isUpdate}" data-idproductdetail="${idProduct}">
     <div class="card-header d-flex">
         <h5 class="card-title">
@@ -145,11 +173,11 @@
             <ul class="nav nav-tabs flex-column" id="myTabVertical" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab-vertical" data-toggle="tab" href="#home-vertical${index}"
-                       role="tab" aria-controls="home-vertical${index}" aria-selected="true">Home</a>
+                       role="tab" aria-controls="home-vertical${index}" aria-selected="true">Information</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
-                       role="tab" aria-controls="profile-${index}" aria-selected="false">Profile</a>
+                       role="tab" aria-controls="profile-${index}" aria-selected="false">Image</a>
                 </li>
             </ul>
 
@@ -176,11 +204,10 @@
                             <div class="form-group col-12">
                                 <div class="m-b-5" style="margin-top: 10px;">
                                     <label style="display: block; margin-bottom: 5px;">
-                                        Ghi
-                                        chú
+                                        Mô tả sản phẩm
                                     </label>
-                                    <textarea class="moTa" rows="4" cols="230" style="display: block; width: 100%;"
-                                              placeholder="Nhập mô tả của bạn" name="MoTa">${moTa}</textarea>
+                                    <div class="moTa" style="width: 100%; "
+                                              placeholder="Nhập mô tả của bạn" name="MoTa">${moTa}</div>
                                 </div>
                             </div>
                         </div>
@@ -204,6 +231,8 @@
     </div>
 </div>
         `;
+    }
+
 
     //getDataMain
     const GetDataMain = () => {
@@ -218,7 +247,7 @@
             if (fieldType === "checkbox" || fieldType === "radio") {
                 fieldValue = $(this).is(":checked");
             } else {
-                fieldValue = $(this).val();
+                fieldValue = $(this).prop('value');
             }
             if (fieldName) {
                 dataMain[fieldName] = fieldValue;
@@ -250,8 +279,6 @@
 
     //Check Update or Add to gen Item template
     async function generate() {
-        disabledFormMain();
-        $('#preloader').show();
 
         const lstColor = Array.from($('#IdColor option:checked')).map(option => ({ text: option.text, value: option.value }))
 
@@ -262,6 +289,8 @@
             return;
         }
 
+        disabledFormMain();
+        $('#preloader').show();
         $('#confirm').show();
 
         const ajaxPromises = [];
@@ -276,12 +305,11 @@
                 promise.then((respose) => {
                     if (respose.success) {
                         const itemAppend = $(ItemTemplate(index, true, respose.data.Id, lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, respose.data.GiaNhap, respose.data.GiaBan, respose.data.SoLuongTon, respose.data.MoTa))
+                        console.log(respose.data.MoTa);
                         container.append(itemAppend)
                         const key = itemAppend.find('.collapse').attr('id');
                         const containerFile = itemAppend.find('.upload').find('.container-file');
                         lstAnhRemove[key] = []
-                        console.log(containerFile);
-                        console.log(respose.data.LstTenAnh);
                         Array.from(respose.data.LstTenAnh).map((nameFile) => {
                             const wrapper = $('<div>').addClass('wrapper-file');
                             const image = $('<div>').addClass('image');
@@ -342,12 +370,12 @@
 
         await Promise.all(ajaxPromises);
         $('#preloader').hide();
+        AddEditor();
     }
 
     //close Item gen
     $(document).on('click', '.btnn-close', function () {
         this.closest('.item-accordion').remove();
-        console.log($('.accordion').find($('.item-accordion')));
         if ($('.accordion').find($('.item-accordion')).length===0) {
             unDisabledFormMain();
             $('#confirm').hide();
@@ -419,7 +447,6 @@
 
                 if (!selectedFiles[key]) {
                     selectedFiles[key] = []
-                    alert('Chua co phan tu nao trong key nay')
                 }
                 selectedFiles[key].push({ key: "them", data: file });
 
@@ -468,8 +495,8 @@
     function CapNhat() {
         var items = $('.item-accordion');
         var currentIndex = 0;
-
-
+        var checkErr = 0;
+        var checkSS = 0
 
         function processNextItem() {
             if (currentIndex >= items.length) {
@@ -477,11 +504,53 @@
                     window.location.reload();
                 }
                 $('#preloader').hide();
-                $('#modalCapNhat').modal('show');
-                setTimeout(function () {
-                    location.reload(); // Load lại trang
-                }, 1000);
-                return;
+                if (checkSS > 0) {
+                    var toastHTML = `<div class="toast fade hide" data-delay="3000">
+    <div class="toast-header">
+        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+        <strong class="mr-auto">Bootstrap</strong>
+        <small>1 second ago</small>
+        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        ${checkSS} thực thể được cập nhật thành công
+    </div>
+</div>`
+
+                    $('#notification-toast').append(toastHTML)
+                    $('#notification-toast .toast').toast('show');
+                    setTimeout(function () {
+                        $('#notification-toast .toast:first-child').remove();
+                    }, 3000);
+                    checkErr = 0;
+                }
+
+                if (checkErr > 0) {
+                    var toastHTML = `<div class="toast fade hide" data-delay="3000">
+        <div class="toast-header">
+            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+            <strong class="mr-auto">Bootstrap</strong>
+            <small>1 second ago</small>
+            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Một vài thực thể dữ liệu chưa được nhập.
+            Vui lòng nhập để tiếp tục
+        </div>
+    </div>`
+
+                    $('#notification-toast').append(toastHTML)
+                    $('#notification-toast .toast').toast('show');
+                    setTimeout(function () {
+                        $('#notification-toast .toast:first-child').remove();
+                    }, 3000);
+                    checkErr = 0;
+                }
+                return
             }
             const currentItem = items.eq(currentIndex);
 
@@ -514,6 +583,7 @@
                 }
             });
 
+            const moTa = {MoTa: currentItem.find('.moTa').html()}
             if (isUpdate === 'true') {
                 const key = currentItem.find('.collapse').attr('id');
 
@@ -538,9 +608,8 @@
                         }
                     });
                 }
-                console.log(lstAnhRemove[key]);
+
                 if (lstAnhRemove[key] && Array.from(lstAnhRemove[key]).length>0) {
-                    alert("inclue me")
                     const data = new FormData();
                     lstAnhRemove[key].map(item => data.append('lstImageRemove', item))
                     data.append('idProductDetail', currentItem.attr('data-idproductdetail'))
@@ -560,11 +629,7 @@
                             throw new Error('Network response was not ok.');
                         })
                         .then(data => {
-                            if (data !== null) {
-                                console.log(data);
-                            } else {
-                                console.log('no response Json data.');
-                            }
+
                         })
                         .catch(error => {
                             console.error(error);
@@ -574,14 +639,16 @@
                 $.ajax({
                     url: URL_UPDATE_PRODUCT_DETAIL,
                     type: 'POST',
-                    data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...{ Id: currentItem.attr('data-idproductdetail') } }),
+                    data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...{ Id: currentItem.attr('data-idproductdetail') },...moTa }),
                     contentType: 'application/json',
                     success: function (result) {
+                        checkSS++;
                         currentItem.remove();
                         currentIndex++;
                         processNextItem();
                     },
                     error: function (xhr, status, error) {
+                        checkErr++;
                         console.log(xhr.responseText);
                         console.log(status);
                         console.log(error);
@@ -591,45 +658,56 @@
 
 
             } else {
-                $.ajax({
-                    url: URL_CREATE_PRODUCT,
-                    type: 'POST',
-                    data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset }),
-                    contentType: 'application/json',
-                    success: function (result) {
-                        if (result.success) {
-                            const key = currentItem.find('.collapse').attr('id');
-                            var data = new FormData();
-                            selectedFiles[key].map(item => data.append('lstIFormFile', item.data))
-                            data.append('idProductDetail', result.id);
-                            $.ajax({
-                                url: URL_CREATE_IMAGE,
-                                type: 'POST',
-                                data: data,
-                                contentType: false,
-                                processData: false,
-                                success: function (result) {
-                                    currentItem.remove();
-                                    currentIndex++;
-                                    processNextItem();
-                                },
-                                error: function (xhr, status, error) {
-                                    console.log(xhr.responseText);
-                                    console.log(status);
-                                    console.log(error);
-                                    console.log(xhr);
+                if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon) {
+                    console.log({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...moTa });
+                    $.ajax({
+                        url: URL_CREATE_PRODUCT,
+                        type: 'POST',
+                        data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...moTa }),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            if (result.success) {
+                                const key = currentItem.find('.collapse').attr('id');
+                                if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
+                                    var data = new FormData();
+                                    selectedFiles[key].map(item => data.append('lstIFormFile', item.data))
+                                    data.append('idProductDetail', result.id);
+                                    $.ajax({
+                                        url: URL_CREATE_IMAGE,
+                                        type: 'POST',
+                                        data: data,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function (result) {
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.log(xhr.responseText);
+                                            console.log(status);
+                                            console.log(error);
+                                            console.log(xhr);
+                                        }
+                                    });
                                 }
-                            });
-
+                                checkSS++;
+                                currentItem.remove();
+                                currentIndex++;
+                                processNextItem();
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            checkErr++;
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(xhr.responseText);
-                        console.log(status);
-                        console.log(error);
-                        console.log(xhr);
-                    }
-                });
+                    });
+                } else {
+                    checkErr++;
+                    currentIndex++;
+                    processNextItem();
+                }
+
             }
 
         }
@@ -641,4 +719,6 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/Admin_assets/vendors/select2/select2.min.js" defer></script>
+    <script src="~/Admin_assets/vendors/quill/quill.min.js"></script>
+    <script src="~/Admin_assets/js/pages/form-elements.js"></script>
 }

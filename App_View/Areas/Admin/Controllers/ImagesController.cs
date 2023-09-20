@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App_View.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ImagesController : Controller
     {
         private readonly IImageService _imageService;
