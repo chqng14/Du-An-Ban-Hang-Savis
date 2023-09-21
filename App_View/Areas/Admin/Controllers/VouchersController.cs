@@ -10,7 +10,7 @@ using App_View.IServices;
 using App_View.Services;
 using App_Data.IRepositories;
 using App_Data.Repositories;
-
+using X.PagedList;
 namespace App_View.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -24,10 +24,26 @@ namespace App_View.Areas.Admin.Controllers
             typeProductRepo = new TypeProductRepo();
         }
 
-        public async Task<IActionResult> ShowAllVoucher()
+        public async Task<IActionResult> ShowAllVoucher(int? page, string searchString)
         {
-            var lst = (await voucherServices.GetAllAsync()).OrderByDescending(a => a.Ma);
-            return View(lst);
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            var voucherList = await voucherServices.GetAllAsync();
+
+            // Áp dụng tìm kiếm nếu có giá trị searchString
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                voucherList = voucherList.Where(v => v.Ma.Contains(searchString)).ToList();
+            }
+
+            var pagedVouchers = voucherList.OrderByDescending(a => a.Ma).ToPagedList(pageNumber, pageSize);
+
+            ViewBag.VoucherList = pagedVouchers;
+            ViewBag.VoucherPage = pageNumber;
+            ViewBag.SearchString = searchString; // Truyền searchString vào ViewBag để hiển thị trong view
+
+            return View();
         }
 
         public async Task<ActionResult> Create()
