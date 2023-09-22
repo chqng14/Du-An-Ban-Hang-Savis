@@ -1,0 +1,92 @@
+﻿@model IEnumerable<App_Data.Models.Sale>
+
+@{
+    ViewData["Title"] = "ShowAllSale";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>ShowAllSale</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayBatDau)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayKetThuc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiHinhKm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MucGiam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MoTa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayBatDau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayKetThuc)
+            </td>
+            <td>
+                    @{
+                        var LoaiHinhKm = item.LoaiHinhKm;
+                        if (LoaiHinhKm.Length > 20)
+                        {
+                            LoaiHinhKm = LoaiHinhKm.Substring(0, 10) + "...";
+                        }
+                    }
+                    @Html.DisplayFor(modelItem => LoaiHinhKm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MucGiam)
+            </td>
+            <td>
+                    @{
+                        var mota = item.MoTa;
+                        if (mota.Length > 20)
+                        {
+                            mota = mota.Substring(0, 10) + "...";
+                        }
+                    }
+                    @Html.DisplayFor(modelItem => mota)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

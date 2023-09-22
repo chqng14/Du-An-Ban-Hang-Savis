@@ -1,4 +1,5 @@
 ﻿using App_Data.Models;
+using App_Data.ViewModel;
 using App_View.IServices;
 
 namespace App_View.Services
@@ -77,10 +78,10 @@ namespace App_View.Services
             }
         }
 
-        public async Task<List<SaleDetail>> GetAllDetaiSale()
+        public async Task<List<SaleDTViewModel>> GetAllDetaiSale()
         {
             var httpClient = new HttpClient();
-            var response = await httpClient.GetFromJsonAsync<List<SaleDetail>>("https://localhost:7165/api/SaleDetail");
+            var response = await httpClient.GetFromJsonAsync<List<SaleDTViewModel>>("https://localhost:7165/api/SaleDetail");
             return response;
         }
     }

@@ -1,0 +1,164 @@
+﻿@model App_Data.Models.Blog
+
+@{
+    ViewData["Title"] = "DetailUser";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<a asp-action="ShowAllBlog">
+    <button class="btn btn-primary">
+        <i class="anticon anticon-plus-circle m-r-5"></i>
+        <span>Blog</span>
+    </button>
+</a>
+    <!-- Content Wrapper START -->
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+                <div class="container">
+                <h2 class="font-weight-normal m-b-10">@Html.DisplayFor(model=>model.TenBlog)</h2>
+                    <div class="d-flex m-b-30">
+                        <div class="avatar avatar-cyan avatar-img">
+                        <img src="~/admin_assets/images/avatars/avatar.jpg" alt="">
+                        </div>
+                        <div class="m-l-15">
+                        <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">@Html.DisplayFor(model=>model.MoTa)</a>
+                            <p class="m-b-0 text-muted font-size-13">Jan 2, 2019</p>
+                        </div>
+                    </div>
+                <img alt="" class="img-fluid w-100" src="~/admin_assets/images/avatars/avatar.jpg">
+                    <div class="m-t-30">
+                    <p>@Html.DisplayFor(model=>model.NoiDung)</p>
+                    </div>
+                    <div class="d-flex m-t-40 align-items-center">
+                        <span class="m-r-15">Share this post: </span>
+                        <ul class="list-inline m-b-0">
+                            <li class="list-inline-item">
+                                <button class="font-size-16 btn btn-hover btn-icon btn-rounded">
+                                    <i class="anticon anticon-facebook"></i>
+                                </button>
+                            </li>
+                            <li class="list-inline-item">
+                                <button class="font-size-16 btn btn-hover btn-icon btn-rounded">
+                                    <i class="anticon anticon-twitter"></i>
+                                </button>
+                            </li>
+                            <li class="list-inline-item">
+                                <button class="font-size-16 btn btn-hover btn-icon btn-rounded">
+                                    <i class="anticon anticon-instagram"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <h5>Comments (28)</h5>
+                    <div class="m-t-20">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item p-h-0">
+                                <div class="media m-b-15">
+                                    <div class="avatar avatar-image">
+                                        <img src="assets/images/avatars/thumb-8.jpg" alt="">
+                                    </div>
+                                    <div class="media-body m-l-20">
+                                        <h6 class="m-b-0">
+                                            <a href="" class="text-dark">Lillian Stone</a>
+                                        </h6>
+                                        <span class="font-size-13 text-gray">28th Jul 2018</span>
+                                    </div>
+                                </div>
+                                <span>The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history. It was born from humble roots, only to rise to well-seasoned greatness.</span>
+                                <div class="m-t-15">
+                                    <ul class="list-inline text-right">
+                                        <li class="d-inline-block m-r-20">
+                                            <a class="text-dark" href="javascript:void(0)">
+                                                <i class="anticon m-r-5 anticon-like"></i>
+                                                <span>43</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-inline-block m-r-30">
+                                            <a class="text-dark" href="javascript:void(0)">
+                                                <i class="anticon m-r-5 anticon-message"></i>
+                                                <span>Reply</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-h-0">
+                                <div class="media m-b-15">
+                                    <div class="avatar avatar-image">
+                                        <img src="assets/images/avatars/thumb-9.jpg" alt="">
+                                    </div>
+                                    <div class="media-body m-l-20">
+                                        <h6 class="m-b-0">
+                                            <a href="" class="text-dark">Victor Terry</a>
+                                        </h6>
+                                        <span class="font-size-13 text-gray">28th Jul 2018</span>
+                                    </div>
+                                </div>
+                                <span>The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history. It was born from humble roots, only to rise to well-seasoned greatness.</span>
+                                <div class="m-t-15">
+                                    <ul class="list-inline text-right">
+                                        <li class="d-inline-block m-r-20">
+                                            <a class="text-dark" href="javascript:void(0)">
+                                                <i class="anticon m-r-5 anticon-like"></i>
+                                                <span>18</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-inline-block m-r-30">
+                                            <a class="text-dark" href="javascript:void(0)">
+                                                <i class="anticon m-r-5 anticon-message"></i>
+                                                <span>Reply</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="list-group-item p-h-0">
+                                <div class="media m-b-15">
+                                    <div class="avatar avatar-image">
+                                        <img src="assets/images/avatars/thumb-10.jpg" alt="">
+                                    </div>
+                                    <div class="media-body m-l-20">
+                                        <h6 class="m-b-0">
+                                            <a href="" class="text-dark">Wilma Young</a>
+                                        </h6>
+                                        <span class="font-size-13 text-gray">28th Jul 2018</span>
+                                    </div>
+                                </div>
+                                <span>The palatable sensation we lovingly refer to as The Cheeseburger has a distinguished and illustrious history. It was born from humble roots, only to rise to well-seasoned greatness.</span>
+                                <div class="m-t-15">
+                                    <ul class="list-inline text-right">
+                                        <li class="d-inline-block m-r-20">
+                                            <a class="text-dark" href="javascript:void(0)">
+                                                <i class="anticon m-r-5 anticon-like"></i>
+                                                <span>95</span>
+                                            </a>
+                                        </li>
+                                        <li class="d-inline-block m-r-30">
+                                            <a class="text-dark" href="javascript:void(0)">
+                                                <i class="anticon m-r-5 anticon-message"></i>
+                                                <span>Reply</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="m-t-30">
+                        <nav>
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content Wrapper END -->

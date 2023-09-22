@@ -82,7 +82,6 @@ namespace App_Api.Controllers
             string tenNguoiNhan, string diaChi, string sdt, int tongTien, int soTienGiam, int tienShip, string moTa, int trangThai)
         {
             var bill = allRepo.GetAll().First(p => p.Id == id);
-
             bill.IdUser = idUser;
             bill.IdVoucher = idVoucher;
             bill.Ma = ma;

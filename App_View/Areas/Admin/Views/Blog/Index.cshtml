@@ -1,0 +1,96 @@
+﻿@model IEnumerable<App_Data.Models.Blog>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="">
+    <div class="card">
+        <div class="card-body">
+            <div class="row m-b-30">
+                <div class="col-lg-8">
+                    <a asp-action="Create">
+                        <button class="btn btn-primary">
+                            <i class="anticon anticon-plus-circle m-r-5"></i>
+                            <span>Add Blog</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover e-commerce-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ma)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TenBlog)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoiDung)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MoTa)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        var ma = item.Ma;
+                                        if (ma.Length > 5)
+                                        {
+                                            ma = ma.Substring(0, 5) + "...";
+                                        }
+                                    }
+                                    @Html.DisplayFor(modelItem => ma)
+                                </td>
+                                <td>
+                                    @{
+                                        var ten = item.TenBlog;
+                                        if (ten.Length > 20)
+                                        {
+                                            ten = ten.Substring(0, 20) + "...";
+                                        }
+                                    }
+                                    @Html.DisplayFor(modelItem => ten)
+                                </td>
+                                <td>
+                                    @{
+                                        var nd = item.NoiDung;
+                                        if (nd.Length > 20)
+                                        {
+                                            nd = nd.Substring(0, 20) + "...";
+                                        }
+                                    }
+                                    @Html.DisplayFor(modelItem => nd)
+                                </td>
+                                <td>
+                                    @{
+                                        var moTa = item.MoTa;
+                                        if (moTa.Length > 30)
+                                        {
+                                            moTa = moTa.Substring(0, 30) + "...";
+                                        }
+                                    }
+                                    @Html.DisplayFor(modelItem => moTa)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
