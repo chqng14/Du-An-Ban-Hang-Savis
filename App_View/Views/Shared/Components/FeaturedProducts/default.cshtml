@@ -1,0 +1,181 @@
+﻿@model App_Data.ViewModels.ProductDetail.FeaturedProductViewModel
+<!-- =====  PRODUCT TAB  ===== -->
+<div id="product-tab" class="mt_10">
+    <div class="heading-part mb_10 ">
+        <h2 class="main_title">Featured Products</h2>
+    </div>
+    <ul class="nav text-right">
+        <li class="active"> <a href="#nArrivals" data-toggle="tab">New Arrivals</a> </li>
+        <li><a href="#Bestsellers" data-toggle="tab">Bestsellers</a> </li>
+        <li><a href="#Featured" data-toggle="tab">Featured</a> </li>
+    </ul>
+    <div class="tab-content clearfix box">
+        <div class="tab-pane active" id="nArrivals">
+            <div class="nArrivals owl-carousel">
+                @foreach (var item in Model.ListProductNew!)
+                {
+                    <div class="product-grid">
+                        <div class="item">
+                            <div class="product-thumb">
+                                <div class="image product-imageblock">
+                                    <a href="/ProductDetails/Details/@item.Id">
+                                        @if (item.LstTenAnh?.Count >= 2)
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="~/images/product/product9.jpg" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/product/product9-1.jpg"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
+
+                                    </a>
+                                    <div class="button-group text-center">
+                                        <div class="add-to-cart" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="#"><span>Add to cart</span></a></div>
+                                    </div>
+                                </div>
+                                <div class="caption product-detail text-center">
+                                    <div class="rating">
+                                        <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i>
+                                        </span>
+                                    </div>
+                                    <h6 data-name="product_name" class="product-name">
+                                        <a href="#"
+                                           title="Casual Shirt With Ruffle Hem">@item.NameProduct</a>
+                                    </h6>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>@item.GiaBan</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane" id="Bestsellers">
+            <div class="Bestsellers owl-carousel">
+                @foreach (var item in Model.ListProductBestSellers!)
+                {
+                    <div class="product-grid">
+                        <div class="item">
+                            <div class="product-thumb">
+                                <div class="image product-imageblock">
+                                    <a href="/ProductDetails/Details/@item.Id">
+                                        @if (item.LstTenAnh?.Count >= 2)
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="~/images/product/product9.jpg" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/product/product9-1.jpg"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
+
+                                    </a>
+                                    <div class="button-group text-center">
+                                        <div class="add-to-cart" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="#"><span>Add to cart</span></a></div>
+                                    </div>
+                                </div>
+                                <div class="caption product-detail text-center">
+                                    <div class="rating">
+                                        <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i>
+                                        </span>
+                                    </div>
+                                    <h6 data-name="product_name" class="product-name">
+                                        <a href="#"
+                                           title="Casual Shirt With Ruffle Hem">@item.NameProduct</a>
+                                    </h6>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>@item.GiaBan</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="tab-pane" id="Featured">
+            <div class="Featured owl-carousel">
+                @foreach (var item in Model.ListProductBestFeatured!)
+                {
+                    <div class="product-grid">
+                        <div class="item">
+                            <div class="product-thumb">
+                                <div class="image product-imageblock">
+                                    <a href="/ProductDetails/Details/@item.Id">
+                                        @if (item.LstTenAnh?.Count >= 2)
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="~/images/product/product9.jpg" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/product/product9-1.jpg"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
+
+                                    </a>
+                                    <div class="button-group text-center">
+                                        <div class="add-to-cart" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="#"><span>Add to cart</span></a></div>
+                                    </div>
+                                </div>
+                                <div class="caption product-detail text-center">
+                                    <div class="rating">
+                                        <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i>
+                                        </span> <span class="fa fa-stack">
+                                            <i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i>
+                                        </span>
+                                    </div>
+                                    <h6 data-name="product_name" class="product-name">
+                                        <a href="#"
+                                           title="Casual Shirt With Ruffle Hem">@item.NameProduct</a>
+                                    </h6>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>@item.GiaBan</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- =====  PRODUCT TAB  END ===== -->

@@ -31,16 +31,136 @@ namespace App_Api.Controllers
             _allImages = allImages;
         }
 
+        private ProductDetailResponseVM CreateDetailProductResponseVM(ProductDetails item)
+        {
+            var lstBienThe = _allRepoProductDetail.GetAll()
+                .Where(product => product.TrangThai == 0 &&
+                    product.IdProduct == item.IdProduct &&
+                    product.IdMaterial == item.IdMaterial &&
+                    product.IdTypeProduct == item.IdTypeProduct).ToList();
+
+            var listMauSac = lstBienThe
+                .Join(
+                    _allRepoColor.GetAll().Where(x => x.TrangThai == 0).ToList(),
+                    pr => pr.IdColor,
+                    cl => cl.Id,
+                    (pr, cl) => cl.Ten
+                )
+                .Distinct()
+                .ToList();
+
+            var listSize = lstBienThe.Where(it => it.IdColor == item.IdColor)
+                .Join(
+                    _allRepoSize.GetAll().Where(x => x.TrangThai == 0).ToList(),
+                    pr => pr.IdSize,
+                    s => s.Id,
+                    (pr, s) => s.Size1
+                )
+                .Distinct().OrderBy(x => x)
+                .ToList();
+            var sevenDaysAgo = DateTime.Now.AddDays(-7);
+            return new ProductDetailResponseVM
+            {
+                Id = item.Id,
+                BaoHanh = item.BaoHanh,
+                ChatLieu = _allRepoMaterial.GetAll().FirstOrDefault(x => x.Id == item.IdMaterial)?.Ten,
+                GiaBan = item.GiaBan,
+                GiaNhap = item.GiaNhap,
+                Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
+                MauSac = _allRepoColor.GetAll().FirstOrDefault(co => co.Id == item.IdColor)?.Ten,
+                MoTa = item.MoTa,
+                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na => na.Id == item.IdProduct)?.Ten,
+                Size = _allRepoSize.GetAll().FirstOrDefault(si => si.Id == item.IdSize)?.Size1,
+                SoLuongTon = item.SoLuongTon,
+                TrangThai = item.TrangThai,
+                IsNoiBat = item.IsNoiBat,
+                IsNew = item.NgayTao >= sevenDaysAgo,
+                SoLuongDaBan = item.SoLuongDaBan,
+                LstTenAnh = _allImages.GetAll()
+                                .Where(img => img.TrangThai == 1 && img.IdProductDetail == item.Id)
+                                .Select(x => x.DuongDan)
+                                .ToList(),
+                ListSize = listSize
+            };
+        }
+
+        [HttpPost("get-detail-Product-respo")]
+        public ProductDetailResponseVM? GetProductDetailRespo(DataProductDetailVm dataProductDetailVm)
+        {
+            var listProduct = _allRepoProductDetail.GetAll().Where(x => x.TrangThai == 0).ToList();
+            var listProductDetailResponseVM = listProduct.Select(item => CreateDetailProductResponseVM(item)).ToList();
+            var productDetailRes = listProductDetailResponseVM.FirstOrDefault(x => x.NameProduct == dataProductDetailVm.NameProduct && x.ChatLieu == dataProductDetailVm.ChatLieu && x.Size == dataProductDetailVm.Size && x.Loai == dataProductDetailVm.Loai && x.MauSac == dataProductDetailVm.MauSac);
+            return productDetailRes;
+        }
+
+        private ProductDetailVM CreateDetailProduct(ProductDetails item)
+        {
+            var lstBienThe = _allRepoProductDetail.GetAll()
+                .Where(product => product.TrangThai == 0 &&
+                    product.IdProduct == item.IdProduct &&
+                    product.IdMaterial == item.IdMaterial &&
+                    product.IdTypeProduct == item.IdTypeProduct).ToList();
+
+            var listMauSac = lstBienThe
+                .Join(
+                    _allRepoColor.GetAll().Where(x => x.TrangThai == 0).ToList(),
+                    pr => pr.IdColor,
+                    cl => cl.Id,
+                    (pr, cl) => cl.Ten
+                )
+                .Distinct()
+                .ToList();
+
+            var listSize = lstBienThe.Where(it => it.IdColor == item.IdColor)
+                .Join(
+                    _allRepoSize.GetAll().Where(x => x.TrangThai == 0).ToList(),
+                    pr => pr.IdSize,
+                    s => s.Id,
+                    (pr, s) => s.Size1
+                )
+                .Distinct().OrderBy(x => x)
+                .ToList();
+            var sevenDaysAgo = DateTime.Now.AddDays(-7);
+            return new ProductDetailVM
+            {
+                Id = item.Id,
+                BaoHanh = item.BaoHanh,
+                ChatLieu = _allRepoMaterial.GetAll().FirstOrDefault(x => x.Id == item.IdMaterial)?.Ten,
+                GiaBan = item.GiaBan,
+                GiaNhap = item.GiaNhap,
+                Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
+                MauSac = _allRepoColor.GetAll().FirstOrDefault(co => co.Id == item.IdColor)?.Ten,
+                MoTa = item.MoTa,
+                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na => na.Id == item.IdProduct)?.Ten,
+                Size = _allRepoSize.GetAll().FirstOrDefault(si => si.Id == item.IdSize)?.Size1,
+                SoLuongTon = item.SoLuongTon,
+                TrangThai = item.TrangThai,
+                IsNoiBat = item.IsNoiBat,
+                IsNew = item.NgayTao >= sevenDaysAgo,
+                SoLuongDaBan = item.SoLuongDaBan,
+                LstTenAnh = _allImages.GetAll()
+                                .Where(img => img.TrangThai == 1 && img.IdProductDetail == item.Id)
+                                .Select(x => x.DuongDan)
+                                .ToList(),
+                ListMauSac = listMauSac,
+                ListSize = listSize
+            };
+
+        }
+
         [HttpPost("create-productdetail")]
         public IActionResult CreateProductDetail([FromBody] ProductDetailDTO productDetailDTO)
         {
             var productDetail = _mapper.Map<ProductDetails>(productDetailDTO);
             productDetail.TrangThai = 0;
+            productDetail.SoLuongDaBan = 0;
+            productDetail.NgayTao = DateTime.Now;
             return new OkObjectResult(new { success = _allRepoProductDetail.AddItem(productDetail), id = productDetail.Id });
         }
 
-        private ProductViewModel CreatProductViewModel(ProductDetails item)
+        private ProductViewModel? CreatProductViewModel(ProductDetails item)
         {
+            var sevenDaysAgo = DateTime.Now.AddDays(-7);
             return new ProductViewModel
             {
                 Id = item.Id,
@@ -55,6 +175,9 @@ namespace App_Api.Controllers
                 Size = _allRepoSize.GetAll().FirstOrDefault(si => si.Id == item.IdSize)?.Size1,
                 SoLuongTon = item.SoLuongTon,
                 TrangThai = item.TrangThai,
+                IsNoiBat = item.IsNoiBat,
+                IsNew = item.NgayTao >= sevenDaysAgo,
+                SoLuongDaBan = item.SoLuongDaBan,
                 LstTenAnh = _allImages.GetAll()
                                 .Where(img => img.TrangThai == 1 && img.IdProductDetail == item.Id)
                                 .Select(x => x.DuongDan)
@@ -62,10 +185,44 @@ namespace App_Api.Controllers
             };
         }
 
-        [HttpGet("get-productdetail/{id}")]
-        public ProductDetails? GetProductDetail(Guid idProductDetail)
+        private ProductItemShopVM CreatProductShop(ProductDetails item)
         {
-            return _allRepoProductDetail.GetAll().Where(item=>item.TrangThai == 0).FirstOrDefault(pro => pro.Id == idProductDetail);
+            var sevenDaysAgo = DateTime.Now.AddDays(-7);
+            return new ProductItemShopVM
+            {
+                Id = item.Id,
+                GiaBan = item.GiaBan,
+                Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
+                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na => na.Id == item.IdProduct)?.Ten,
+                SoLuongTon = item.SoLuongTon,
+                IsNoiBat = item.IsNoiBat,
+                IsNew = item.NgayTao >= sevenDaysAgo,
+                SoLuongDaBan = item.SoLuongDaBan,
+                LstTenAnh = _allImages.GetAll()
+                                .Where(img => img.TrangThai == 1 && img.IdProductDetail == item.Id).Take(2).Select(item => item.DuongDan).ToList(),
+            };
+        }
+
+        [HttpGet("get-productdetail/{id}")]
+        public ProductDetails? GetProductDetail(Guid id)
+        {
+            return _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id);
+        }
+
+        [HttpGet("get-productViewModel/{id}")]
+        public ProductViewModel? GetProductVM(Guid id)
+        {
+            var item = _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id);
+            if (item == null) return null;
+            return CreatProductViewModel(item!);
+        }
+
+        [HttpGet("get-detail-product/{id}")]
+        public ProductDetailVM? GetDetailProductVM(Guid id)
+        {
+            var item = _allRepoProductDetail.GetAll().FirstOrDefault(pro => pro.Id == id);
+            if (item == null) return null;
+            return CreateDetailProduct(item!);
         }
 
         [HttpGet("get-list-productdetail")]
@@ -73,6 +230,14 @@ namespace App_Api.Controllers
         {
             var listProductDetailViewModel = _allRepoProductDetail.GetAll().Select(item => CreatProductViewModel(item)).ToList();
             return new OkObjectResult(listProductDetailViewModel);
+        }
+
+        [HttpGet("get-list-productItemShop")]
+        public List<ProductItemShopVM> GetListProductItemShop()
+        {
+            var listProductVM = _allRepoProductDetail.GetAll().GroupBy(x => new { x.IdMaterial, x.IdProduct, x.IdTypeProduct }).Select(gr => gr.First()).ToList();
+            var lstItemShop = listProductVM.Select(item => CreatProductShop(item)).ToList();
+            return lstItemShop;
         }
 
         [HttpPost("get-add-or-update")]

@@ -13,5 +13,9 @@ namespace App_View.IServices
         Task DeleteProductDetail(Guid id);
         Task<ProductDetailDTO?> GetProductDTOByIdAsync(Guid id);
         Task<HttpResponseMessage> GetProductDetailForUpdateOrAdd(ProductDetailDTO productDetailDTO);
+        Task<List<ProductItemShopVM>> GetProductItemShopVMsAsync();
+        Task<ProductViewModel> GetProductVMsAsync(Guid id);
+        Task<ProductDetailVM> GetDetailProductAsync(Guid id);
+        Task<ProductDetailResponseVM?> GetProductDetailRespoAsync(DataProductDetailVm dataProductDetailVm);
     }
 }
