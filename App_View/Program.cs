@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7165") });
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<ITypeProductServices, TypeProductServices>();
 
 var app = builder.Build();
 

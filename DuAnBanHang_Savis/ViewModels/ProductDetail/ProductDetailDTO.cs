@@ -18,6 +18,7 @@ namespace App_Data.ViewModels.ProductDetail
         public string? MoTa { get; set; }
         public int SoLuongTon { get; set; }
         public decimal? GiaNhap { get; set; }
+        public bool IsNoiBat { get; set; }
         public decimal? GiaBan { get; set; }
         public List<string>? LstTenAnh { get; set; }
     }

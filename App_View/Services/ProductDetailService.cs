@@ -1,6 +1,7 @@
 ﻿using App_Data.ViewModels.ProductDetail;
 using App_View.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -41,7 +42,25 @@ namespace App_View.Services
 
         public async Task UpdateProdutDetailAsync(ProductDetailDTO productDetailDTO)
         {
-            await _httpClient.PutAsJsonAsync("/api/ProductDetail/update", productDetailDTO);
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync("/api/ProductDetail/update", productDetailDTO);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Delete successful. Response: " + responseContent);
+                }
+                else
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Delete failed. Response: " + responseContent);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex);
+            }
         }
 
         public async Task DeleteProductDetail(Guid id)
@@ -51,7 +70,46 @@ namespace App_View.Services
 
         public async Task<HttpResponseMessage> GetProductDetailForUpdateOrAdd(ProductDetailDTO productDetailDTO)
         {
-            return await _httpClient.PostAsJsonAsync("/api/ProductDetail/get-add-or-update",productDetailDTO);
+            return await _httpClient.PostAsJsonAsync("/api/ProductDetail/get-add-or-update", productDetailDTO);
+
+        }
+
+
+        public async Task<List<ProductItemShopVM>> GetProductItemShopVMsAsync()
+        {
+            return (await _httpClient.GetFromJsonAsync<List<ProductItemShopVM>>("/api/ProductDetail/get-list-productItemShop"))!;
+        }
+
+        public async Task<ProductViewModel> GetProductVMsAsync(Guid id)
+        {
+            return (await _httpClient.GetFromJsonAsync<ProductViewModel>($"/api/ProductDetail/get-productViewModel/{id}"))!;
+        }
+
+        public async Task<ProductDetailVM> GetDetailProductAsync(Guid id)
+        {
+            return (await _httpClient.GetFromJsonAsync<ProductDetailVM>($"/api/ProductDetail/get-detail-product/{id}"))!;
+        }
+
+        public async Task<ProductDetailResponseVM?> GetProductDetailRespoAsync(DataProductDetailVm dataProductDetailVm)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync($"/api/ProductDetail/get-detail-Product-respo", dataProductDetailVm);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<ProductDetailResponseVM>();
+                }
+                else
+                {
+                    Console.WriteLine(await response.Content.ReadAsStringAsync());
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
             
         }
     }

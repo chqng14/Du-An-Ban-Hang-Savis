@@ -1,0 +1,15 @@
+﻿@model List<App_Data.Models.TypeProduct>
+
+<div id="category-menu" class="navbar collapse in mb_40" aria-expanded="true" style="" role="button">
+    <div class="nav-responsive">
+        <div class="heading-part">
+            <h2 class="main_title">Top category</h2>
+        </div>
+        <ul class="nav  main-navigation collapse in">
+            @foreach (var item in Model)
+            {
+                <li><a href="#">@item.Ten</a></li>
+            }
+        </ul>
+    </div>
+</div>

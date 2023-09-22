@@ -18,6 +18,9 @@ namespace App_Data.Models
         public string? BaoHanh { get; set; }
         public string? MoTa { get; set; }
         public int SoLuongTon { get; set; }
+        public int SoLuongDaBan { get; set; }
+        public DateTime NgayTao { get; set; }
+        public bool IsNoiBat { get; set; }  
         public decimal? GiaNhap { get; set; }
         public decimal? GiaBan { get; set; }
         public int? TrangThai { get; set; }

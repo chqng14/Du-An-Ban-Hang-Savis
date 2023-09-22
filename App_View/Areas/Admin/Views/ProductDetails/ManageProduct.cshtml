@@ -125,16 +125,10 @@
                         [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Danh sách
                         [{ 'align': [] }], // Căn chỉnh văn bản
                         ['link', 'image'], // Liên kết và hình ảnh
+                        [{ 'font': [] }], // Thêm tùy chọn font
+                        [{ 'size': ['small', false, 'large', 'huge'] }] // Thêm tùy chọn kích thước font
                     ],
-                    //imageResize: {
-                    //    module: 'image-resize-and-move', // Sử dụng module image-resize-and-move
-                    //    displaySize: true, // Hiển thị kích thước hình ảnh
-                    //    handleStyles: {
-                    //        backgroundColor: 'black',
-                    //        border: 'none',
-                    //        color: 'white',
-                    //    },
-                    //},
+                    
                 },
             });
         });
@@ -200,6 +194,15 @@
                                 <label>Số lượng</label>
                                 <input type="number" min="1" class="form-control" name="SoLuongTon" value="${soLuong}">
                             </div>
+                            <div class="col-12">
+                                    <div class="form-group d-flex align-items-center">
+                                        <div class="switch m-r-10">
+                                            <input type="checkbox" id="switch-${index}" class="switch-2">
+                                            <label for="switch-${index}"></label>
+                                        </div>
+                                        <label>Nổi bật</label>
+                                    </div>
+                                </div>
 
                             <div class="form-group col-12">
                                 <div class="m-b-5" style="margin-top: 10px;">
@@ -304,9 +307,12 @@
                 const promise = getProductDetail(data);
                 promise.then((respose) => {
                     if (respose.success) {
+                       
                         const itemAppend = $(ItemTemplate(index, true, respose.data.Id, lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, respose.data.GiaNhap, respose.data.GiaBan, respose.data.SoLuongTon, respose.data.MoTa))
-                        console.log(respose.data.MoTa);
                         container.append(itemAppend)
+                        if (respose.data.IsNoiBat) {
+                            itemAppend.find('.switch-2').prop('checked', true);
+                        }
                         const key = itemAppend.find('.collapse').attr('id');
                         const containerFile = itemAppend.find('.upload').find('.container-file');
                         lstAnhRemove[key] = []
@@ -501,7 +507,7 @@
         function processNextItem() {
             if (currentIndex >= items.length) {
                 if ($('.accordion').find($('.item-accordion')).length === 0) {
-                    window.location.reload();
+                    setTimeout(() => window.location.reload(),1000)
                 }
                 $('#preloader').hide();
                 if (checkSS > 0) {
@@ -635,11 +641,10 @@
                             console.error(error);
                         });
                 }
-
                 $.ajax({
                     url: URL_UPDATE_PRODUCT_DETAIL,
                     type: 'POST',
-                    data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...{ Id: currentItem.attr('data-idproductdetail') },...moTa }),
+                    data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...{ Id: currentItem.attr('data-idproductdetail') }, ...moTa, ...{ IsNoiBat: currentItem.find('.switch-2').prop('checked') } }),
                     contentType: 'application/json',
                     success: function (result) {
                         checkSS++;
@@ -659,11 +664,16 @@
 
             } else {
                 if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon) {
-                    console.log({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...moTa });
                     $.ajax({
                         url: URL_CREATE_PRODUCT,
                         type: 'POST',
-                        data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...moTa }),
+                        data: JSON.stringify({
+                            ...GetDataMain()
+                            , ...dataBienThe
+                            , ...DataInDataset
+                            , ...moTa
+                            , ...{ IsNoiBat: currentItem.find('.switch-2').prop('checked') }
+                            }),
                         contentType: 'application/json',
                         success: function (result) {
                             if (result.success) {

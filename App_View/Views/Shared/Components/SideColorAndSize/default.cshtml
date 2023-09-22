@@ -1,0 +1,30 @@
+﻿@model App_View.Views.ViewModels.SideColorAndSizeViewModel
+<div class="list-group">
+    <div class="list-group-item mb_10">
+        <label>Color</label>
+        <div id="filter-group1">
+            @foreach (var item in Model.ListColorVM!)
+            {
+                <div class="checkbox">
+                    <label>
+                        <input value="" type="checkbox"> @item.Name (@item.Count)
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="list-group-item mb_10">
+        <label>Size</label>
+        <div id="filter-group3">
+            @foreach (var item in Model.ListSizeVM!)
+            {
+                <div class="checkbox">
+                    <label>
+                        <input value="" type="checkbox"> @item.Name (@item.Count)
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+    <button type="button" class="btn">Refine Search</button>
+</div>

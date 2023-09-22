@@ -116,6 +116,7 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task UpdateProduct([FromBody] ProductDetailDTO productDetailDTO)
         {
+
             await _productDetailService.UpdateProdutDetailAsync(productDetailDTO);
         }
 
