@@ -88,8 +88,21 @@ namespace App_Api.Controllers
         public ProductDetailResponseVM? GetProductDetailRespo(DataProductDetailVm dataProductDetailVm)
         {
             var listProduct = _allRepoProductDetail.GetAll().Where(x => x.TrangThai == 0).ToList();
+            var productDetailRes = new ProductDetailResponseVM();
             var listProductDetailResponseVM = listProduct.Select(item => CreateDetailProductResponseVM(item)).ToList();
-            var productDetailRes = listProductDetailResponseVM.FirstOrDefault(x => x.NameProduct == dataProductDetailVm.NameProduct && x.ChatLieu == dataProductDetailVm.ChatLieu && x.Size == dataProductDetailVm.Size && x.Loai == dataProductDetailVm.Loai && x.MauSac == dataProductDetailVm.MauSac);
+
+            if (dataProductDetailVm.Size == null)
+            {
+                listProductDetailResponseVM = listProductDetailResponseVM.
+                    Where(x => x.NameProduct == dataProductDetailVm.NameProduct && 
+                    x.ChatLieu == dataProductDetailVm.ChatLieu && 
+                    x.Loai == dataProductDetailVm.Loai && 
+                    x.MauSac == dataProductDetailVm.MauSac).ToList();
+                productDetailRes = listProductDetailResponseVM.FirstOrDefault();
+                return productDetailRes;
+            }
+            
+            productDetailRes = listProductDetailResponseVM.FirstOrDefault(x => x.NameProduct == dataProductDetailVm.NameProduct && x.ChatLieu == dataProductDetailVm.ChatLieu && x.Size == dataProductDetailVm.Size && x.Loai == dataProductDetailVm.Loai && x.MauSac == dataProductDetailVm.MauSac);
             return productDetailRes;
         }
 
@@ -127,7 +140,6 @@ namespace App_Api.Controllers
                 BaoHanh = item.BaoHanh,
                 ChatLieu = _allRepoMaterial.GetAll().FirstOrDefault(x => x.Id == item.IdMaterial)?.Ten,
                 GiaBan = item.GiaBan,
-                GiaNhap = item.GiaNhap,
                 Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
                 MauSac = _allRepoColor.GetAll().FirstOrDefault(co => co.Id == item.IdColor)?.Ten,
                 MoTa = item.MoTa,

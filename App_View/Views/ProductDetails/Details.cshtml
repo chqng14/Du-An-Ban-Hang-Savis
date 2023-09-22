@@ -339,7 +339,7 @@
                         <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span>
                     </div>
                     <span class="price mb_20">
-                        <span class="amount"><span class="currencySymbol">$</span>@Model.GiaBan</span>
+                        <span class="amount"><span class="currencySymbol">$</span><span name="giaBan">@Model.GiaBan</span></span>
                     </span>
                     <hr>
                     <div id="product">
@@ -347,7 +347,7 @@
                             <div class="row">
                                 <div class="color-by col-md-12" style="margin-top:10px">
                                     <label>Select Color</label>
-                                    <div>
+                                    <div id="container-color">
                                         @foreach (var item in Model.ListMauSac!)
                                         {
                                             if (item == Model.MauSac)
@@ -402,7 +402,7 @@
                                 <ul class="list-unstyled product_info mtb_20 col-md-12">
                                     <li>
                                         <label>Loại:</label>
-                                        <span> <a href="#">@Model.Loai</a></span>
+                                        <span name="loai"> <a href="#">@Model.Loai</a></span>
                                     </li>
                                     <li>
                                         <label>Product Code:</label>
@@ -410,11 +410,11 @@
                                     </li>
                                     <li>
                                         <label>Số lượng tồn:</label>
-                                        <span> @Model.SoLuongTon</span>
+                                        <span name="soLuongTon"> @Model.SoLuongTon</span>
                                     </li>
                                     <li>
                                         <label>Số lượng đã bán:</label>
-                                        <span> @Model.SoLuongDaBan</span>
+                                        <span name="soLuongDaBan"> @Model.SoLuongDaBan</span>
                                     </li>
                                 </ul>
                             </div>
@@ -657,77 +657,145 @@
             $(this).attr("contenteditable", "false");
         });
     })
-        $("#container-size").on("click", ".selectClick", function () {
-            $(this).siblings().removeClass("clickActive");
+    $("#container-size").on("click", ".selectClick", function () {
+        if (!$(this).hasClass("clickActive")) {
 
-            $(this).addClass("clickActive");
+      $(this).siblings().removeClass("clickActive");
 
-            var dataGet = {
-                NameProduct: '@Model.NameProduct',
-                Loai: '@Model.Loai',
-                ChatLieu: '@Model.ChatLieu',
-                Size: $('.size-by').find('.clickActive').attr('data-size'),
-                MauSac: $('.color-by').find('.clickActive').attr('data-color'),
-            };
-            $.ajax({
-                url: '@Url.Action("GetDetails", "ProductDetails")',
-                type: 'POST',
-                data: JSON.stringify(dataGet),
-                contentType: 'application/json',
-                success: function (result) {
-                    console.log(result);
-                    var currentUrl = window.location.href;
-                    var updatedUrl = currentUrl.replace(/\/[0-9a-fA-F-]+$/, '/' + result.id);
-                    window.history.pushState({}, null, updatedUrl);
-                    $('.image-main').find('img').attr('src', '/images/anhsanpham/' + result?.lstTenAnh[0])
-                    const containerImg = $('#container-img').find('.owl-stage')
-                    containerImg.empty();
-                    if (result?.lstTenAnh.length > 0) {
-                        Array.from(result?.lstTenAnh).forEach((item, index) => {
-                             containerImg.append(
-                                     `
-                                    <div class="owl-item active" style="width: 85.25px;"><div class="item">
-                                <div class="image-additional"><a class="thumbnail mt-5" href="/images/anhsanpham/${item}" data-fancybox="group1">
-                               <img class="mt-5" style="height:70px" src="/images/anhsanpham/${item}" alt=""></a></div>
-                            </div></div>
-                                     `
-                                 )
-                        })
+      $(this).addClass("clickActive");
 
-                    }
-                    const containerSize = $('#container-size');
-                    containerSize.empty();
-                    if (result?.listSize.length > 0) {
-                        Array.from(result?.listSize).forEach(item => {
-                            if (item === result?.size) {
-                                containerSize.append(`
-                                <button class="rounded-circle clickActive selectClick" data-size="${item}"
-                                        style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
-                                    ${item}
-                                </button>
-                                `)
-                            } else {
-                                containerSize.append(`
-                                <button class="rounded-circle selectClick" data-size="${item}"
-                                        style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
-                                    ${item}
-                                </button>
-                                `)
-                            }
-                        })
-                    }
+      var dataGet = {
+          NameProduct: '@Model.NameProduct',
+          Loai: '@Model.Loai',
+          ChatLieu: '@Model.ChatLieu',
+          Size: $('.size-by').find('.clickActive').attr('data-size'),
+          MauSac: $('.color-by').find('.clickActive').attr('data-color'),
+      };
+      $.ajax({
+          url: '@Url.Action("GetDetails", "ProductDetails")',
+          type: 'POST',
+          data: JSON.stringify(dataGet),
+          contentType: 'application/json',
+          success: function (result) {
+              var currentUrl = window.location.href;
+              var updatedUrl = currentUrl.replace(/\/[0-9a-fA-F-]+$/, '/' + result.id);
+              window.history.pushState({}, null, updatedUrl);
+              $('.image-main').find('img').attr('src', '/images/anhsanpham/' + result?.lstTenAnh[0])
+              const containerImg = $('#container-img').find('.owl-stage')
+              containerImg.empty();
+              if (result?.lstTenAnh.length > 0) {
+                  Array.from(result?.lstTenAnh).forEach((item, index) => {
+                      containerImg.append(
+                          `
+                              <div class="owl-item active" style="width: 85.25px;"><div class="item">
+                          <div class="image-additional"><a class="thumbnail mt-5" href="/images/anhsanpham/${item}" data-fancybox="group1">
+                         <img class="mt-5" style="height:70px" src="/images/anhsanpham/${item}" alt=""></a></div>
+                      </div></div>
+                               `
+                      )
+                  })
+
+              }
+
+              $("[name='giaBan']").text(result.giaBan)
+              $("[name='soLuongTon']").text(result.soLuongTon)
+              $("[name='soLuongDaBan']").text(result.soLuongDaBan)
+
+          },
+          error: function (xhr, status, error) {
+              console.log(xhr.responseText);
+              console.log(status);
+              console.log(error);
+              console.log(xhr);
+          }
+      });
+  }
+});
+    $("#container-color").on("click", ".selectClick", function () {
+        if (!$(this).hasClass("clickActive")) {
+
+      $(this).siblings().removeClass("clickActive");
+
+      $(this).addClass("clickActive");
+
+      var dataGet = {
+          NameProduct: '@Model.NameProduct',
+          Loai: '@Model.Loai',
+          ChatLieu: '@Model.ChatLieu',
+          MauSac: $('.color-by').find('.clickActive').attr('data-color'),
+      };
+      $.ajax({
+          url: '@Url.Action("GetDetails", "ProductDetails")',
+          type: 'POST',
+          data: JSON.stringify(dataGet),
+          contentType: 'application/json',
+          success: function (result) {
+              console.log(result);
+              var currentUrl = window.location.href;
+              var updatedUrl = currentUrl.replace(/\/[0-9a-fA-F-]+$/, '/' + result.id);
+              window.history.pushState({}, null, updatedUrl);
+              $('.image-main').find('img').attr('src', '/images/anhsanpham/' + result?.lstTenAnh[0])
+              const containerImg = $('#container-img').find('.owl-stage')
+              containerImg.empty();
+              if (result?.lstTenAnh.length > 0) {
+                  Array.from(result?.lstTenAnh).forEach((item, index) => {
+                      containerImg.append(
+                          `
+                              <div class="owl-item active" style="width: 85.25px;"><div class="item">
+                          <div class="image-additional"><a class="thumbnail mt-5" href="/images/anhsanpham/${item}" data-fancybox="group1">
+                         <img class="mt-5" style="height:70px" src="/images/anhsanpham/${item}" alt=""></a></div>
+                      </div></div>
+                               `
+                      )
+                  })
+
+              }
+              const containerSize = $('#container-size');
+              containerSize.empty();
+              if (result?.listSize.length > 0) {
+                  Array.from(result?.listSize).forEach(item => {
+                      if (item === result?.size) {
+                          containerSize.append(`
+                          <button class="rounded-circle clickActive selectClick" data-size="${item}"
+                                  style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
+                              ${item}
+                          </button>
+                          `)
+                      } else {
+                          containerSize.append(`
+                          <button class="rounded-circle selectClick" data-size="${item}"
+                                  style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
+                              ${item}
+                          </button>
+                          `)
+                      }
+                  })
+              }
+              $("[name='giaBan']").text(result.giaBan)
+              $("[name='soLuongTon']").text(result.soLuongTon)
+              $("[name='soLuongDaBan']").text(result.soLuongDaBan)
 
 
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr.responseText);
-                    console.log(status);
-                    console.log(error);
-                    console.log(xhr);
-                }
-            });
-
-
+          },
+          error: function (xhr, status, error) {
+              console.log(xhr.responseText);
+              console.log(status);
+              console.log(error);
+              console.log(xhr);
+          }
+      });
+  }
+});
+    window.addEventListener("popstate", function (e) {
+        $.ajax({
+            url: window.location.href,
+            type: "GET",
+            success: function (data) {
+                window.location.reload()
+            },
+            error: function (xhr, status, error) {
+            }
         });
+    });
 
 </script>
