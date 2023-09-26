@@ -54,9 +54,9 @@ namespace App_View.Areas.Admin.Controllers
             return View(result);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id, CartDetails obj)
+        public async Task<IActionResult> Edit(CartDetails obj)
         {
-            var result = await _iCartDetailService.EditCartDetailAsync(id, obj);
+            var result = await _iCartDetailService.EditCartDetailAsync(obj);
             if (result) return RedirectToAction("Index");
             ViewBag.ProductDetail = new SelectList(await iProductDetailService.GetListProductViewModelAsync(), "ID", "NameProduct", obj.IDCTSP);
             ViewBag.User = new SelectList(await _iUserService.GetUsersAsync(), "Id", "Ten", obj.IDUser);
