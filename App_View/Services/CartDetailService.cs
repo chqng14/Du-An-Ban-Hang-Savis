@@ -1,4 +1,5 @@
 ﻿using App_Data.Models;
+using App_Data.ViewModel;
 using App_View.IServices;
 using Newtonsoft.Json;
 
@@ -6,11 +7,11 @@ namespace App_View.Services
 {
     public class CartDetailService : ICartDetailService
     {
-      public async  Task<bool> CreateCartDetailAsync(CartDetails cartDetails)
+        public async Task<bool> CreateCartDetailAsync(CartDetails cartDetails)
         {
             try
             {
-                var httpClient = new HttpClient(); 
+                var httpClient = new HttpClient();
                 string apiURL = $"https://localhost:7165/api/CartDetail?IDUSer={cartDetails.IDUser}&IDCTSP={cartDetails.IDCTSP}&SoLuong={cartDetails.SoLuong}&TrangThai={cartDetails.TrangThai}";
                 var response = await httpClient.PostAsync(apiURL, null);
                 if (response.IsSuccessStatusCode)
@@ -54,12 +55,12 @@ namespace App_View.Services
             }
         }
 
-        public async Task<bool> EditCartDetailAsync(Guid id, CartDetails cartDetails)
+        public async Task<bool> EditCartDetailAsync(CartDetails cartDetails)
         {
             try
             {
                 var httpClient = new HttpClient();
-                string apiURL = $"https://localhost:7165/api/CartDetail/{id}?SoLuong={cartDetails.SoLuong}&GiaKhuyenMai={cartDetails.GiaKhuyenMai}&TrangThai={cartDetails.TrangThai}";
+                string apiURL = $"https://localhost:7165/api/CartDetail/{cartDetails.ID}?SoLuong={cartDetails.SoLuong}&GiaKhuyenMai={cartDetails.GiaKhuyenMai}&TrangThai={cartDetails.TrangThai}";
                 var response = await httpClient.PutAsync(apiURL, null);
                 if (response.IsSuccessStatusCode)
                 {
@@ -78,24 +79,26 @@ namespace App_View.Services
             }
         }
 
+        
+
         public async Task<CartDetails> GetCartDetailByIdAsync(Guid id)
         {
             var httpClient = new HttpClient();
             return await httpClient.GetFromJsonAsync<CartDetails>($"https://localhost:7165/api/CartDetail/{id}");
         }
 
-        public async Task<List<CartDetails>> GetCartDetailsAsync()
+        public async Task<List<CartViewModel>> GetCartDetailsAsync()
         {
             try
             {
-                var httpClient = new HttpClient();
-                string apiURL = "https://localhost:7165/api/CartDetail";
-                var response = await httpClient.GetAsync(apiURL);
+                string apiUrl = "https://localhost:7165/api/CartDetail";
+                HttpClient client = new HttpClient();
+                var response = await client.GetAsync(apiUrl);
                 if (response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var cartDetails = JsonConvert.DeserializeObject<List<CartDetails>>(content);
-                    return cartDetails;
+                    var apidata = await response.Content.ReadAsStringAsync();
+                    List<CartViewModel> lstBill = JsonConvert.DeserializeObject<List<CartViewModel>>(apidata);
+                    return lstBill;
                 }
                 else
                 {
