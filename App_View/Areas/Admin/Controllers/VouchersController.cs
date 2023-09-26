@@ -11,6 +11,8 @@ using App_View.Services;
 using App_Data.IRepositories;
 using App_Data.Repositories;
 using X.PagedList;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace App_View.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -24,28 +26,38 @@ namespace App_View.Areas.Admin.Controllers
             typeProductRepo = new TypeProductRepo();
         }
 
-        public async Task<IActionResult> ShowAllVoucher(int? page, string searchString)
+        public async Task<IActionResult> ShowAllVoucher(int? page, string searchString, int trangThai)
         {
-            int pageSize = 5;
+            int pageSize = 8;
             int pageNumber = page ?? 1;
-
             var voucherList = await voucherServices.GetAllAsync();
 
-            // Áp dụng tìm kiếm nếu có giá trị searchString
-            if (!string.IsNullOrEmpty(searchString))
+            // Lọc theo trạng thái nếu đã chọn
+            if (trangThai != -1)
             {
-                voucherList = voucherList.Where(v => v.Ma.Contains(searchString)).ToList();
+                voucherList = voucherList.Where(v => v.TrangThai == trangThai).ToList();
             }
 
-            var pagedVouchers = voucherList.OrderByDescending(a => a.Ma).ToPagedList(pageNumber, pageSize);
+            searchString = searchString?.ToLower();
+
+            // Lọc theo chuỗi tìm kiếm nếu có
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                voucherList = voucherList
+                    .Where(c => c.Ma.ToLower().Contains(searchString) || c.LoaiHinhKm.ToLower().Contains(searchString))
+                    .ToList();
+            }
+
+            // Sử dụng ToPagedList để tạo danh sách phân trang
+            IPagedList<Voucher> pagedVouchers = voucherList.OrderByDescending(a => a.Ma)
+                .ToPagedList(pageNumber, pageSize);
 
             ViewBag.VoucherList = pagedVouchers;
             ViewBag.VoucherPage = pageNumber;
-            ViewBag.SearchString = searchString; // Truyền searchString vào ViewBag để hiển thị trong view
+            ViewBag.SearchString = searchString;
 
             return View();
         }
-
         public async Task<ActionResult> Create()
         {
             ViewBag.TypeProduct = new SelectList(typeProductRepo.GetAllProductType(), "Id", "Ten");
@@ -64,6 +76,10 @@ namespace App_View.Areas.Admin.Controllers
             return View();
 
         }
+
+
+
+
         public async Task<ActionResult> Edit(Guid id)
         {
             var a = (await voucherServices.GetAllAsync()).FirstOrDefault(c => c.Id == id);

@@ -10,7 +10,7 @@
 <!-- Hiển thị danh sách voucher -->
 <style>
     .table {
-        width: 100%;
+        width: auto%;
         border-collapse: collapse;
     }
 
@@ -29,16 +29,16 @@
             background-color: #f5f5f5;
         }
 
-    h3 {
-        text-align: center;
-        margin-top: 20px;
-    }
+        h3 {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
 
         .pagination .pagination-link {
             display: inline-block;
@@ -50,15 +50,20 @@
             text-decoration: none;
             transition: background-color 0.3s ease;
         }
-
-            .pagination .pagination-link:hover {
+        .pagination .pagination-link:hover {
                 background-color: #ddd;
-            }
+        }
 
-            .pagination .pagination-link.active {
+        .pagination .pagination-link.active {
                 background-color: #007bff;
                 color: #fff;
-            }
+        }
+
+        .scrollable-content {
+            overflow-y: auto; /* Tạo thanh cuộn dọc khi cần */
+            max-height: auto; /* Điều chỉnh chiều cao tối đa của phần tử trước khi thanh cuộn xuất hiện */
+        }
+
 </style>
 <h1>ShowAllVoucher</h1>
 
@@ -66,13 +71,25 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-@using (Html.BeginForm("ShowAllVoucher", "ControllerName", FormMethod.Get))
-{
-    <div class="search-container">
-        <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Tìm kiếm...">
-        <button type="submit"><i class="fa fa-search"></i></button>
+<form class="d-flex" action="@Url.Action("ShowAllVoucher", "Vouchers")" method="get">
+    <div style="display: flex;">
+        <input id="search-input" name="searchString" placeholder="Tìm kiếm..." value="@ViewBag.SearchString" class="form-control me-2" type="search">
+        <!-- Thêm trường cho lựa chọn trạng thái -->
+        <select id="trangThai" name="trangThai" >
+            <option value="-1" >Tất cả</option>
+            <option value="0">Hoạt động</option>
+            <option value="1">Sắp hoạt động</option>
+            <option value="2">Hết hiệu lực</option>
+            <!-- Thêm các trạng thái khác nếu cần -->
+        </select>
+        <button type="submit" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
     </div>
-}
+</form>
+
+<div class="scrollable-content">
+    <!-- Nội dung dài ở đây -->
+
+
 <table class="table">
     <thead>
         <tr>
@@ -153,10 +170,20 @@
         }
     </tbody>
 
-    <h3>     
-        @Html.PagedListPager((IPagedList)ViewBag.VoucherList, page =>Url.Action("ShowAllVoucher", new { page, searchString = ViewBag.SearchString }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
-    </h3>
+    <h4>
+        @Html.PagedListPager((IPagedList)ViewBag.VoucherList, page => Url.Action("ShowAllVoucher", new { page, searchString = ViewBag.SearchString }), new PagedListRenderOptions
+        {
+        Display = PagedListDisplayMode.IfNeeded,
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" },
+        UlElementClasses = new string[] { "pagination", "justify-content-center" },
+        // Đổi tên nút "Previous" và "Next" tại đây
+        LinkToPreviousPageFormat = "Trước",
+        LinkToNextPageFormat = "Tiếp theo"
+        })
+    </h4>
 
 
 </table>
 <!-- Hiển thị phân trang -->
+</div>
