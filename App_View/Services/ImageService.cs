@@ -16,37 +16,37 @@ namespace App_View.Services
 
         public async Task CreatImage(Guid idProductDetail, List<IFormFile> lstIFormFile)
         {
-            try
-            {
-                using (var content = new MultipartFormDataContent())
+                try
                 {
-                    content.Add(new StringContent(idProductDetail.ToString()), "idProductDetail");
-
-                    foreach (var file in lstIFormFile)
+                    using (var content = new MultipartFormDataContent())
                     {
-                        var streamContent = new StreamContent(file.OpenReadStream());
-                        content.Add(streamContent, "lstIFormFile", file.FileName);
-                    }
+                        content.Add(new StringContent(idProductDetail.ToString()), "idProductDetail");
 
-                    var response = await _httpClient.PostAsync("/api/Image/create-list-image", content);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("Delete successful. Response: " + responseContent);
-                    }
-                    else
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("Delete failed. Response: " + responseContent);
-                    }
+                        foreach (var file in lstIFormFile)
+                        {
+                            var streamContent = new StreamContent(file.OpenReadStream());
+                            content.Add(streamContent, "lstIFormFile", file.FileName);
+                        }
 
+                        var response = await _httpClient.PostAsync("/api/Image/create-list-image", content);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var responseContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine("Delete successful. Response: " + responseContent);
+                        }
+                        else
+                        {
+                            var responseContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine("Delete failed. Response: " + responseContent);
+                        }
+
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace); ;
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace); ;
+                }       
             
         }
 
@@ -75,7 +75,7 @@ namespace App_View.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace); // In stack trace để biết vị trí lỗi cụ thể
+                Console.WriteLine(ex.StackTrace); 
             }
         }
     }
