@@ -7,6 +7,7 @@ namespace App_Data.Models
     public partial class Voucher
     {
         public Guid Id { get; set; }
+        public string? Ten { get; set; }
         public string? Ma { get; set; }
         [Required(ErrorMessage = "Phải chọn loại hình")]
         public string? LoaiHinhKm { get; set; }

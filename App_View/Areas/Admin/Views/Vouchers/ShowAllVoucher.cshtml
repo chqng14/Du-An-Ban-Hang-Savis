@@ -1,4 +1,5 @@
-﻿@using X.PagedList.Mvc.Core
+﻿@using App_Data.Models;
+@using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common;
 @using X.PagedList;
 @model IEnumerable<App_Data.Models.Voucher>
@@ -70,13 +71,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
 <form class="d-flex" action="@Url.Action("ShowAllVoucher", "Vouchers")" method="get">
     <div style="display: flex;">
         <input id="search-input" name="searchString" placeholder="Tìm kiếm..." value="@ViewBag.SearchString" class="form-control me-2" type="search">
         <!-- Thêm trường cho lựa chọn trạng thái -->
-        <select id="trangThai" name="trangThai" >
-            <option value="-1" >Tất cả</option>
+        <select id="trangThai" name="trangThai">
+            <option value="-1">Tất cả</option>
             <option value="0">Hoạt động</option>
             <option value="1">Sắp hoạt động</option>
             <option value="2">Hết hiệu lực</option>
@@ -96,6 +96,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ma)
             </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ten)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.LoaiHinhKm)
             </th>
@@ -127,12 +130,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in ViewBag.VoucherList)
-        {
+            @foreach (var item in (IPagedList<Voucher>)ViewBag.VoucherList)
+            {
             <tr>
                 <td>
                     @item.Ma
                 </td>
+                    <td>
+                        @item.Ten
+                    </td>
                 <td>
                     @item.LoaiHinhKm
                 </td>
@@ -157,13 +163,25 @@
                 <td>
                     @item.NgayKetThuc
                 </td>
+                    <td>
+                            @if (item.TrangThai == 0)
+                            {
+                            <span>Hoạt động</span>
+                            }
+                            else if (item.TrangThai == 1)
+                            {
+                            <span>Sắp hoạt động</span>
+                            }
+                            else
+                            {
+                            <span>Hết hiệu lực</span>
+                            }
+                    </td>
+
                 <td>
-                    @item.TrangThai
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit <i class="anticon anticon-edit"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details <i class="anticon anticon-eye"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete <i class="anticon anticon-delete"></i></a>
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="anticon anticon-edit"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id"><i class="anticon anticon-eye"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="anticon anticon-delete"></i></a>
                 </td>
             </tr>
             <!-- Hiển thị các thông tin khác của voucher -->
@@ -187,3 +205,20 @@
 </table>
 <!-- Hiển thị phân trang -->
 </div>
+@* 
+ <script>
+    var currentPath = window.location.pathname;
+    var searchInput = document.getElementById("search-input");
+    var debounceTimer;
+
+    searchInput.addEventListener("input", function () {
+        clearTimeout(debounceTimer); // Hủy bỏ bất kỳ lệnh debounce nào đang chờ
+        debounceTimer = setTimeout(function () {
+            var searchString = searchInput.value;
+            var trangThai = document.getElementById("trangThai").value;
+            var newUrl = currentPath + "?page=1&searchString=" + searchString + "&trangThai=" + trangThai;
+            window.location.href = newUrl;
+        }, 2000); // Đợi 500ms sau khi người dùng kết thúc nhập liệu trước khi thực hiện tìm kiếm
+    });
+</script>
+ *@

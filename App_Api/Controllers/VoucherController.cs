@@ -31,22 +31,29 @@ namespace App_Api.Controllers
         {
             return allRepo.GetAll().FirstOrDefault(c => c.Ma == ma);
         }
-        [HttpPost("AddVoucher")]
-        public bool AddVoucher(string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
+
+        private string GenerateRandomVoucherCode()
         {
-            string ma;
-            if (allRepo.GetAll().Count() == null)
-            {
-                ma = "VC1";
-            }
-            else
-            {
-                ma = "VC" + (allRepo.GetAll().Count() + 1);
-            }
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+
+            string voucherCode = new string(Enumerable.Repeat(chars, 6)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            return voucherCode;
+        }
+
+
+        [HttpPost("AddVoucher")]
+        public bool AddVoucher(string ten, string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
+        {
+            string randomVoucherCode = GenerateRandomVoucherCode();
+
             var voucher = new Voucher()
             {
                 Id = Guid.NewGuid(),
-                Ma = ma,
+                Ten = ten,
+                Ma = randomVoucherCode,
                 LoaiHinhKm = loaihinhkm,
                 MucUuDai = mucuudai,
                 PhamVi = phamvi,
@@ -60,11 +67,12 @@ namespace App_Api.Controllers
             return allRepo.AddItem(voucher);
         }
         [HttpPut("{id}")]
-        public bool UpdateVoucher(Guid id, string ma, string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
+        public bool UpdateVoucher(Guid id, string ten, string ma, string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
         {
             var voucher = new Voucher()
             {
                 Id = id,
+                Ten = ten,
                 Ma = ma,
                 LoaiHinhKm = loaihinhkm,
                 MucUuDai = mucuudai,

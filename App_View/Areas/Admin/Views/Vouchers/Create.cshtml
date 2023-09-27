@@ -20,6 +20,15 @@
             <div class="form-layout">
                 <div class="row mg-b-25">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <!-- TextBox input tên-->
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="form-control-label">Tên: <span class="tx-danger">*</span></label>
+                            <input asp-for="Ten" id="Ten" class="form-control" />
+                            <span asp-validation-for="Ten" class="text-danger"></span>
+                        </div>
+                    </div>
+
                     <!-- CBB Chọn lại hình khuyến mãi-->
                     <div class="form-group mg-b-10-force">
                         <label class="form-control-label">Loại hình: <span class="tx-danger">*</span></label>
