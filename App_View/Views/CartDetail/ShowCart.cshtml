@@ -1,0 +1,561 @@
+﻿@model IEnumerable<App_Data.ViewModel.CartViewModel>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_ProductsShop.cshtml";
+}
+}
+
+<!--<section class=" h-custom">
+    <div class="container ">
+        <div class="row d-flex justify-content-center align-items-center ">
+            <div class="col">
+                <div class="table-responsive" style="margin-bottom:20px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="h5">GIỎ HÀNG</th>
+                                <th scope="col">Thể loại</th>
+                                <th scope="col">Giá bán</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Tạm tính</th>
+                                <th scope="col">
+                                    <a asp-controller="Cart" asp-action="DeleteAll" class="color">Xoá tất cả</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var total = item.GiaBan * item.SoLuongCart;
+                                <tr data-row-id="{{@item.Id}}">
+                                    <th scope="row">
+                                        <div class="d-flex align-items-center">
+                                            <img src="~/assets//images/others/@item.LinkImage" class="img-fluid rounded-3"
+                                                 style="width: 120px;">
+                                            <div class="flex-column ms-4">
+                                                <p class="mb-2">
+                                                    <a style="text-decoration: none; font-size: 15px;">@Html.ActionLink(item.Name + "-" + item.Color + "-" + item.Size, "ChiTietSP", "Home", new { id = item.IdProduct }, new { @class = "color" })</a>
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td class="align-middle">
+                                        <p class="mb-0" style="font-weight: 500; font-size: 15px;">@item.Material</p>
+                                    </td>
+                                    <td class="align-middle">
+                                        <p class="mb-0" style="font-weight: 500; font-size: 15px;" name="giaBan">
+
+                                            @string.Format("{0:N0}đ", item.GiaBan)
+
+                                        </p>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="d-flex flex-row">
+                                            <input min="0" name="quantity" value="@item.SoLuongCart" data-product-id="@item.IdProduct" data-cart-id="@item.Id" type="number" class="form-control form-control-sm soLuongDonHang" style="width: 60px; height: 10px" />
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <p class="mb-0" style="font-weight: 500; font-size: 15px;">
+                                            <span id="giaban_@item.Id" name="tong">@string.Format("{0:N0}đ", item.GiaBan * item.SoLuongCart)</span>
+                                        </p>
+                                    </td>
+                                    <td class="align-middle">
+                                        <p class="mb-0" style="font-weight: 500; font-size: 15px;">
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "color" })
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    <div style="text-align: right;">
+                        <input id="voucherinput" style="font-size: 15px;border-radius:10px;border-color:#0d6efd;" placeholder="Mã giảm giá" name="voucher" oninput="voucher(this.value)"><br />
+                        <label id="textvoucher" style="color:red"></label>
+                    </div>
+                </div>
+
+                <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;">
+                    <div class="card-body p-4">
+                        <form asp-action="Pay" asp-controller="Bill">
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0">
+
+                                    <div class="d-flex flex-row pb-3">
+                                        <div class="d-flex align-items-center pe-2">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel"
+                                                   id="radioNoLabel1v" value="" aria-label="..." checked />
+                                        </div>
+                                        <div class="rounded border w-100 p-3">
+                                            <p class="d-flex align-items-center mb-0" style="font-size: 15px;">
+                                                <i class="fab fa-cc-mastercard fa-2x text-dark pe-2">
+
+                                                </i>Thẻ Tín dụng/Ghi nợ
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row pb-3">
+                                        <div class="d-flex align-items-center pe-2">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel"
+                                                   id="radioNoLabel2v" value="" aria-label="..." />
+                                        </div>
+                                        <div class="rounded border w-100 p-3">
+                                            <p class="d-flex align-items-center mb-0" style="font-size: 15px;">
+                                                <i class="fab fa-cc-visa fa-2x fa-lg text-dark pe-2">
+
+                                                </i>Momo
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row">
+                                        <div class="d-flex align-items-center pe-2">
+                                            <input class="form-check-input" type="radio" name="radioNoLabel"
+                                                   id="radioNoLabel3v" value="" aria-label="..." />
+                                        </div>
+                                        <div class="rounded border w-100 p-3">
+                                            <p class="d-flex align-items-center mb-0" style="font-size: 15px;">
+                                                <i class="fab fa-cc-paypal fa-2x fa-lg text-dark pe-2">
+
+                                                </i>COD
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-6 col-lg-4 col-xl-6">
+                                    <div class="row">
+                                        <div class="col-12 col-xl-12">
+                                            <div class="form-outline mb-4 mb-xl-5">
+                                                <input type="text" name="name" class="form-control form-control-lg"
+                                                       siez="17" placeholder="Họ và Tên" required />
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-12 col-xl-6">
+                                            <div class="form-outline mb-4 mb-xl-5" style="margin-top:-10px">
+                                                <input type="email" id="typeText" class="form-control form-control-lg"
+                                                       siez="17" placeholder="Email" />
+                                            </div>
+                                            <select id="tinh" class="select2" style="margin-right:30px;margin-top:-20px" required>
+                                            </select>
+                                            <select id="phuongXa" class="select2" style="margin-right:30px;margin-top:20px">
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-xl-6">
+                                            <div class="form-outline mb-4 mb-xl-5" style="margin-top:-10px">
+                                                <input type="number" name="phone" class="form-control form-control-lg"
+                                                       placeholder="SĐT" size="7" minlength="10" maxlength="10" required />
+                                            </div>
+                                            <select id="quanHuyen" class="select2" style="margin-right:30px;margin-top:-20px" required>
+                                            </select>
+                                            <select id="dichvu" class="select2" style="margin-right:30px;margin-top:20px" required>
+                                            </select>
+                                        </div>-->
+                                        @*<div class="col-12 col-xl-6">
+                                                <div class="d-flex" style="margin-top:20px">
+                                                    <select id="phuongXa" class="select2" style="margin-right:30px">
+                                                    </select>
+
+                                                    <select id="dichvu" class="select2">
+                                                    </select>
+
+                                                </div>
+                                            </div>*@
+                                        <!--<div class="col-12 col-xl-12" style="margin-top:20px">
+                                            <div class="form-outline mb-8 mb-xl-10">
+                                                <input type="text" name="address" class="form-control form-control-lg"
+                                                       size="17" placeholder="Địa chỉ chi tiết" style="height: 60px;" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-xl-3">
+
+                                    <div class="d-flex justify-content-between" style="font-weight: 500;">
+                                        <p class="mb-2" style="font-size: 15px;">Tạm tính</p>
+                                        <p class="mb-2" style="font-size: 15px;" id="giahang">@string.Format("{0:N0}đ", Model.Sum(x => x.SoLuongCart * x.GiaBan))</p>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between" style="font-weight: 500;">
+                                        <p class="mb-0" style="font-size: 15px;">Shipping</p>
+                                        <input name="phiship" id="divShippingFee1" hidden />
+                                        <p class="mb-0" style="font-size: 15px;" id="divShippingFee">0đ</p>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between" style="font-weight: 500;" id="voucherDiv">
+                                        <p class="mb-0" style="font-size: 15px;">Voucher</p>
+                                        <p class="mb-0" style="font-size: 15px;" id="vouc">0đ</p>
+                                        <input name="voucher1" id="voucher1" value="Vouc11" hidden />
+                                    </div>
+
+                                    <hr class="my-4">
+
+
+                                    <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                                        <p class="mb-2" style="font-size: 15px;">Tổng</p>
+                                        <input class="mb-2" style="font-size: 15px;border:none" name="tongtien" id="totalAmount" hidden><p id="totalAmount1">@string.Format("{0:N0}đ", Model.Sum(x => x.SoLuongCart * x.GiaBan)) </p>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark" onclick="kiemTraTuyChon()" style="width:100%;height:50px">
+
+                                        Thanh toán
+
+                                    </button>
+
+
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>-->
+
+<div class="container">
+    <div class="row ">
+        <!-- =====  BANNER STRAT  ===== -->
+        <div class="col-sm-12">
+            <div class="breadcrumb ptb_20">
+                <h1>Shopping Cart</h1>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active">Shopping Cart</li>
+                </ul>
+            </div>
+        </div>
+        <!-- =====  BREADCRUMB END===== -->
+        <div id="column-left" class="col-sm-4 col-lg-3 hidden-xs">
+            @await Component.InvokeAsync("TopCategory")
+            <div class="left_banner left-sidebar-widget mb_50 mt_30"> <a href="#"><img src="/images/left1.jpg" alt="Left Banner" class="img-responsive" /></a> </div>
+            <div class="left-special left-sidebar-widget mb_50">
+                <div class="heading-part mb_20 ">
+                    <h2 class="main_title">Top Products</h2>
+                </div>
+                <div id="left-special" class="owl-carousel">
+                    <ul class="row ">
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product1.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product1-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product2.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product2-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product3.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product3-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="row ">
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product4.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product4-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product5.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product5-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product6.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product6-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="row ">
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product7.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product7-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product8.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product8-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product9.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product9-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="row ">
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product10.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product10-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product1.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product1-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item product-layout-left mb_20">
+                            <div class="product-list col-xs-4">
+                                <div class="product-thumb">
+                                    <div class="image product-imageblock"> <a href="product_detail_page.html"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product2.jpg"> <img class="img-responsive" title="iPod Classic" alt="iPod Classic" src="/images/product/product2-1.jpg"> </a> </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div class="caption product-detail">
+                                    <h6 class="product-name"><a href="#">New LCDScreen and HD Video Recording</a></h6>
+                                    <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
+                                    <span class="price">
+                                        <span class="amount"><span class="currencySymbol">$</span>70.00</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-lg-9 mtb_20">
+            <form enctype="multipart/form-data" method="post" action="#">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td class="text-center">#</td>
+                                <td class="text-left">Sản phẩm</td>
+                                <td class="text-left">Thể loại</td>
+                                <td class="text-left">Giá bán</td>
+                                <td class="text-right">Số lượng</td>
+                                <td class="text-right">Tổng giá</td>
+                                <td class="text-right">Xóa</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var total = item.GiaBan * item.SoLuongCart;
+                                <tr data-row-id="{{@item.Id}}">
+                                    <td class="text-center" style="margin-top: auto; margin-bottom: auto;"><a href="#"><img src="~/assets//images/others/@item.LinkImage" alt="iPod Classic" title="iPod Classic"></a></td>
+                                    <td class="text-left" style="margin-top: auto; margin-bottom: auto;"><a href="product.html">@Html.ActionLink(item.Name + "-" + item.Color + "-" + item.Size, "ChiTietSP", "Home", new { id = item.IdProduct }, new { @class = "color" })</a></td>
+                                    <td class="text-left" style="margin-top: auto; margin-bottom: auto;">@item.Material</td>
+                                    <td class="text-left" style="margin-top: auto; margin-bottom: auto;">
+                                        <div style="max-width: 200px;" class="input-group btn-block">
+                                            <input type="number" min="0" name="quantity" value="@item.SoLuongCart" data-product-id="@item.IdProduct" data-cart-id="@item.Id" class="form-control quantity" size="1" value="1" name="quantity">
+                                            <span class="input-group-btn">
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-right" style="margin-top: auto; margin-bottom: auto;">@string.Format("{0:N0}đ", item.GiaBan)</td>
+                                    <td class="text-right" style="margin-top: auto; margin-bottom: auto;">@string.Format("{0:N0}đ", item.GiaBan * item.SoLuongCart)</td>
+                                    <td class="text-center" style="margin-top: auto; margin-bottom: auto;">
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "fa fa-trash color" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+            <div class="panel-group mt_20" id="accordion">
+                <div class="panel panel-default pull-left">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Sử dụng mã giảm giá <i class="fa fa-caret-down"></i></a></h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="input-coupon" placeholder="Nhập phiếu giảm giá của bạn ở đây" value="" name="coupon">
+                                <span class="input-group-btn">
+                                    <input type="button" class="btn" data-loading-text="Loading..." id="button-coupon" value="Áp dụng" style="height: 38px;
+                  border-radius: 5px;">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-8">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="text-right"><strong>Tổng giá:</strong></td>
+                                <td class="text-right">$210.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>Số tiền giảm:</strong></td>
+                                <td class="text-right">$2.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>Phí ship:</strong></td>
+                                <td class="text-right">$42.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right"><strong>Tổng:</strong></td>
+                                <td class="text-right">$254.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <form action="">
+                <input class="btn pull-left mt_30" type="submit" value="Quay lại Shop" />
+            </form>
+            <form action="">
+                <input class="btn pull-right mt_30" type="submit" value="Thanh toán" />
+            </form>
+        </div>
+    </div>
+    <div id="brand_carouse" class="ptb_30 text-center">
+        <div class="type-01">
+            <div class="heading-part mb_20 ">
+                <h2 class="main_title">Brand Logo</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="brand owl-carousel ptb_20">
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand1.png" alt="Disney" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand2.png" alt="Dell" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand3.png" alt="Harley" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand4.png" alt="Canon" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand5.png" alt="Canon" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand6.png" alt="Canon" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand7.png" alt="Canon" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand8.png" alt="Canon" class="img-responsive" /></a> </div>
+                        <div class="item text-center"> <a href="#"><img src="/images/brand/brand9.png" alt="Canon" class="img-responsive" /></a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
