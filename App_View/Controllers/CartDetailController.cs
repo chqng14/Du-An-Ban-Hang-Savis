@@ -43,6 +43,12 @@ namespace App_View.Controllers
             return View(a);
         }
 
+        public async Task<ActionResult> CheckOut()
+        {
+            var a = (await cartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == Guid.Parse("36668394-764E-71F5-D3BE-278C8C20C8A1")).ToList();
+            return View(a);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddToCartUser(CartViewModel model)
         {
