@@ -1,224 +1,143 @@
-﻿@using App_Data.Models;
-@using X.PagedList.Mvc.Core
-@using X.PagedList.Web.Common;
-@using X.PagedList;
-@model IEnumerable<App_Data.Models.Voucher>
+﻿@model IEnumerable<App_Data.Models.Voucher>
 
 @{
     ViewData["Title"] = "ShowAllVoucher";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<!-- Hiển thị danh sách voucher -->
-<style>
-    .table {
-        width: auto%;
-        border-collapse: collapse;
-    }
 
-        .table th,
-        .table td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .table th {
-            background-color: #f2f2f2;
-        }
-
-        .table tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        h3 {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .pagination .pagination-link {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 0 2px;
-            border-radius: 4px;
-            background-color: #f2f2f2;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .pagination .pagination-link:hover {
-                background-color: #ddd;
-        }
-
-        .pagination .pagination-link.active {
-                background-color: #007bff;
-                color: #fff;
-        }
-
-        .scrollable-content {
-            overflow-y: auto; /* Tạo thanh cuộn dọc khi cần */
-            max-height: auto; /* Điều chỉnh chiều cao tối đa của phần tử trước khi thanh cuộn xuất hiện */
-        }
-
-</style>
-<h1>ShowAllVoucher</h1>
+<h1>Voucher</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form class="d-flex" action="@Url.Action("ShowAllVoucher", "Vouchers")" method="get">
-    <div style="display: flex;">
-        <input id="search-input" name="searchString" placeholder="Tìm kiếm..." value="@ViewBag.SearchString" class="form-control me-2" type="search">
-        <!-- Thêm trường cho lựa chọn trạng thái -->
-        <select id="trangThai" name="trangThai">
-            <option value="-1">Tất cả</option>
-            <option value="0">Hoạt động</option>
-            <option value="1">Sắp hoạt động</option>
-            <option value="2">Hết hiệu lực</option>
-            <!-- Thêm các trạng thái khác nếu cần -->
-        </select>
-        <button type="submit" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-    </div>
-</form>
-
-<div class="scrollable-content">
-    <!-- Nội dung dài ở đây -->
-
-
-<table class="table">
+<table id="data-table" class="table" style="text-align:center">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Ma)
-            </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Ten)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoaiHinhKm)
+                Mã Voucher
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MucUuDai)
+                Tên
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhamVi)
+                Loại hình
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DieuKien)
+                Mức ưu đãi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SoLuongTon)
+                Phạm vi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SoLanSuDung)
+                Điều kiện
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayBatDau)
+                Số lượng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayKetThuc)
+                Số lần đẫ sử dụng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
+                Ngày bắt đầu
+            </th>
+            <th>
+                Ngày kết thúc
+            </th>
+            <th>
+              Trạng thái
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-            @foreach (var item in (IPagedList<Voucher>)ViewBag.VoucherList)
-            {
-            <tr>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ma)
+            </td>
                 <td>
-                    @item.Ma
+                    @Html.DisplayFor(modelItem => item.Ten)
                 </td>
-                    <td>
-                        @item.Ten
-                    </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiHinhKm)
+            </td>
                 <td>
-                    @item.LoaiHinhKm
+                    @if (item.LoaiHinhKm == 1)
+                    {
+                        int mucUuDai = int.Parse(item.MucUuDai.ToString());
+                        string mucUuDaiPhanTram = mucUuDai.ToString() + "%";
+                        @mucUuDaiPhanTram
+                    }
+                    else
+                    {
+                        int mucUuDai = int.Parse(item.MucUuDai.ToString());
+                        string mucUuDaiVND = mucUuDai.ToString("C0"); // Định dạng giá trị thành tiền VND.
+                        @mucUuDaiVND
+                    }
                 </td>
-                <td>
-                    @item.MucUuDai
-                </td>
-                <td>
-                    @item.PhamVi
-                </td>
-                <td>
-                    @item.DieuKien
-                </td>
-                <td>
-                    @item.SoLuongTon
-                </td>
-                <td>
-                    @item.SoLanSuDung
-                </td>
-                <td>
-                    @item.NgayBatDau
-                </td>
-                <td>
-                    @item.NgayKetThuc
-                </td>
-                    <td>
-                            @if (item.TrangThai == 0)
-                            {
-                            <span>Hoạt động</span>
-                            }
-                            else if (item.TrangThai == 1)
-                            {
-                            <span>Sắp hoạt động</span>
-                            }
-                            else
-                            {
-                            <span>Hết hiệu lực</span>
-                            }
-                    </td>
-
-                <td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhamVi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DieuKien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongTon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLanSuDung)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayBatDau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayKetThuc)
+            </td>
+            <td>
+                    @if (item.TrangThai == 0)
+                    {
+                        <span>Hoạt động</span>
+                    }
+                    else if (item.TrangThai == 1)
+                    {
+                        <span>Không hoạt động</span>
+                    }
+                    else if(item.TrangThai==2)
+                    {
+                        <span>Chưa bắt đầu</span>
+                    }
+                    else if (item.TrangThai == 3)
+                    {
+                        <span>Số lượng voucher đã hết</span>
+                    }
+                    else
+                    {
+                        item.TrangThai.ToString();
+                    }
+            </td>
+            <td>
                     <a asp-action="Edit" asp-route-id="@item.Id"><i class="anticon anticon-edit"></i></a> |
                     <a asp-action="Details" asp-route-id="@item.Id"><i class="anticon anticon-eye"></i></a> |
                     <a asp-action="Delete" asp-route-id="@item.Id"><i class="anticon anticon-delete"></i></a>
-                </td>
-            </tr>
-            <!-- Hiển thị các thông tin khác của voucher -->
-        }
+            </td>
+        </tr>
+}
     </tbody>
-
-    <h4>
-        @Html.PagedListPager((IPagedList)ViewBag.VoucherList, page => Url.Action("ShowAllVoucher", new { page, searchString = ViewBag.SearchString }), new PagedListRenderOptions
-        {
-        Display = PagedListDisplayMode.IfNeeded,
-        LiElementClasses = new string[] { "page-item" },
-        PageClasses = new string[] { "page-link" },
-        UlElementClasses = new string[] { "pagination", "justify-content-center" },
-        // Đổi tên nút "Previous" và "Next" tại đây
-        LinkToPreviousPageFormat = "Trước",
-        LinkToNextPageFormat = "Tiếp theo"
-        })
-    </h4>
-
-
 </table>
-<!-- Hiển thị phân trang -->
-</div>
-@* 
- <script>
-    var currentPath = window.location.pathname;
-    var searchInput = document.getElementById("search-input");
-    var debounceTimer;
 
-    searchInput.addEventListener("input", function () {
-        clearTimeout(debounceTimer); // Hủy bỏ bất kỳ lệnh debounce nào đang chờ
-        debounceTimer = setTimeout(function () {
-            var searchString = searchInput.value;
-            var trangThai = document.getElementById("trangThai").value;
-            var newUrl = currentPath + "?page=1&searchString=" + searchString + "&trangThai=" + trangThai;
-            window.location.href = newUrl;
-        }, 2000); // Đợi 500ms sau khi người dùng kết thúc nhập liệu trước khi thực hiện tìm kiếm
-    });
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table').DataTable()
+    }
 </script>
- *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/Admin_assets/js/pages/e-commerce-order-list.js"></script>
+    <script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js" defer></script>
+    <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+    <script src="~/Admin_assets/js/pages/datatables.js" defer></script>
+}

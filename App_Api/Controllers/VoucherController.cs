@@ -12,6 +12,7 @@ namespace App_Api.Controllers
     public class VoucherController : Controller
     {
         private readonly IAllRepo<Voucher> allRepo;
+        private readonly IVoucherRepo voucherRepo;
         DbContextModel DbContextModel = new DbContextModel();
         DbSet<Voucher> vouchers;
 
@@ -19,6 +20,7 @@ namespace App_Api.Controllers
         {
             vouchers = DbContextModel.Vouchers;
             AllRepo<Voucher> all = new AllRepo<Voucher>(DbContextModel, vouchers);
+            voucherRepo = new VoucherRepo();
             allRepo = all;
         }
         [HttpGet("GetVoucher")]
@@ -45,7 +47,7 @@ namespace App_Api.Controllers
 
 
         [HttpPost("AddVoucher")]
-        public bool AddVoucher(string ten, string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
+        public bool AddVoucher(string ten, int loaihinhkm, decimal mucuudai, string phamvi, int dieukien, int soluongton, DateTime ngaybatdau, DateTime ngayketthuc)
         {
             string randomVoucherCode = GenerateRandomVoucherCode();
 
@@ -58,16 +60,23 @@ namespace App_Api.Controllers
                 MucUuDai = mucuudai,
                 PhamVi = phamvi,
                 DieuKien = dieukien,
+                SoLanSuDung = 0,
                 SoLuongTon = soluongton,
-                SoLanSuDung = solansudung,
                 NgayBatDau = ngaybatdau,
                 NgayKetThuc = ngayketthuc,
-                TrangThai = trangthai
             };
+            if (voucher.NgayBatDau > DateTime.Now)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.ChuaBatDau;
+            }
+            if (voucher.NgayBatDau <= DateTime.Now)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.HoatDong;
+            }
             return allRepo.AddItem(voucher);
         }
         [HttpPut("{id}")]
-        public bool UpdateVoucher(Guid id, string ten, string ma, string loaihinhkm, decimal mucuudai, string phamvi, string dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
+        public bool UpdateVoucher(Guid id, string ten, string ma, int loaihinhkm, decimal mucuudai, string phamvi, int dieukien, int soluongton, int solansudung, DateTime ngaybatdau, DateTime ngayketthuc, int trangthai)
         {
             var voucher = new Voucher()
             {
@@ -90,6 +99,15 @@ namespace App_Api.Controllers
         public bool DeleteVoucher(Guid id)
         {
             return allRepo.RemoveItem(allRepo.GetAll().FirstOrDefault(c => c.Id == id));
+        }
+        [HttpPut("UpdateExpiredVouchers")]
+        public bool UpdateExpiredVouchers()
+        {
+            var currentDate = DateTime.Today;
+            var expiredVouchers = allRepo.GetAll()
+                .Where(v => v.SoLuongTon == 0 && v.TrangThai != 3 || v.SoLanSuDung == v.SoLuongTon && v.TrangThai != 3 || v.NgayKetThuc < currentDate && v.TrangThai != 3)
+                .ToList();
+            return voucherRepo.EditAllVoucher(expiredVouchers);
         }
     }
 }
