@@ -8,40 +8,40 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label asp-for="TaiKhoan" class="control-label">Tài Khoản</label>
-            <input type="text" asp-for="TaiKhoan" class="form-control" id="inputEmail4" placeholder="Email">
+            <label asp-for="TaiKhoan" class="control-label">Tài khoản</label>
+            <input type="text" asp-for="TaiKhoan" class="form-control" id="inputEmail4" placeholder="tài khoản...">
             <span asp-validation-for="TaiKhoan" class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
-            <label asp-for="MatKhau" for="inputPassword4">Password</label>
+            <label asp-for="MatKhau" for="inputPassword4">Mật khẩu</label>
             <input type="password" asp-for="MatKhau" class="form-control" id="inputPassword4" placeholder="Password">
             <span asp-validation-for="MatKhau" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
-        <label for="inputAddress">Họ Và Tên</label>
-        <input type="text" asp-for="Ten" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        <label for="inputAddress">Họ và tên</label>
+        <input type="text" asp-for="Ten" class="form-control" id="inputAddress" placeholder="họ và tên...">
         <span asp-validation-for="Ten" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="inputAddress2" asp-for="DiaChi">Địa Chỉ</label>
-        <input type="text" class="form-control" asp-for="DiaChi" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        <label for="inputAddress2" asp-for="DiaChi">Địa chỉ</label>
+        <input type="text" class="form-control" asp-for="DiaChi" id="inputAddress2" placeholder="địa chỉ...">
         <span asp-validation-for="DiaChi" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="inputAddress">Họ Và Tên</label>
-        <input type="email" asp-for="Email" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        <span asp-validation-for="Ten" class="text-danger"></span>
+        <label for="inputAddress">Email</label>
+        <input type="email" asp-for="Email" class="form-control" id="inputAddress" placeholder="email...">
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label for="inputAddress2" asp-for="Sdt">Số Điện Thoại</label>
-        <input type="text" class="form-control" asp-for="Sdt" id="inputAddress2" placeholder="Apartment, studio, or floor">
+        <input type="text" class="form-control" asp-for="Sdt" id="inputAddress2" placeholder="số điện thoại...">
         <span asp-validation-for="Sdt" class="text-danger"></span>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="inputCity" asp-for="NgaySinh">Ngày Sinh</label>
-            <input type="datetime" class="form-control" asp-for="NgaySinh" id="inputCity">
+            <input type="date" class="form-control" asp-for="NgaySinh" id="inputCity">
             <span asp-validation-for="NgaySinh" class="text-danger"></span>
         </div>
         <div class="form-group col-md-4">
@@ -51,7 +51,8 @@
         </div>
         <div class="form-group col-md-2">
             <label for="inputZip">Giới Tính</label>
-            <select id="inputZip" asp-for="GioiTinh" class="form-control"><option>---Chức Vụ---</option>
+            <select id="inputZip" asp-for="GioiTinh" class="form-control">
+                <option>---Giới tính---</option>
                 <option value="0">Nam</option>
                 <option value="0">Nữ</option>
             </select>

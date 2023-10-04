@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App_Data", "DuAnBanHang_Savis\App_Data.csproj", "{77327399-6DA3-4148-904C-8936461EFAFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_Data", "DuAnBanHang_Savis\App_Data.csproj", "{77327399-6DA3-4148-904C-8936461EFAFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App_Api", "App_Api\App_Api.csproj", "{62D5E534-383F-4D80-A756-AC15173F74CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_Api", "App_Api\App_Api.csproj", "{62D5E534-383F-4D80-A756-AC15173F74CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App_View", "App_View\App_View.csproj", "{F7B1811E-6A52-4FD9-BC06-B84732BFF745}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_View", "App_View\App_View.csproj", "{F7B1811E-6A52-4FD9-BC06-B84732BFF745}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

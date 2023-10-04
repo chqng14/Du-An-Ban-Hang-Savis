@@ -240,14 +240,14 @@ namespace App_Api.Controllers
         [HttpGet("get-list-productdetail")]
         public IActionResult GetListProductDetail()
         {
-            var listProductDetailViewModel = _allRepoProductDetail.GetAll().Select(item => CreatProductViewModel(item)).ToList();
+            var listProductDetailViewModel = _allRepoProductDetail.GetAll().Where(sp=>sp.TrangThai==0).Select(item => CreatProductViewModel(item)).ToList();
             return new OkObjectResult(listProductDetailViewModel);
         }
 
         [HttpGet("get-list-productItemShop")]
         public List<ProductItemShopVM> GetListProductItemShop()
         {
-            var listProductVM = _allRepoProductDetail.GetAll().GroupBy(x => new { x.IdMaterial, x.IdProduct, x.IdTypeProduct }).Select(gr => gr.First()).ToList();
+            var listProductVM = _allRepoProductDetail.GetAll().Where(item=>item.TrangThai==0).GroupBy(x => new { x.IdMaterial, x.IdProduct, x.IdTypeProduct }).Select(gr => gr.First()).ToList();
             var lstItemShop = listProductVM.Select(item => CreatProductShop(item)).ToList();
             return lstItemShop;
         }
