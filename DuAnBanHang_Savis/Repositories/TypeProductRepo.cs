@@ -19,7 +19,6 @@ namespace App_Data.Repositories
         {
             // Sử dụng Entity Framework để truy vấn cơ sở dữ liệu
             return _dbContext.TypeProducts.ToList();
-
         }
     }
 }

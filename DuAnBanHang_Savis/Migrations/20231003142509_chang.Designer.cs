@@ -4,6 +4,7 @@ using App_Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(DbContextModel))]
-    partial class DbContextModelModelSnapshot : ModelSnapshot
+    [Migration("20231003142509_chang")]
+    partial class chang
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -547,9 +549,9 @@ namespace App_Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("DieuKien")
+                    b.Property<string>("DieuKien")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int?>("LoaiHinhKm")
                         .IsRequired()

@@ -11,8 +11,7 @@ namespace App_View.Services
         {
             try
             {
-
-                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
+                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?ten={item.Ten}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}";
                 var httpclient = new HttpClient();
                 var response = await httpclient.PostAsync(apiUrl, null);
 
@@ -37,7 +36,7 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Voucher/{item.Id}?ma={item.Ma}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLanSuDung}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
+                string apiUrl = $"https://localhost:7165/api/Voucher/{item.Id}?ten={item.Ten}&ma={item.Ma}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLanSuDung}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
                 var httpclient = new HttpClient();
                 var response = await httpclient.PutAsync(apiUrl, null);
                 if (response.IsSuccessStatusCode)
