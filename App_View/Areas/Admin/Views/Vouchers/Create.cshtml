@@ -9,10 +9,10 @@
 
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title ">Create Voucher <i class="anticon anticon-gift"></i></h4>
+            <h4 class="card-title ">  Create Voucher <i class="anticon anticon-gift"></i> </h4>
         </div>
         <div class="card-body">
-            <h4><a asp-action="ShowAllVoucher">Back to List <i class="anticon anticon-fast-backward"></i></a></h4>
+            <h4><a asp-action="ShowAllVoucher"> <i class="anticon anticon-fast-backward"></i>Back to List </a></h4>
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-row">
@@ -27,9 +27,10 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label class="font-weight-semibold">Loại hình KM:</label>
-                        <select asp-for="LoaiHinhKm"
+                        <select id="LoaiHinhKm" asp-for="LoaiHinhKm"
                                 class="form-control select2"
-                                data-placeholder="Vui lòng chọn!">
+                                data-placeholder="Vui lòng chọn!"
+                                onchange="toggleInput()">
                             <option label="Chọn loại hình khuyến mãi"></option>
                             <option value="1">Giảm giá theo %</option>
                             <option value="0">Giảm giá tiền mặt</option>
@@ -56,9 +57,9 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label class="font-weight-semibold">Nhập số tiền giảm:</label>
+                        <label class="font-weight-semibold" id="inputLabel">Nhập số tiền giảm:</label>
                         <input asp-for="MucUuDai" id="MucGiam"
-                               class="form-control" />
+                               class="form-control" type="text" />
                         <span asp-validation-for="MucUuDai" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
@@ -81,12 +82,12 @@
                         <span asp-validation-for="NgayKetThuc"
                               class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-6">
+@*                     <div class="form-group col-md-6">
                         <label class="font-weight-semibold">Trạng thái:</label>
                         <input asp-for="TrangThai" id="TrangThai"
                                class="form-control" />
                         <span asp-validation-for="TrangThai" class="text-danger"></span>
-                    </div>
+                    </div> *@
                     <div class="form-group col-md-6">
                         <button class="btn btn-primary bd-0 col-md-6" style="margin-top:30px">Thêm mới</button>
                     </div>
@@ -94,6 +95,41 @@
             </form>
         </div>
     </div>
+
+<script>
+    function toggleInput() {
+        var select = document.getElementById("LoaiHinhKm");
+        var inputLabel = document.getElementById("inputLabel");
+        var input = document.getElementById("MucGiam");
+
+        if (select.value === "1") { // Nếu chọn "Giảm giá theo %"
+            inputLabel.textContent = "Nhập số % giảm:";
+            input.setAttribute("type", "number"); // Chuyển thành trường nhập số
+            input.setAttribute("min", "0");
+            input.setAttribute("max", "100");
+            input.setAttribute("step", "0.01"); // Bước nhảy 0.01 (cho phần trăm)
+
+            // Thêm kiểm tra hợp lệ cho số phần trăm giảm
+            input.addEventListener("input", function() {
+                var value = parseFloat(input.value);
+                if (isNaN(value) || value < 0 || value > 100) {
+                    input.setCustomValidity("Vui lòng nhập số phần trăm hợp lệ (từ 0 đến 100).");
+                } else {
+                    input.setCustomValidity("");
+                }
+            });
+        } else {
+            inputLabel.textContent = "Nhập số tiền giảm:";
+            input.setAttribute("type", "text");
+            input.removeAttribute("min");
+            input.removeAttribute("max");
+            input.removeAttribute("step");
+            input.removeEventListener("input");
+        }
+    }
+</script>
+
+
         @section Scripts {
             @{
                 await Html.RenderPartialAsync("_ValidationScriptsPartial");

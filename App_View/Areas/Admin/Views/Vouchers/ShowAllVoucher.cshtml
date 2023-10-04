@@ -7,12 +7,30 @@
 
 <h1>Voucher</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<a asp-action="Create" class="btn btn-primary">
+    <i class="anticon anticon-plus-circle m-r-5"></i>
+    <span>Create New</span>
+</a>
+
+
 <table id="data-table" class="table" style="text-align:center">
     <thead>
-        <tr>
+        <div class="d-md-flex">
+            <form asp-action="ShowAllVoucher" method="post">
+                <div class="form-group">
+                    <label for="trangThai">Chọn trạng thái:</label>
+                    <select id="trangThai" name="trangThai" class="custom-select">
+                        <option value="tatCa">Tất cả</option>
+                        <option value="hoatDong">Hoạt động</option>
+                        <option value="khongHoatDong">Không hoạt động</option>
+                        <option value="chuaBatDau">Chưa bắt đầu</option>
+                    </select>
+                        <button type="submit" class="btn btn-primary">Lọc</button>
+                </div>
+             
+            </form>
+        </div>
+        <tr class="clickable-row">
             <th>
                 Mã Voucher
             </th>
@@ -50,17 +68,29 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in ViewBag.TatCa)
+        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Ma)
+                    <span> @item.Ma</span>
             </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Ten)
+                    <span>  @item.Ten</span>
                 </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LoaiHinhKm)
-            </td>
+                   @if(item.LoaiHinhKm == 0)
+                    {
+                        <span>Giảm giá theo tiền mặt</span>
+                    }
+                   @if (item.LoaiHinhKm == 1)
+                    {
+                    <span>Giảm giá %</span>
+                    }
+                    @if (item.LoaiHinhKm == 2)
+                    {
+                        <span>Miễn phí vận chuyển</span>
+                    }
+                </td>
                 <td>
                     @if (item.LoaiHinhKm == 1)
                     {
@@ -76,22 +106,24 @@
                     }
                 </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhamVi)
+                    <span>      @item.PhamVi
+
+            </span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DieuKien)
+                    <span>  @item.DieuKien</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SoLuongTon)
+                    <span>    @item.SoLuongTon</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SoLanSuDung)
+                    <span>  @item.SoLanSuDung</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NgayBatDau)
+                    <span>   @item.NgayBatDau</span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NgayKetThuc)
+                    <span>   @item.NgayKetThuc</span>
             </td>
             <td>
                     @if (item.TrangThai == 0)
@@ -106,13 +138,9 @@
                     {
                         <span>Chưa bắt đầu</span>
                     }
-                    else if (item.TrangThai == 3)
-                    {
-                        <span>Số lượng voucher đã hết</span>
-                    }
                     else
                     {
-                        item.TrangThai.ToString();
+                       <span>Trạng thái lỗi</span>
                     }
             </td>
             <td>

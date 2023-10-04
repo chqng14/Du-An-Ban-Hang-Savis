@@ -73,6 +73,10 @@ namespace App_Api.Controllers
             {
                 voucher.TrangThai = (int)TrangThaiVoucher.HoatDong;
             }
+            if (voucher.SoLuongTon == 0)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.KhongHoatDong;
+            }
             return allRepo.AddItem(voucher);
         }
         [HttpPut("{id}")]
@@ -93,6 +97,22 @@ namespace App_Api.Controllers
                 NgayKetThuc = ngayketthuc,
                 TrangThai = trangthai
             };
+            if (voucher.NgayBatDau > DateTime.Now)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.ChuaBatDau;
+            }
+            if (voucher.NgayBatDau <= DateTime.Now)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.HoatDong;
+            }
+            if (voucher.SoLuongTon > 0 && voucher.SoLanSuDung < soluongton)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.HoatDong;
+            }
+            if (voucher.SoLuongTon == voucher.SoLanSuDung)
+            {
+                voucher.TrangThai = (int)TrangThaiVoucher.KhongHoatDong;
+            }
             return allRepo.EditItem(voucher);
         }
         [HttpDelete("{id}")]
@@ -105,7 +125,7 @@ namespace App_Api.Controllers
         {
             var currentDate = DateTime.Today;
             var expiredVouchers = allRepo.GetAll()
-                .Where(v => v.SoLuongTon == 0 && v.TrangThai != 3 || v.SoLanSuDung == v.SoLuongTon && v.TrangThai != 3 || v.NgayKetThuc < currentDate && v.TrangThai != 3)
+                .Where(v => v.SoLuongTon == 0 && v.TrangThai == (int)TrangThaiVoucher.HoatDong || v.SoLanSuDung == v.SoLuongTon && v.TrangThai == (int)TrangThaiVoucher.HoatDong || v.NgayKetThuc < currentDate && v.TrangThai == (int)TrangThaiVoucher.HoatDong)
                 .ToList();
             return voucherRepo.EditAllVoucher(expiredVouchers);
         }

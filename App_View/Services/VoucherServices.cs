@@ -11,7 +11,7 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?ten={item.Ten}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
+                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?ten={item.Ten}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}";
                 var httpclient = new HttpClient();
                 var response = await httpclient.PostAsync(apiUrl, null);
 

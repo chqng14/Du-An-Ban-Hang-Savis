@@ -24,11 +24,7 @@ namespace App_Data.Repositories
                     var voucherHH = _dbContext.Vouchers.FirstOrDefault(x => x.Id == voucher.Id);
                     if (voucherHH != null)
                     {
-                        if(voucherHH.SoLuongTon == voucherHH.SoLanSuDung)
-                        {
-                            voucherHH.TrangThai = (int)TrangThaiVoucher.HetVoucher;
-                        }    
-                        voucherHH.TrangThai = 3;
+                        voucherHH.TrangThai = (int)TrangThaiVoucher.KhongHoatDong;
                         _dbContext.Vouchers.Update(voucherHH);
                     }
                 }

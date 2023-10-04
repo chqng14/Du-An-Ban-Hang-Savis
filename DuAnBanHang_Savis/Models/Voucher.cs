@@ -19,7 +19,7 @@ namespace App_Data.Models
         [Required(ErrorMessage = "Điều kiện là trường bắt buộc.")]
         [Range(1, int.MaxValue, ErrorMessage = "Điều kiện phải là số nguyên không âm.")]
         public int? DieuKien { get; set; }
-
+        [Required(ErrorMessage = "Điều kiện là trường bắt buộc.")]
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn phải lớn hơn hoặc bằng 0.")]
         public int? SoLuongTon { get; set; }
 
