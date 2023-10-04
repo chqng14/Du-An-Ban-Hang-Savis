@@ -8,7 +8,7 @@ namespace App_Data.ViewModels.ProductDetail
 {
     public class ProductDetailDTO
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } 
         public Guid? IdProduct { get; set; }
         public Guid? IdColor { get; set; }
         public Guid? IdSize { get; set; }
