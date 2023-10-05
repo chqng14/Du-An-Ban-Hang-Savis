@@ -38,10 +38,7 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 var promotionService = new PromotionService();
-RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/30 * * * * *");
-
-
-
+RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/5 * * * * *");
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
