@@ -1,0 +1,203 @@
+﻿.container-fluid {
+    background: #f5f9fb;
+}
+
+i.fas {
+    color: #7ab9ff;
+}
+
+span.cust-invoice {
+    color: #7ab9ff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+span.heading {
+    color: #5b5e78;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+span.category {
+    font-size: 10px;
+    background: #668ae9;
+    color: #eaeffc;
+    width: 55px;
+    border-radius: 2px;
+}
+
+span.company {
+    color: #c1c2cc;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+div.progress {
+    width: 300px;
+    height: 8px;
+    background: #e6eff3;
+    border-radius: 20px;
+    overflow: visible;
+}
+
+    div.progress::after {
+        content: '';
+        height: inherit;
+        background: #3598fe;
+        width: 50%;
+        border-radius: inherit;
+        box-shadow: 0px 5px 15px 0px rgb(53, 152, 254, 0.5);
+    }
+
+span.label {
+    color: #c1c2cc;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+div.member {
+    font-size: 10px;
+    color: #e6eff3;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+    div.member.red {
+        background: #ff9292;
+    }
+
+    div.member.blue {
+        background: #7ab9ff;
+    }
+
+    div.member.purple {
+        background: #9292ff;
+    }
+
+    div.member.add {
+        border: 1px solid #c1c2cc;
+    }
+
+        div.member.add i {
+            color: #c1c2cc;
+        }
+
+div.menu {
+    padding-left: 70px;
+    background: white;
+}
+
+    div.menu > span {
+        color: #c1c2cc;
+        font-size: 12px;
+        padding: 10px 30px;
+        /* padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px; */
+    }
+
+        div.menu > span.active {
+            color: #3598fe;
+            border-bottom: 2px solid #3598fe;
+            font-weight: bold;
+        }
+
+div.status {
+    width: 10px;
+    height: 10px;
+    background: #ddd;
+    border-radius: 50%;
+}
+
+tr.invoice-row {
+    height: 85px;
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    color: #8d90a2;
+}
+
+.invoice-row > td > div > span.month {
+    font-size: 10px;
+    color: #c1c2cc;
+    letter-spacing: 2px;
+}
+
+.invoice-row > td > div > span.date {
+    font-size: 24px;
+    color: #5b5e78;
+    letter-spacing: 4px;
+}
+
+.invoice-row > td > div.unpaid-bg {
+    background: #ff7c8c;
+}
+
+.invoice-row > td > div.unpaid {
+    color: #ff7c8c;
+}
+
+.invoice-row > td > div.drafted-bg {
+    background: #c1c2cc;
+}
+
+.invoice-row > td > div.drafted {
+    color: #c1c2cc;
+}
+
+.invoice-row > td > div.paid-bg {
+    background: #65eb97;
+}
+
+.invoice-row > td > div.paid {
+    color: #65eb97;
+}
+
+table.row-gap {
+    border-collapse: separate;
+    border-spacing: 0px 35px;
+}
+
+div.add-invoice {
+    background: #3598fe;
+    border-radius: 3px;
+    box-shadow: 0px 5px 15px 0px rgb(53, 152, 254, 0.5);
+}
+
+    div.add-invoice i {
+        color: #f5f9fb;
+        font-size: 20px;
+    }
+
+    div.add-invoice .invoice-label {
+        color: #f5f9fb;
+        font-size: 10px;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+a {
+    color: #f5f9fb;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+
+}
+
+tr {
+    transition: transform 0.3s ease-in-out; /* Thời gian và hiệu ứng chuyển đổi */
+}
+
+    tr:hover {
+        transform: scale(1.1); /* Tăng kích thước lên 1.2 lần */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Đổ bóng */
+        border-radius: 10px; /* Bo góc */
+    }

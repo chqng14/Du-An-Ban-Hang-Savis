@@ -6,8 +6,7 @@ namespace App_Api.Helpers.CustomJson
     {
         public override string ConvertName(string name)
         {
-            // Thực hiện chuyển đổi tên thuộc tính theo quy ước của bạn
-            return name; // Ví dụ: không thay đổi tên thuộc tính
+            return name; 
         }
     }
 }

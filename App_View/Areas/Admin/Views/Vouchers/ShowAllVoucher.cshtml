@@ -1,162 +1,171 @@
-﻿@using X.PagedList.Mvc.Core
-@using X.PagedList.Web.Common;
-@using X.PagedList;
-@model IEnumerable<App_Data.Models.Voucher>
+﻿@model IEnumerable<App_Data.Models.Voucher>
 
 @{
     ViewData["Title"] = "ShowAllVoucher";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-<!-- Hiển thị danh sách voucher -->
-<style>
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
 
-        .table th,
-        .table td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+<h1>Voucher</h1>
 
-        .table th {
-            background-color: #f2f2f2;
-        }
+<a asp-action="Create" class="btn btn-primary">
+    <i class="anticon anticon-plus-circle m-r-5"></i>
+    <span>Create New</span>
+</a>
 
-        .table tr:hover {
-            background-color: #f5f5f5;
-        }
 
-    h3 {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-        .pagination .pagination-link {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 0 2px;
-            border-radius: 4px;
-            background-color: #f2f2f2;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-            .pagination .pagination-link:hover {
-                background-color: #ddd;
-            }
-
-            .pagination .pagination-link.active {
-                background-color: #007bff;
-                color: #fff;
-            }
-</style>
-<h1>ShowAllVoucher</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@using (Html.BeginForm("ShowAllVoucher", "ControllerName", FormMethod.Get))
-{
-    <div class="search-container">
-        <input type="text" name="searchString" value="@ViewBag.SearchString" placeholder="Tìm kiếm...">
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </div>
-}
-<table class="table">
+<table id="data-table" class="table" style="text-align:center">
     <thead>
-        <tr>
+        <div class="d-md-flex">
+            <form asp-action="ShowAllVoucher" method="post">
+                <div class="form-group">
+                    <label for="trangThai">Chọn trạng thái:</label>
+                    <select id="trangThai" name="trangThai" class="custom-select">
+                        <option value="tatCa">Tất cả</option>
+                        <option value="hoatDong">Hoạt động</option>
+                        <option value="khongHoatDong">Không hoạt động</option>
+                        <option value="chuaBatDau">Chưa bắt đầu</option>
+                    </select>
+                        <button type="submit" class="btn btn-primary">Lọc</button>
+                </div>
+             
+            </form>
+        </div>
+        <tr class="clickable-row">
             <th>
-                @Html.DisplayNameFor(model => model.Ma)
+                Mã Voucher
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LoaiHinhKm)
+                Tên
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MucUuDai)
+                Loại hình
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhamVi)
+                Mức ưu đãi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DieuKien)
+                Phạm vi
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SoLuongTon)
+                Điều kiện
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SoLanSuDung)
+                Số lượng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayBatDau)
+                Số lần đẫ sử dụng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NgayKetThuc)
+                Ngày bắt đầu
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
+                Ngày kết thúc
+            </th>
+            <th>
+              Trạng thái
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in ViewBag.VoucherList)
+        @foreach (var item in ViewBag.TatCa)
         {
-            <tr>
+        <tr>
+            <td>
+                    <span> @item.Ma</span>
+            </td>
                 <td>
-                    @item.Ma
+                    <span>  @item.Ten</span>
+                </td>
+            <td>
+                   @if(item.LoaiHinhKm == 0)
+                    {
+                        <span>Giảm giá theo tiền mặt</span>
+                    }
+                   @if (item.LoaiHinhKm == 1)
+                    {
+                    <span>Giảm giá %</span>
+                    }
+                    @if (item.LoaiHinhKm == 2)
+                    {
+                        <span>Miễn phí vận chuyển</span>
+                    }
                 </td>
                 <td>
-                    @item.LoaiHinhKm
+                    @if (item.LoaiHinhKm == 1)
+                    {
+                        int mucUuDai = int.Parse(item.MucUuDai.ToString());
+                        string mucUuDaiPhanTram = mucUuDai.ToString() + "%";
+                        @mucUuDaiPhanTram
+                    }
+                    else
+                    {
+                        int mucUuDai = int.Parse(item.MucUuDai.ToString());
+                        string mucUuDaiVND = mucUuDai.ToString("C0"); // Định dạng giá trị thành tiền VND.
+                        @mucUuDaiVND
+                    }
                 </td>
-                <td>
-                    @item.MucUuDai
-                </td>
-                <td>
-                    @item.PhamVi
-                </td>
-                <td>
-                    @item.DieuKien
-                </td>
-                <td>
-                    @item.SoLuongTon
-                </td>
-                <td>
-                    @item.SoLanSuDung
-                </td>
-                <td>
-                    @item.NgayBatDau
-                </td>
-                <td>
-                    @item.NgayKetThuc
-                </td>
-                <td>
-                    @item.TrangThai
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit <i class="anticon anticon-edit"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details <i class="anticon anticon-eye"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete <i class="anticon anticon-delete"></i></a>
-                </td>
-            </tr>
-            <!-- Hiển thị các thông tin khác của voucher -->
-        }
+            <td>
+                    <span>      @item.PhamVi
+
+            </span>
+            </td>
+            <td>
+                    <span>  @item.DieuKien</span>
+            </td>
+            <td>
+                    <span>    @item.SoLuongTon</span>
+            </td>
+            <td>
+                    <span>  @item.SoLanSuDung</span>
+            </td>
+            <td>
+                    <span>   @item.NgayBatDau</span>
+            </td>
+            <td>
+                    <span>   @item.NgayKetThuc</span>
+            </td>
+            <td>
+                    @if (item.TrangThai == 0)
+                    {
+                        <span>Hoạt động</span>
+                    }
+                    else if (item.TrangThai == 1)
+                    {
+                        <span>Không hoạt động</span>
+                    }
+                    else if(item.TrangThai==2)
+                    {
+                        <span>Chưa bắt đầu</span>
+                    }
+                    else
+                    {
+                       <span>Trạng thái lỗi</span>
+                    }
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="anticon anticon-edit"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id"><i class="anticon anticon-eye"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="anticon anticon-delete"></i></a>
+            </td>
+        </tr>
+}
     </tbody>
-
-    <h3>     
-        @Html.PagedListPager((IPagedList)ViewBag.VoucherList, page =>Url.Action("ShowAllVoucher", new { page, searchString = ViewBag.SearchString }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded })
-    </h3>
-
-
 </table>
-<!-- Hiển thị phân trang -->
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#data-table').DataTable()
+    }
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/Admin_assets/js/pages/e-commerce-order-list.js"></script>
+    <script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js" defer></script>
+    <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+    <script src="~/Admin_assets/js/pages/datatables.js" defer></script>
+}

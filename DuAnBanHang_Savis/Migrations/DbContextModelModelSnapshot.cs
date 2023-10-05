@@ -119,15 +119,19 @@ namespace App_Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Ma")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MoTa")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoiDung")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenBlog")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -362,10 +366,12 @@ namespace App_Data.Migrations
                         .HasDefaultValueSql("(newid())");
 
                     b.Property<string>("LoaiHinhKm")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Ma")
+                        .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("MoTa")
@@ -378,16 +384,20 @@ namespace App_Data.Migrations
                         .HasDefaultValueSql("((0))");
 
                     b.Property<DateTime?>("NgayBatDau")
+                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("NgayKetThuc")
+                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("Ten")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("TrangThai")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValueSql("((0))");
@@ -405,18 +415,22 @@ namespace App_Data.Migrations
                         .HasDefaultValueSql("(newid())");
 
                     b.Property<Guid?>("IdChiTietSp")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("IdChiTietSP");
 
                     b.Property<Guid?>("IdSale")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("IdSale");
 
                     b.Property<string>("MoTa")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("TrangThai")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValueSql("((0))");
@@ -533,11 +547,13 @@ namespace App_Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DieuKien")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DieuKien")
+                        .IsRequired()
+                        .HasColumnType("int");
 
-                    b.Property<string>("LoaiHinhKm")
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int?>("LoaiHinhKm")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.Property<string>("Ma")
                         .HasColumnType("nvarchar(20)");
@@ -546,19 +562,24 @@ namespace App_Data.Migrations
                         .HasColumnType("decimal");
 
                     b.Property<DateTime?>("NgayBatDau")
+                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("NgayKetThuc")
+                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<string>("PhamVi")
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SoLanSuDung")
                         .HasColumnType("int");
 
                     b.Property<int?>("SoLuongTon")
                         .HasColumnType("int");
+
+                    b.Property<string>("Ten")
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("TrangThai")
                         .HasColumnType("int");
@@ -676,11 +697,15 @@ namespace App_Data.Migrations
                 {
                     b.HasOne("App_Data.Models.ProductDetails", "ProductDetail")
                         .WithMany("DetailSale")
-                        .HasForeignKey("IdChiTietSp");
+                        .HasForeignKey("IdChiTietSp")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("App_Data.Models.Sale", "Sale")
                         .WithMany("DetailSales")
-                        .HasForeignKey("IdSale");
+                        .HasForeignKey("IdSale")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProductDetail");
 
