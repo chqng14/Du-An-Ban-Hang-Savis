@@ -1,0 +1,193 @@
+﻿@model IEnumerable<App_Data.ViewModels.ProductDetail.ProductViewModel>
+
+@{
+    ViewData["Title"] = "ApllySale";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>ApllySale</h1>
+
+<style>
+    .clickable-image {
+        cursor: pointer;
+    }
+</style>
+
+<div id="modal"></div>
+<div class="modal bd-example-modal-xl">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Extra large modal</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="flex-column">
+            @if (ViewBag.Message != null)
+            {
+                foreach (var message in ViewBag.Message)
+                {
+                    <p>@message</p>
+                }
+            }
+        </div>
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected="">Category</option>
+                            <option value="all">All</option>
+                            <option value="homeDeco">Home Decoration</option>
+                            <option value="electronic">Electronic</option>
+                            <option value="jewellery">Jewellery</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <select class="custom-select" style="min-width: 180px;">
+                            <option selected="">Status</option>
+                            <option value="all">All</option>
+                            <option value="inStock">In Stock</option>
+                            <option value="outOfStock">Out of Stock</option>
+                        </select>
+                    </div>
+                    
+                </div>
+                
+            </div>
+           
+
+        </div>
+            <div class="col-lg-4 text-right">
+                <button id="applySaleButton" class="btn btn-primary" ">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Add sale</span>
+                </button>
+                <button class="btn btn-primary" onclick="window.location.href = '@Url.Action("ManageProduct", "ProductDetails")'">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Manage products</span>
+                </button>
+            </div>
+        
+         
+        <div class="col-sm-12">
+            <table id="data-table1" class="table dataTable">
+                <select id="selectSale" class="select2">
+                @foreach (var item in (SelectList)ViewData["IdSale"])
+                {
+                        <option value="@item.Value">@item.Text</option>
+                }
+                </select>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td class="sorting_1">
+
+                                <input type="checkbox" name="selectedProducts" value="@product.Id" />
+
+                            </td>
+                            <td>@product.Id</td>
+                            <td>@product.NameProduct</td>
+                            <td>@product.MauSac</td>
+                            <td>@product.Size</td>
+                            <td>@product.Loai</td>
+                            <td>@product.ChatLieu</td>
+                            <td>@product.SoLuongTon</td>
+                            <td>@product.SoLuongDaBan</td>
+                            <td>
+                                @if (product.TrangThai == 0)
+                                {
+                                    <div class="trangThai">
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Active</div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="trangThai">
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>No Active</div>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                            <td class="text-right">
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
+                                    <i class="anticon anticon-edit"></i>
+                                </button>
+                                <button class="btn btn-icon btn-hover btn-sm btn-rounded delete-button" data-id="@product.Id">
+                                    <i class="anticon anticon-delete"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>...</th>
+                    </tr>
+                </tfoot>
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById("applySaleButton").addEventListener("click", function () {
+        var selectedProducts = [];
+        var checkboxes = document.querySelectorAll("input[name='selectedProducts']:checked");
+        checkboxes.forEach(function (checkbox) {
+            selectedProducts.push(checkbox.value);
+        });
+        var idSale = document.getElementById("selectSale").value;
+        var formData = new FormData();
+        formData.append("idSale", idSale);
+        selectedProducts.forEach(function (productId) {
+            formData.append("selectedProducts", productId);
+        });
+        $.ajax({
+            url: "@Url.Action("ApllySale", "SaleDetail")",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                //alert("add thành công");
+                if (response.add != "") { 
+                    alert(response.add)
+                }
+                else
+                alert(response.err.join("\n"));
+                //window.location.href = "/Admin/SaleDetail/ApllySale";
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/Admin_assets/js/pages/e-commerce-order-list.js"></script>
+    <script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js" defer></script>
+    <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+    <script src="~/Admin_assets/js/pages/datatables.js" defer></script>
+}

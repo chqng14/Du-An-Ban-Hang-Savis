@@ -10,7 +10,7 @@ namespace App_Data.ViewModel
     {
         public Guid Id { get; set; }
         public string? Sale { get; set; }
-        public string? ChiTietSp { get; set; }
+        public string? Product { get; set; }
         public string? MoTa { get; set; }
         public int? TrangThai { get; set; }
     }

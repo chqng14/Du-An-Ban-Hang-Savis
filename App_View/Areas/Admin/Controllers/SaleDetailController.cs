@@ -10,6 +10,10 @@ using App_Data.IRepositories;
 using App_Data.Repositories;
 using App_View.IServices;
 using App_View.Services;
+using NuGet.Packaging.Signing;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -21,12 +25,15 @@ namespace App_View.Areas.Admin.Controllers
         DbContextModel context = new DbContextModel();
         DbSet<SaleDetail> saleDetail;
         ISaleDetailService SaleDetailService;
-        public SaleDetailController()
+        IProductDetailService ProductDetailService;
+        public SaleDetailController(IProductDetailService productDetailService)
         {
             saleDetail = context.DetailSales;
             AllRepo<SaleDetail> all = new AllRepo<SaleDetail>(context, saleDetail);
             repos = all;
+            ProductDetailService = productDetailService;
             SaleDetailService = new SaleDetailService();
+           
         }
         // GET: SaleDetailController
         public async Task<IActionResult> ShowAllSaleDetail()
@@ -87,6 +94,86 @@ namespace App_View.Areas.Admin.Controllers
                 return RedirectToAction("ShowAllSaleDetail");
             }
             else return BadRequest();
+        }
+        [HttpGet]
+        public async Task<IActionResult> ApllySale()
+        {
+            var saledetail = await ProductDetailService.GetListProductViewModelAsync();
+            ViewData["IdSale"] = new SelectList(context.Sales, "Id", "Ten");
+            var message= ViewBag.Sales;
+            ViewBag.Message = message;
+            return View(saledetail);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ApllySale(Guid idSale, List<Guid> selectedProducts)
+        {
+            ViewData["IdSale"] = new SelectList(context.Sales, "Id", "Ten");
+            List<string> DataMessage= new List<string>();
+            var successApllySale = "";
+            var saledetailVM = await SaleDetailService.GetAllDetaiSale();
+            try
+            {
+                int temp = 0;
+                foreach (var IdProduct in selectedProducts)
+                {
+                    var saledetail = repos.GetAll().Where(x => x.IdChiTietSp == IdProduct);
+                    var name = context.Products.FirstOrDefault(x => x.Id == context.ProductDetails.FirstOrDefault(x => x.Id == IdProduct).IdProduct).Ten;
+                    var nameSale = context.Sales.FirstOrDefault(x => x.Id == idSale).Ten;
+                    if (saledetail!=null&&saleDetail.Count()>0)
+                    {
+                        int i = 0;
+                        
+                        foreach (var checkSale in saledetail)
+                        {
+                            if(checkSale.IdSale== idSale)
+                            {
+                                i++;
+                                break;
+                            }
+                        }
+                        if (i != 0)
+                        {
+                            
+                            DataMessage.Add($"Sản phẩm {name} đang áp dụng chương trình {nameSale}");
+                        }
+                        else 
+                        {
+                            var addSale = new SaleDetail()
+                            {
+                                Id = Guid.NewGuid(),
+                                IdSale = idSale,
+                                IdChiTietSp = IdProduct,
+                                MoTa = "Kaisan",
+                                TrangThai = 0
+                            };
+                            SaleDetailService.CreateDetaiSale(addSale);
+                            DataMessage.Add($"Áp dụng thành công chương trình giảm giá {nameSale} với sản phẩm {name}") ;
+                        }
+                    }
+                    else
+                    {
+                        var addSale = new SaleDetail()
+                        {
+                            Id = Guid.NewGuid(),
+                            IdSale = idSale,
+                            IdChiTietSp = IdProduct,
+                            MoTa = "Kaisan",
+                            TrangThai = 0
+                        };
+                        SaleDetailService.CreateDetaiSale(addSale);
+                        successApllySale = $"Ap dụng thành công chương trình {nameSale} với sản phẩm đã chọn";
+                    }
+                    temp++;
+                }
+                ViewBag.Sales = DataMessage;
+                return Ok(new {err=DataMessage, add= successApllySale });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

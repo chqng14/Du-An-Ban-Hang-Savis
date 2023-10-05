@@ -35,9 +35,14 @@ namespace App_View.Areas.Admin.Controllers
         //GET: Admin/ProductDetails
         public async Task<IActionResult> Index()
         {
+            
             return View(await _productDetailService.GetListProductViewModelAsync());
         }
-
+        public async Task<IActionResult> ViewAddSale()
+        {
+            ViewData["IdSale"] = new SelectList(_context.Sales, "Id", "Ten");
+            return View();
+        }
         // GET: Admin/ProductDetails/Details/5
         //public async Task<IActionResult> Details(Guid? id)
         //{
