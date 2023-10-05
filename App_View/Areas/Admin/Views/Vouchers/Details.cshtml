@@ -1,85 +1,134 @@
-﻿@model App_Data.Models.Voucher
+﻿@using System.Globalization;
+@using App_Data.Models;
+@model App_Data.Models.Voucher
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    DbContextModel context = new DbContextModel();
 }
 
-<h1>Details</h1>
+    <div class="container">
+        <div class="text-center m-t-30 m-b-40">
+            <h2>Subscription plans</h2>
+            <p class="w-45 m-h-auto m-b-30">Climb leg rub face on everything give attitude nap all day for under the bed. Chase mice attack feet but rub face.</p>
+        </div>
+        <div class="row align-items-center" id="monthly-view">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between p-b-20 border-bottom">
+                            <div class="media align-items-center">
+                                <div class="avatar avatar-blue avatar-icon" style="height: 55px; width: 55px;">
+                                <i class="anticon anticon-gift" font-size-25" style="line-height: 55px"></i>
+                                </div>
+                                <div class="m-l-15">
+                                    <h3 class="font-weight-bold font-size-30 m-b-0">                                
+                                    @if (Model.LoaiHinhKm == 1)
+                                    {
+                                        <span>Giảm @Model.MucUuDai %</span>
+                                    }else
+                                    {
+                                        decimal mucUuDai = Model.MucUuDai;
 
-<div>
-    <h4>Voucher</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ma)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ma)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Ten)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Ten)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LoaiHinhKm)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LoaiHinhKm)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MucUuDai)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MucUuDai)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhamVi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhamVi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DieuKien)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DieuKien)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SoLuongTon)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SoLuongTon)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SoLanSuDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SoLanSuDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayBatDau)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayBatDau)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayKetThuc)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayKetThuc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TrangThai)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TrangThai)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="ShowAllVoucher">Back to List</a>
-</div>
+                                        // Định dạng giá trị theo định dạng tiền Việt Nam
+                                        string mucUuDaiTienVietNam = mucUuDai.ToString("C0", new CultureInfo("vi-VN"));
+
+                                        <span>Giảm @mucUuDaiTienVietNam</span>
+                                    }
+                                    </h3>
+                                @functions {
+                                    // Hàm trợ giúp để định dạng số nguyên thành tiền tệ Việt Nam
+                                    public string FormatCurrency(int? value)
+                                    {
+                                        return string.Format(new CultureInfo("vi-VN"), "{0:C0}", value);
+                                    }
+                                    public string FormatDate(DateTime? value)
+                                    {
+                                        if (value.HasValue)
+                                        {
+                                            return value.Value.ToString("dd.MM", new System.Globalization.CultureInfo("vi-VN"));
+                                        }
+                                        return string.Empty; // hoặc bạn có thể trả về một giá trị mặc định khác nếu cần
+                                    }  
+                                    
+                                    }
+                                <h5 class="m-b-0">
+                                    <i class="anticon anticon-clock-circle"></i>
+                                    Có hiệu lực từ @FormatDate(Model.NgayBatDau)
+                                </h5>
+                            </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled m-v-30">                    
+                            <li class="m-b-20">
+                            <h4 class="m-b-0">  Giảm cho đơn từ @FormatCurrency(Model.DieuKien)</h4>
+                                <div class="d-flex justify-content-between">
+                                <p style="color:red">
+                                    <i class="anticon anticon-clock-circle"></i>
+                                    Hạn sử dụng mã từ @FormatDate(Model.NgayBatDau) - @FormatDate(Model.NgayKetThuc)
+                                </p>
+                                </div>
+                            </li>
+                            <li class="m-b-20">
+                                <div class="d-flex justify-content-between">
+                                <span class="text-dark font-weight-semibold">
+                                    @if (Model.PhamVi == "Áp dụng mọi thể loại")
+                                    {
+
+                                        <span>
+                                            @Model.PhamVi
+
+                                        </span>
+                                    }
+                                    @if (Model.PhamVi != "Áp dụng mọi thể loại")
+                                    {
+                                        var idTpProduct = Model.PhamVi.ToString();
+                                        Guid idTP = Guid.Parse(idTpProduct);
+
+                                        var namePhamVi = context.TypeProducts.FirstOrDefault(c => c.Id == idTP).Ten;
+                                        <span>
+                                            @namePhamVi
+                                        </span>
+                                    }
+                                </span>
+                                </div>
+                            </li>                          
+                            <li class="m-b-20">
+                                <div class="d-flex justify-content-between">
+                                <span class="text-dark font-weight-semibold">    Xem chi tiết</span>                               
+                                </div>
+                            </li>
+                        <li class="m-b-20">
+                            <div class="d-flex justify-content-between">
+                                <p>
+                                    Xem chi tiết
+                                    Mã giảm  @if (Model.LoaiHinhKm == 1)
+                                    {
+                                        decimal mucUuDai = Model.MucUuDai;
+
+                                        // Chuyển đổi giá trị thành phần trăm và định dạng chuỗi
+                                        string mucUuDaiPhanTram = string.Format("{0:P}", mucUuDai);
+                                    }
+                                    else
+                                    {
+                                        decimal mucUuDai = Model.MucUuDai;
+
+                                        // Định dạng giá trị theo định dạng tiền Việt Nam
+                                        string mucUuDaiTienVietNam = mucUuDai.ToString("C0", new CultureInfo("vi-VN"));
+
+                                        @mucUuDaiTienVietNam
+                                    } cho đơn hàng từ @FormatCurrency(Model.DieuKien) sử dụng trên trang web.<br />
+                                    Số lượng mã giảm giá còn hạn @(Model.SoLuongTon - Model.SoLanSuDung). Hạn sử dụng đến @Model.NgayKetThuc
+                                </p>
+                        </li>
+                    </ul>
+                        <div class="text-center">
+                            <button class="btn btn-primary">Copy mã</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>

@@ -1,8 +1,11 @@
-﻿@model IEnumerable<App_Data.Models.Voucher>
+﻿@using App_Data.Models;
+@using System.Globalization;
+@model IEnumerable<App_Data.Models.Voucher>
 
 @{
     ViewData["Title"] = "ShowAllVoucher";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    DbContextModel context = new DbContextModel();
 }
 
 <h1>Voucher</h1>
@@ -100,15 +103,29 @@
                     }
                     else
                     {
-                        int mucUuDai = int.Parse(item.MucUuDai.ToString());
-                        string mucUuDaiVND = mucUuDai.ToString("C0"); // Định dạng giá trị thành tiền VND.
-                        @mucUuDaiVND
+                        @string.Format("{0:N0}đ", item.MucUuDai)
                     }
                 </td>
             <td>
-                    <span>      @item.PhamVi
+                    @if (item.PhamVi == "Áp dụng mọi thể loại")
+                    {
 
-            </span>
+                        <span>
+                            @item.PhamVi
+                         
+                        </span>
+                    }
+                    @if (item.PhamVi != "Áp dụng mọi thể loại")
+                    {
+                        var idTpProduct = @item.PhamVi.ToString();
+                        Guid idTP = Guid.Parse(idTpProduct);
+
+                        var namePhamVi = context.TypeProducts.FirstOrDefault(c => c.Id == idTP).Ten;
+                        <span>
+                            @namePhamVi
+                        </span>
+                    }
+                   
             </td>
             <td>
                     <span>  @item.DieuKien</span>
