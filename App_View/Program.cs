@@ -2,6 +2,8 @@
 using App_View.IServices;
 using App_View.Services;
 using System.Configuration;
+using App_Data.IRepositories;
+using App_Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7165") });
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+builder.Services.AddScoped<IVoucherServices, VoucherServices>();
+builder.Services.AddScoped<ITypeProductRepo, TypeProductRepo>();
+
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddSession(options =>
 {

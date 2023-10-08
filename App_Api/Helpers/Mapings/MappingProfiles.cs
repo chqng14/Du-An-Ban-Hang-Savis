@@ -2,13 +2,14 @@
 using App_Data.Models;
 using App_Data.ViewModel;
 using App_Data.ViewModels.ProductDetail;
+using App_Data.ViewModels.Voucher;
 using AutoMapper;
 
 namespace App_Api.Helpers.Mapings
 {
-    public class MappingProfiles: Profile
+    public class MappingProfiles : Profile
     {
-       
+
         public MappingProfiles()
         {
             CreateMap<App_Data.ViewModel.ProductDetailDTO, ProductDetails>().ReverseMap();
@@ -21,7 +22,7 @@ namespace App_Api.Helpers.Mapings
                    dest => dest.Product,
                    opt => opt.MapFrom(src => src.ProductDetail.Products.Ten)
                ).ReverseMap();
-
+            CreateMap<VoucherDTO, Voucher>().ReverseMap();
         }
     }
 }

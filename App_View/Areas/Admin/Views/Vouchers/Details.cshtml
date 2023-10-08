@@ -69,31 +69,7 @@
                                     Hạn sử dụng mã từ @FormatDate(Model.NgayBatDau) - @FormatDate(Model.NgayKetThuc)
                                 </p>
                                 </div>
-                            </li>
-                            <li class="m-b-20">
-                                <div class="d-flex justify-content-between">
-                                <span class="text-dark font-weight-semibold">
-                                    @if (Model.PhamVi == "Áp dụng mọi thể loại")
-                                    {
-
-                                        <span>
-                                            @Model.PhamVi
-
-                                        </span>
-                                    }
-                                    @if (Model.PhamVi != "Áp dụng mọi thể loại")
-                                    {
-                                        var idTpProduct = Model.PhamVi.ToString();
-                                        Guid idTP = Guid.Parse(idTpProduct);
-
-                                        var namePhamVi = context.TypeProducts.FirstOrDefault(c => c.Id == idTP).Ten;
-                                        <span>
-                                            @namePhamVi
-                                        </span>
-                                    }
-                                </span>
-                                </div>
-                            </li>                          
+                            </li>                                              
                             <li class="m-b-20">
                                 <div class="d-flex justify-content-between">
                                 <span class="text-dark font-weight-semibold">    Xem chi tiết</span>                               
@@ -119,7 +95,7 @@
 
                                         @mucUuDaiTienVietNam
                                     } cho đơn hàng từ @FormatCurrency(Model.DieuKien) sử dụng trên trang web.<br />
-                                    Số lượng mã giảm giá còn hạn @(Model.SoLuongTon - Model.SoLanSuDung). Hạn sử dụng đến @Model.NgayKetThuc
+                                    Số lượng mã giảm giá còn hạn @(Model.SoLuongTon). Hạn sử dụng đến @Model.NgayKetThuc
                                 </p>
                         </li>
                     </ul>

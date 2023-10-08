@@ -34,7 +34,7 @@ namespace App_View.Services
         {
             var currentDate = DateTime.Today;
             var expiredVouchers = _dbContext.Vouchers.Where
-                (v => v.SoLuongTon == 0 && v.TrangThai == (int)TrangThaiVoucher.HoatDong || v.SoLanSuDung == v.SoLuongTon && v.TrangThai == (int)TrangThaiVoucher.HoatDong || v.NgayKetThuc < currentDate && v.TrangThai == (int)TrangThaiVoucher.HoatDong)
+                (v => v.SoLuongTon == 0 && v.TrangThai == (int)TrangThaiVoucher.HoatDong || v.SoLuongTon < 0 && v.TrangThai == (int)TrangThaiVoucher.HoatDong || v.NgayKetThuc < currentDate && v.TrangThai == (int)TrangThaiVoucher.HoatDong)
                 .ToList();
             foreach (var item in expiredVouchers)
             {

@@ -12,6 +12,7 @@ using App_Data.IRepositories;
 using App_Data.Repositories;
 using X.PagedList;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using App_Data.ViewModels.Voucher;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -20,26 +21,12 @@ namespace App_View.Areas.Admin.Controllers
     {
         private readonly IVoucherServices voucherServices;
         private readonly ITypeProductRepo typeProductRepo;
-        public VouchersController()
+        public VouchersController(IVoucherServices voucherServices, ITypeProductRepo typeProductRepo)
         {
-            voucherServices = new VoucherServices();
-            typeProductRepo = new TypeProductRepo();
+            this.voucherServices = voucherServices;
+            this.typeProductRepo = typeProductRepo;
         }
 
-        //public async Task<IActionResult> ShowAllVoucher()
-        //{
-        //    var lstVoucher = await voucherServices.GetAllAsync();
-        //    var lstHoatDong = lstVoucher.Where(v => v.TrangThai == 0).ToList();
-        //    var lstKhongHoatDong = lstVoucher.Where(v => v.TrangThai == 1).ToList();
-        //    var lstChuaBatDau = lstVoucher.Where(v => v.TrangThai == 2).ToList();
-
-        //    // Gán danh sách voucher vào ViewBag
-        //    ViewBag.TatCa = lstHoatDong;
-        //    ViewBag.HoatDong = lstHoatDong;
-        //    ViewBag.KhongHoatDong = lstKhongHoatDong;
-        //    ViewBag.ChuaBatDau = lstChuaBatDau;
-        //    return View(lstVoucher);
-        //}
         public async Task<IActionResult> ShowAllVoucher(string trangThai)
         {
             var lstVoucher = await voucherServices.GetAllAsync();
@@ -68,40 +55,36 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<ActionResult> Create()
         {
-            ViewBag.TypeProduct = new SelectList(typeProductRepo.GetAllProductType(), "Id", "Ten");
+
 
             return View();
         }
         [HttpPost]
         public async Task<ActionResult> Create(Voucher voucher)
         {
-            ViewBag.TypeProduct = new SelectList(typeProductRepo.GetAllProductType(), "Id", "Ten");
             if (await voucherServices.AddVoucherAsync(voucher))
             {
                 TempData["MessageForCreate"] = "Thêm thành công";
                 return RedirectToAction("ShowAllVoucher");
             }
-            else
-            {
-                return View();
-            }
-
+            return View();
         }
         public async Task<ActionResult> Edit(Guid id)
         {
-            var a = (await voucherServices.GetAllAsync()).FirstOrDefault(c => c.Id == id);
-            return View(a);
+            var Voucher = await voucherServices.GetVoucherDTOById(id);
+            return View(Voucher);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Voucher voucher)
+        public async Task<ActionResult> Edit(VoucherDTO voucher)
         {
             if (await voucherServices.EditVoucher(voucher))
             {
                 TempData["AlertMessage"] = "Cập nhật thành công";
                 return RedirectToAction("ShowAllVoucher");
             }
+
             return View(); ;
         }
 

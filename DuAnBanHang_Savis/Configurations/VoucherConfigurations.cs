@@ -12,7 +12,6 @@ namespace App_Data.Configurations
             builder.Property(x => x.Ma).HasColumnType("nvarchar(20)");
             builder.Property(x => x.Ten).HasColumnType("nvarchar(200)");
             builder.Property(x => x.SoLuongTon).HasColumnType("int");
-            builder.Property(x => x.SoLanSuDung).HasColumnType("int");
             builder.Property(x => x.MucUuDai).HasColumnType("decimal");
             builder.Property(x => x.NgayBatDau).HasColumnType("datetime");
             builder.Property(x => x.NgayKetThuc).HasColumnType("datetime");
