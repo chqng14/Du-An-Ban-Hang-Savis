@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using App_Data.Models;
 using App_View.IServices;
 using App_View.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -26,7 +27,9 @@ namespace App_View.Areas.Admin.Controllers
         // GET: Admin/Users
         public async Task<IActionResult> Index()
         {
+            if(SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginAdmin") == null) return RedirectToAction("Login","Home", new { area =""});
             ViewBag.Role = await _iRoleService.GetRolesAsync();
+            ViewBag.Roles = new SelectList(await _iRoleService.GetRolesAsync(), "Id", "Ten");
             return View(await _iUserService.GetUsersAsync());
         }
 

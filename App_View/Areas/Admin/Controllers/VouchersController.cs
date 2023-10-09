@@ -11,6 +11,9 @@ using App_View.Services;
 using App_Data.IRepositories;
 using App_Data.Repositories;
 using X.PagedList;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using App_Data.ViewModels.Voucher;
+
 namespace App_View.Areas.Admin.Controllers
 {
     [Area("Admin")]
@@ -18,37 +21,41 @@ namespace App_View.Areas.Admin.Controllers
     {
         private readonly IVoucherServices voucherServices;
         private readonly ITypeProductRepo typeProductRepo;
-        public VouchersController()
+        public VouchersController(IVoucherServices voucherServices, ITypeProductRepo typeProductRepo)
         {
-            voucherServices = new VoucherServices();
-            typeProductRepo = new TypeProductRepo();
+            this.voucherServices = voucherServices;
+            this.typeProductRepo = typeProductRepo;
         }
 
-        public async Task<IActionResult> ShowAllVoucher(int? page, string searchString)
+        public async Task<IActionResult> ShowAllVoucher(string trangThai)
         {
-            int pageSize = 5;
-            int pageNumber = page ?? 1;
+            var lstVoucher = await voucherServices.GetAllAsync();
 
-            var voucherList = await voucherServices.GetAllAsync();
-
-            // Áp dụng tìm kiếm nếu có giá trị searchString
-            if (!string.IsNullOrEmpty(searchString))
+            switch (trangThai)
             {
-                voucherList = voucherList.Where(v => v.Ma.Contains(searchString)).ToList();
+                case "hoatDong":
+                    lstVoucher = lstVoucher.Where(v => v.TrangThai == 0).ToList();
+                    break;
+                case "khongHoatDong":
+                    lstVoucher = lstVoucher.Where(v => v.TrangThai == 1).ToList();
+                    break;
+                case "chuaBatDau":
+                    lstVoucher = lstVoucher.Where(v => v.TrangThai == 2).ToList();
+                    break;
+                default:
+                    break;
             }
 
-            var pagedVouchers = voucherList.OrderByDescending(a => a.Ma).ToPagedList(pageNumber, pageSize);
+            ViewBag.TatCa = lstVoucher; // Gán danh sách lọc được vào ViewBag.TatCa
 
-            ViewBag.VoucherList = pagedVouchers;
-            ViewBag.VoucherPage = pageNumber;
-            ViewBag.SearchString = searchString; // Truyền searchString vào ViewBag để hiển thị trong view
-
-            return View();
+            return View(lstVoucher);
         }
+
+
 
         public async Task<ActionResult> Create()
         {
-            ViewBag.TypeProduct = new SelectList(typeProductRepo.GetAllProductType(), "Id", "Ten");
+
 
             return View();
         }
@@ -57,27 +64,27 @@ namespace App_View.Areas.Admin.Controllers
         {
             if (await voucherServices.AddVoucherAsync(voucher))
             {
-
+                TempData["MessageForCreate"] = "Thêm thành công";
                 return RedirectToAction("ShowAllVoucher");
             }
-            ViewBag.TypeProduct = new SelectList(typeProductRepo.GetAllProductType(), "Id", "Ten");
             return View();
-
         }
         public async Task<ActionResult> Edit(Guid id)
         {
-            var a = (await voucherServices.GetAllAsync()).FirstOrDefault(c => c.Id == id);
-            return View(a);
+            var Voucher = await voucherServices.GetVoucherDTOById(id);
+            return View(Voucher);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Voucher voucher)
+        public async Task<ActionResult> Edit(VoucherDTO voucher)
         {
             if (await voucherServices.EditVoucher(voucher))
             {
+                TempData["AlertMessage"] = "Cập nhật thành công";
                 return RedirectToAction("ShowAllVoucher");
             }
+
             return View(); ;
         }
 
@@ -87,13 +94,16 @@ namespace App_View.Areas.Admin.Controllers
             var a = (await voucherServices.GetAllAsync()).FirstOrDefault(c => c.Id == id);
             return View(a);
         }
-
+        public async Task<ActionResult> DetailsBeta()
+        {
+            return View();
+        }
 
         public async Task<ActionResult> Delete(Guid id)
         {
             await voucherServices.RemoveVoucher((await voucherServices.GetAllAsync()).FirstOrDefault(x => x.Id == id));
+            TempData["AlertMessage"] = "Xoá thành công";
             return RedirectToAction("ShowAllVoucher");
         }
-
     }
 }

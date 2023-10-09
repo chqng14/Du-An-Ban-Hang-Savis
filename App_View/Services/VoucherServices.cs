@@ -1,18 +1,26 @@
 ﻿using App_Data.Models;
+using App_Data.ViewModels.Voucher;
 using App_View.IServices;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace App_View.Services
 {
     public class VoucherServices : IVoucherServices
     {
+        private readonly HttpClient _httpClient;
+        public VoucherServices(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         public async Task<bool> AddVoucherAsync(Voucher item)
         {
             try
             {
-
-                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
+                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?ten={item.Ten}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}";
                 var httpclient = new HttpClient();
                 var response = await httpclient.PostAsync(apiUrl, null);
 
@@ -33,27 +41,25 @@ namespace App_View.Services
             }
         }
 
-        public async Task<bool> EditVoucher(Voucher item)
+        public async Task<bool> EditVoucher(VoucherDTO item)
         {
+            ///api/Voucher/UpdateVoucher
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Voucher/{item.Id}?ma={item.Ma}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&phamvi={item.PhamVi}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&solansudung={item.SoLanSuDung}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}&trangthai={item.TrangThai}";
-                var httpclient = new HttpClient();
-                var response = await httpclient.PutAsync(apiUrl, null);
-                if (response.IsSuccessStatusCode)
+                var reponse = await _httpClient.PutAsJsonAsync($"/api/Voucher/UpdateVoucher", item);
+                if (reponse.IsSuccessStatusCode)
                 {
-                    return true;
+                    return await reponse.Content.ReadAsAsync<bool>();
                 }
                 else
                 {
-                    Console.WriteLine($"Yêu cầu API sửa Voucher thất bại với mã trạng thái: {response.StatusCode}");
-                    return false;
+                    throw new Exception("Lỗi");
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"Lỗi xảy ra: {ex}");
-                throw;
+                Console.WriteLine($"Lỗi xảy ra: {e}");
+                return false;
             }
         }
 
@@ -111,6 +117,11 @@ namespace App_View.Services
                 return null;
             }
 
+        }
+
+        public async Task<VoucherDTO> GetVoucherDTOById(Guid id)
+        {
+            return await _httpClient.GetFromJsonAsync<VoucherDTO>($"/api/Voucher/GetVoucherDTOByMa/{id}");
         }
 
         public async Task<bool> RemoveVoucher(Voucher item)

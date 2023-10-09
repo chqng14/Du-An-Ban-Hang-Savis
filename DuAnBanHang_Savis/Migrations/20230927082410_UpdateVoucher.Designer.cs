@@ -4,6 +4,7 @@ using App_Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(DbContextModel))]
-    partial class DbContextModelModelSnapshot : ModelSnapshot
+    [Migration("20230927082410_UpdateVoucher")]
+    partial class UpdateVoucher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -514,7 +516,6 @@ namespace App_Data.Migrations
 
                     b.Property<string>("MatKhau")
                         .IsRequired()
-                        .HasMaxLength(20)
                         .HasColumnType("nvarchar(MAX)");
 
                     b.Property<DateTime>("NgaySinh")
@@ -526,7 +527,6 @@ namespace App_Data.Migrations
 
                     b.Property<string>("TaiKhoan")
                         .IsRequired()
-                        .HasMaxLength(16)
                         .HasColumnType("nvarchar(MAX)");
 
                     b.Property<string>("Ten")
@@ -549,13 +549,12 @@ namespace App_Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("DieuKien")
-                        .IsRequired()
-                        .HasColumnType("int");
+                    b.Property<string>("DieuKien")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LoaiHinhKm")
+                    b.Property<string>("LoaiHinhKm")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Ma")
                         .HasColumnType("nvarchar(20)");
@@ -571,12 +570,16 @@ namespace App_Data.Migrations
                         .IsRequired()
                         .HasColumnType("datetime");
 
+                    b.Property<string>("PhamVi")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int?>("SoLanSuDung")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SoLuongTon")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Ten")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("TrangThai")

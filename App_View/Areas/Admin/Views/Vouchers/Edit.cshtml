@@ -1,80 +1,125 @@
-﻿@model App_Data.Models.Voucher
+﻿@model App_Data.ViewModels.Voucher.VoucherDTO;
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<!-- Css -->
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title ">  Edit Voucher <i class="anticon anticon-gift"></i> </h4>
+        </div>
+        <div class="card-body">
+            <h4><a asp-action="ShowAllVoucher"> <i class="anticon anticon-fast-backward"></i>Back to List </a></h4>
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold" asp-for="Ten">
+                            Tên Voucher:
+                        </label>
+                        <input asp-for="Ten" id="Ten" placeholder="Nhập tên..."
+                               class="form-control" />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold">Loại hình KM:</label>
+                        <select id="LoaiHinhKm" asp-for="LoaiHinhKm"
+                                class="form-control select2"
+                                data-placeholder="Vui lòng chọn!"
+                                onchange="toggleInput()">
+                            <option label="Chọn loại hình khuyến mãi"></option>
+                            <option value="1">Giảm giá theo %</option>
+                            <option value="0">Giảm giá tiền mặt</option>
+                            <option value="2">Miễn phí ship</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold">Điều kiện:</label>
+                        <input class="form-control" asp-for="DieuKien" />
+                        <span asp-validation-for="DieuKien" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold">Số lượng:</label>
+                        <input class="form-control" asp-for="SoLuongTon" />
+                        <span asp-validation-for="SoLuongTon"
+                              class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold" id="inputLabel">Nhập số tiền giảm:</label>
+                        <input asp-for="MucUuDai" id="MucGiam"
+                               class="form-control" type="text" />
+                        <span asp-validation-for="MucUuDai" class="text-danger"></span>
+                    </div>
 
-<h1>Edit</h1>
-
-<h4>Voucher</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Ma" class="control-label"></label>
-                <input asp-for="Ma" class="form-control" />
-                <span asp-validation-for="Ma" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LoaiHinhKm" class="control-label"></label>
-                <input asp-for="LoaiHinhKm" class="form-control" />
-                <span asp-validation-for="LoaiHinhKm" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MucUuDai" class="control-label"></label>
-                <input asp-for="MucUuDai" class="form-control" />
-                <span asp-validation-for="MucUuDai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhamVi" class="control-label"></label>
-                <input asp-for="PhamVi" class="form-control" />
-                <span asp-validation-for="PhamVi" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DieuKien" class="control-label"></label>
-                <input asp-for="DieuKien" class="form-control" />
-                <span asp-validation-for="DieuKien" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SoLuongTon" class="control-label"></label>
-                <input asp-for="SoLuongTon" class="form-control" />
-                <span asp-validation-for="SoLuongTon" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SoLanSuDung" class="control-label"></label>
-                <input asp-for="SoLanSuDung" class="form-control" />
-                <span asp-validation-for="SoLanSuDung" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayBatDau" class="control-label"></label>
-                <input asp-for="NgayBatDau" class="form-control" />
-                <span asp-validation-for="NgayBatDau" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayKetThuc" class="control-label"></label>
-                <input asp-for="NgayKetThuc" class="form-control" />
-                <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold">Ngày bắt đầu:</label>
+                        <input asp-for="NgayBatDau" id="NgayBatDau"
+                               class="form-control" />
+                        <span asp-validation-for="NgayBatDau"
+                              class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="font-weight-semibold">Ngày kết thúc:</label>
+                        <input asp-for="NgayKetThuc" id="NgayKetThuc"
+                               class="form-control" />
+                        <span asp-validation-for="NgayKetThuc"
+                              class="text-danger"></span>
+                    </div>
+                    @*                     <div class="form-group col-md-6">
+                    <label class="font-weight-semibold">Trạng thái:</label>
+                    <input asp-for="TrangThai" id="TrangThai"
+                    class="form-control" />
+                    <span asp-validation-for="TrangThai" class="text-danger"></span>
+                    </div> *@
+                    <div class="form-group col-md-6">
+                        <button class="btn btn-primary bd-0 col-md-6" style="margin-top:30px">Sửa</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="ShowAllVoucher">Back to List</a>
-</div>
+    <script>
+        function toggleInput() {
+            var select = document.getElementById("LoaiHinhKm");
+            var inputLabel = document.getElementById("inputLabel");
+            var input = document.getElementById("MucGiam");
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            if (select.value === "1") { // Nếu chọn "Giảm giá theo %"
+                inputLabel.textContent = "Nhập số % giảm:";
+                input.setAttribute("type", "number"); // Chuyển thành trường nhập số
+                input.setAttribute("min", "0");
+                input.setAttribute("max", "100");
+                input.setAttribute("step", "0.01"); // Bước nhảy 0.01 (cho phần trăm)
+
+                // Thêm kiểm tra hợp lệ cho số phần trăm giảm
+                input.addEventListener("input", function () {
+                    var value = parseFloat(input.value);
+                    if (isNaN(value) || value < 0 || value > 100) {
+                        input.setCustomValidity("Vui lòng nhập số phần trăm hợp lệ (từ 0 đến 100).");
+                    } else {
+                        input.setCustomValidity("");
+                    }
+                });
+            } else {
+                inputLabel.textContent = "Nhập số tiền giảm:";
+                input.setAttribute("type", "text");
+                input.removeAttribute("min");
+                input.removeAttribute("max");
+                input.removeAttribute("step");
+                input.removeEventListener("input");
+            }
+        }
+    </script>
+
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }

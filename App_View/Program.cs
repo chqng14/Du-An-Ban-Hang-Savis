@@ -1,5 +1,9 @@
+﻿using Hangfire;
 using App_View.IServices;
 using App_View.Services;
+using System.Configuration;
+using App_Data.IRepositories;
+using App_Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7165") });
 builder.Services.AddScoped<IProductDetailService, ProductDetailService>();
+builder.Services.AddScoped<IVoucherServices, VoucherServices>();
+builder.Services.AddScoped<ITypeProductRepo, TypeProductRepo>();
+
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".AdventureWorks.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=MSI;Initial Catalog=Savis;Integrated Security=True")); //Đoạn này ai chạy lỗi thì đổi đường dẫn trong này nha
+builder.Services.AddHangfireServer();
+
 
 var app = builder.Build();
 
@@ -15,17 +34,18 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+app.UseHangfireDashboard();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
-
+var promotionService = new PromotionService();
+RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/5 * * * * *");
+RecurringJob.AddOrUpdate("UpdateVoucher", () => promotionService.UpdateExpiredVouchers(), "*/5 * * * * *");
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
