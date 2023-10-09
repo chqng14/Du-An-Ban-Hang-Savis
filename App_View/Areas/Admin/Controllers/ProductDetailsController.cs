@@ -39,6 +39,7 @@ namespace App_View.Areas.Admin.Controllers
             return View(await _productDetailService.GetListProductViewModelAsync());
         }
 
+
         public async Task<IActionResult> LoadPartialViewChiTietSanPham(Guid id)
         {
             return PartialView("_DetailPartialView", await _productDetailService.GetProductVMsAsync(id));
@@ -62,36 +63,11 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(await _productDetailService.CreateProductAsynsc(nameProduct));
         }
 
-
         public async Task<IActionResult> ViewAddSale()
         {
             ViewData["IdSale"] = new SelectList(_context.Sales, "Id", "Ten");
             return View();
         }
-        // GET: Admin/ProductDetails/Details/5
-        //public async Task<IActionResult> Details(Guid? id)
-        //{
-        //    if (id == null || _context.ProductDetails == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var productDetails = await _context.ProductDetails
-        //        .Include(p => p.Color)
-        //        .Include(p => p.Material)
-        //        .Include(p => p.Products)
-        //        .Include(p => p.Size)
-        //        .Include(p => p.TypeProduct)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (productDetails == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(productDetails);
-        //}
-
-        // GET: Admin/ProductDetails/Create
 
         public IActionResult ManageProduct()
         {
@@ -156,90 +132,6 @@ namespace App_View.Areas.Admin.Controllers
         }
 
 
-
-        // POST: Admin/ProductDetails/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,IdProduct,IdColor,IdSize,IdTypeProduct,IdMaterial,BaoHanh,MoTa,SoLuongTon,GiaNhap,GiaBan,TrangThai")] ProductDetails productDetails)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        productDetails.Id = Guid.NewGuid();
-        //        _context.Add(productDetails);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["IdColor"] = new SelectList(_context.Colors, "Id", "Ma", productDetails.IdColor);
-        //    ViewData["IdMaterial"] = new SelectList(_context.Materials, "Id", "Ten", productDetails.IdMaterial);
-        //    ViewData["IdProduct"] = new SelectList(_context.Products, "Id", "Ma", productDetails.IdProduct);
-        //    ViewData["IdSize"] = new SelectList(_context.Sizes, "Id", "Ma", productDetails.IdSize);
-        //    ViewData["IdTypeProduct"] = new SelectList(_context.TypeProducts, "Id", "Id", productDetails.IdTypeProduct);
-        //    return View(productDetails);
-        //}
-
-        // GET: Admin/ProductDetails/Edit/5
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null || _context.ProductDetails == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var productDetails = await _context.ProductDetails.FindAsync(id);
-        //    if (productDetails == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["IdColor"] = new SelectList(_context.Colors, "Id", "Ma", productDetails.IdColor);
-        //    ViewData["IdMaterial"] = new SelectList(_context.Materials, "Id", "Ten", productDetails.IdMaterial);
-        //    ViewData["IdProduct"] = new SelectList(_context.Products, "Id", "Ma", productDetails.IdProduct);
-        //    ViewData["IdSize"] = new SelectList(_context.Sizes, "Id", "Ma", productDetails.IdSize);
-        //    ViewData["IdTypeProduct"] = new SelectList(_context.TypeProducts, "Id", "Id", productDetails.IdTypeProduct);
-        //    return View(productDetails);
-        //}
-
-        // POST: Admin/ProductDetails/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Guid id, [Bind("Id,IdProduct,IdColor,IdSize,IdTypeProduct,IdMaterial,BaoHanh,MoTa,SoLuongTon,GiaNhap,GiaBan,TrangThai")] ProductDetails productDetails)
-        //{
-        //    if (id != productDetails.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(productDetails);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductDetailsExists(productDetails.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["IdColor"] = new SelectList(_context.Colors, "Id", "Ma", productDetails.IdColor);
-        //    ViewData["IdMaterial"] = new SelectList(_context.Materials, "Id", "Ten", productDetails.IdMaterial);
-        //    ViewData["IdProduct"] = new SelectList(_context.Products, "Id", "Ma", productDetails.IdProduct);
-        //    ViewData["IdSize"] = new SelectList(_context.Sizes, "Id", "Ma", productDetails.IdSize);
-        //    ViewData["IdTypeProduct"] = new SelectList(_context.TypeProducts, "Id", "Id", productDetails.IdTypeProduct);
-        //    return View(productDetails);
-        //}
-
         //GET: Admin/ProductDetails/Delete/5
         [HttpPost]
         public async Task Delete(Guid id)
@@ -247,28 +139,5 @@ namespace App_View.Areas.Admin.Controllers
              await _productDetailService.DeleteProductDetail(id);
         }
 
-        // POST: Admin/ProductDetails/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //{
-        //    if (_context.ProductDetails == null)
-        //    {
-        //        return Problem("Entity set 'DbContextModel.ProductDetails'  is null.");
-        //    }
-        //    var productDetails = await _context.ProductDetails.FindAsync(id);
-        //    if (productDetails != null)
-        //    {
-        //        _context.ProductDetails.Remove(productDetails);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool ProductDetailsExists(Guid id)
-        //{
-        //  return (_context.ProductDetails?.Any(e => e.Id == id)).GetValueOrDefault();
-        //}
     }
 }

@@ -705,6 +705,13 @@
 
             } else {
                 if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon) {
+                    console.log({
+                        ...GetDataMain()
+                        , ...dataBienThe
+                        , ...DataInDataset
+                        , ...moTa
+                        , ...{ IsNoiBat: currentItem.find('.switch-2').prop('checked') }
+                    });
                     $.ajax({
                         url: URL_CREATE_PRODUCT,
                         type: 'POST',
