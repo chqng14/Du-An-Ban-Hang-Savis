@@ -327,5 +327,55 @@ namespace App_Api.Controllers
             }
 
         }
+
+        [HttpPut("update-productDTO")]
+        public bool UpdateListProductDTO([FromBody] ProductUpdateDTO productUpdateDetailDTO)
+        {
+            try
+            {
+                var existingProductDetail = GetProductDetail(productUpdateDetailDTO.Id);
+                if (existingProductDetail == null)
+                {
+                    return false;
+                }
+                _mapper.Map(productUpdateDetailDTO, existingProductDetail);
+                return _allRepoProductDetail.EditItem(existingProductDetail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+
+        }
+
+        //Add sản phẩm
+        [HttpGet("create-product/{productName}")]
+        public Product? CreateProduct(string productName)
+        {
+            try
+            {
+                var product = new Product()
+                {
+                    Id = Guid.NewGuid(),
+                    Ma = _allRepoProduct.GetAll().Any() ? "SP1" : "SP" + (_allRepoProduct.GetAll().Count() + 1),
+                    ProductDetails = null,
+                    Ten = productName,
+                    TrangThai = 0
+                };
+                if (_allRepoProduct.AddItem(product))
+                {
+                    return product;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+
     }
 }

@@ -38,6 +38,30 @@ namespace App_View.Areas.Admin.Controllers
             return View(await _productDetailService.GetListProductViewModelAsync());
         }
 
+        public async Task<IActionResult> LoadPartialViewChiTietSanPham(Guid id)
+        {
+            return PartialView("_DetailPartialView", await _productDetailService.GetProductVMsAsync(id));
+        }
+
+        public class ListGuidDTO
+        {
+            public List<Guid>? LstGuid { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoadPartialviewDanhSachUpdate([FromBody]ListGuidDTO listGuidDTO)
+        {
+            var model = (await _productDetailService.GetListProductViewModelAsync())!
+                .Where(sp=>listGuidDTO.LstGuid!.Contains(sp.Id));
+            return PartialView("_DanhSachSanPhamUpdate", model);
+        }
+
+        public async Task<IActionResult> CreateNameProduct(string nameProduct)
+        {
+            return Ok(await _productDetailService.CreateProductAsynsc(nameProduct));
+        }
+
+
         // GET: Admin/ProductDetails/Details/5
         //public async Task<IActionResult> Details(Guid? id)
         //{
@@ -116,8 +140,13 @@ namespace App_View.Areas.Admin.Controllers
         [HttpPost]
         public async Task UpdateProduct([FromBody] ProductDetailDTO productDetailDTO)
         {
+            await _productDetailService.UpdateProductDetailAsync(productDetailDTO);
+        }
 
-            await _productDetailService.UpdateProdutDetailAsync(productDetailDTO);
+        [HttpPost]
+        public async Task UpdateProductDTO([FromBody]ProductUpdateDTO productUpdateDTO)
+        {
+            await _productDetailService.UpdateProductAsync(productUpdateDTO);
         }
 
 

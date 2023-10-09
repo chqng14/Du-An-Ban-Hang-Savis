@@ -8,7 +8,8 @@ namespace App_View.IServices
     {
         Task<List<ProductViewModel>?> GetListProductViewModelAsync();
         Task<HttpResponseMessage> CreatProductDetailAsync(ProductDetailDTO productDetailDTO);
-        Task UpdateProdutDetailAsync(ProductDetailDTO productDetailDTO);
+        Task UpdateProductDetailAsync(ProductDetailDTO productDetailDTO);
+        Task UpdateProductAsync(ProductUpdateDTO productUpdateDTO);
         Task DeleteListProductDetailAsync(List<Guid> lstIdProductDetailRemove);
         Task DeleteProductDetail(Guid id);
         Task<ProductDetailDTO?> GetProductDTOByIdAsync(Guid id);
@@ -17,5 +18,6 @@ namespace App_View.IServices
         Task<ProductViewModel> GetProductVMsAsync(Guid id);
         Task<ProductDetailVM> GetDetailProductAsync(Guid id);
         Task<ProductDetailResponseVM?> GetProductDetailRespoAsync(DataProductDetailVm dataProductDetailVm);
+        Task<Product?> CreateProductAsynsc(string nameSanPham);
     }
 }

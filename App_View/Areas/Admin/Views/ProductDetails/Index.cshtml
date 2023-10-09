@@ -5,90 +5,77 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 <style>
-    .clickable-image{
+    .clickable-image {
         cursor: pointer
     }
 </style>
-<div id="modal"></div>
-<div class="modal  bd-example-modal-xl">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title h4">Extra large modal</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <i class="anticon anticon-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
-        <div class="row m-b-30">
-            <div class="col-lg-8">
-                <div class="d-md-flex">
-                    <div class="m-b-10 m-r-15">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected="">Catergory</option>
-                            <option value="all">All</option>
-                            <option value="homeDeco">Home Decoration</option>
-                            <option value="eletronic">Eletronic</option>
-                            <option value="jewellery">Jewellery</option>
-                        </select>
-                    </div>
-                    <div class="m-b-10">
-                        <select class="custom-select" style="min-width: 180px;">
-                            <option selected="">Status</option>
-                            <option value="all">All</option>
-                            <option value="inStock">In Stock </option>
-                            <option value="outOfStock">Out of Stock</option>
-                        </select>
+<div id="body_parent">
+    <div id="modal"></div>
+    <div class="modal fade" id="modalSanPham"></div>
+    <button class="btn btn-tone rounded-circle" id="update">Update</button>
+    <div class="card">
+        <div class="card-body">
+            <div class="row m-b-30">
+                <div class="col-lg-8">
+                    <div class="d-md-flex">
+                        <div class="m-b-10 m-r-15">
+                            <select class="custom-select" style="min-width: 180px;">
+                                <option selected="">Catergory</option>
+                                <option value="all">All</option>
+                                <option value="homeDeco">Home Decoration</option>
+                                <option value="eletronic">Eletronic</option>
+                                <option value="jewellery">Jewellery</option>
+                            </select>
+                        </div>
+                        <div class="m-b-10">
+                            <select class="custom-select" style="min-width: 180px;">
+                                <option selected="">Status</option>
+                                <option value="all">All</option>
+                                <option value="inStock">In Stock </option>
+                                <option value="outOfStock">Out of Stock</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <div class="col-lg-4 text-right">
+                    <button class="btn btn-primary" onclick="window.location.href = '@Url.Action("ManageProduct", "ProductDetails")'">
+                        <i class="anticon anticon-plus-circle m-r-5"></i>
+                        <span>Quản lý sản phẩm</span>
+                    </button>
+                </div>
             </div>
-            <div class="col-lg-4 text-right">
-                <button class="btn btn-primary" onclick="window.location.href = '@Url.Action("ManageProduct", "ProductDetails")'">
-                    <i class="anticon anticon-plus-circle m-r-5"></i>
-                    <span>Quản lý sản phẩm</span>
-                </button>
+            <div class="col-sm-12">
+                <table id="tabe_ViewProduct" style="width:100%!important">
+                    <thead>
+                        <tr role="row">
+                            <th>
+                                <div class="checkbox">
+                                    <input id="check-all" type="checkbox">
+                                    <label for="check-all"></label>
+                                </div>
+                            </th>
+                            <th style="width:6px">STT</th>
+                            <th>Tên</th>
+                            <th>Màu Sắc</th>
+                            <th>Size</th>
+                            <th>Loại</th>
+                            <th>Chất liệu</th>
+                            <th>Số Lượng</th>
+                            <th>Giá bán</th>
+                            <th>Trạng thái</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
-        </div>
-        <div class="col-sm-12">
-            <table class="table table-hover e-commerce-table dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width:100%!important">
-                <thead>
-                    <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" : activate to sort column descending" style="width: 5px;">
-                            <div class="checkbox">
-                                <input id="checkAll" type="checkbox">
-                                <label for="checkAll" class="m-b-0"></label>
-                            </div>
-                        </th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width:6px">STT</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Tên</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Màu Sắc</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Size</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Loại</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Chất liệu</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Số Lượng</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Giá bán</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Trạng thái</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
         </div>
     </div>
-</div>
 
+</div>
 <script>
-   $(document).ready(function () {
-    $('#DataTables_Table_0').DataTable({
+    var selectedCheckboxes = {};
+    $(document).ready(function () {
+        $('#tabe_ViewProduct').DataTable({
         ajax: {
             url: '@Url.Action("GetProducts", "ProductDetails", new { area = "Admin" })',
             type: 'GET',
@@ -107,14 +94,15 @@
         paging: true,
         columns: [
             {
-
-                data: null,
+                data: "id",
                 render: function (data, type, full, meta) {
+                    const isChecked = selectedCheckboxes[data.idChiTietSp];
+                    const checkedAttribute = isChecked ? 'checked' : '';
                     return `
-                        <td class="sorting_1">
-                            <div class="checkbox">
-                                <input id="check-item-${data.id}" type="checkbox">
-                                <label for="check-item-${data.id}" class="m-b-0"></label>
+                        <td>
+                            <div class="checkbox" data-id="${data}">
+                                <input id="check-item-${data}" class="for_check_box" type="checkbox" "${checkedAttribute}">
+                                <label for="check-item-${data}" class="m-b-0"></label>
                             </div>
                         </td>
                     `;
@@ -123,7 +111,6 @@
             {
                 data: null,
                 render: function (data, type, full, meta) {
-                    // Tạo số thứ tự cho hàng
                     return meta.row + 1;
                 }
             },
@@ -134,7 +121,7 @@
                         return `
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img class="img-fluid rounded clickable-image" src="/images/anhsanpham/${data.lstTenAnh[0]}" style="max-width: 60px" alt="" data-rowdata='${JSON.stringify(data)}'>
+                                    <img class="img-fluid rounded clickable-image" src="/images/anhsanpham/${data.lstTenAnh[0]}" style="max-width: 60px" alt="" data-rowdata='${data.id}'>
                                     <h6 class="m-b-0 m-l-10">${data.nameProduct}</h6>
                                 </div>
                             </td>
@@ -143,7 +130,7 @@
                         return `
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img class="img-fluid rounded clickable-image" src="/Admin_assets/images/others/login-3.png" style="max-width: 60px" alt="" data-rowdata='${JSON.stringify(data)}'>
+                                    <img class="img-fluid rounded clickable-image" src="/Admin_assets/images/others/login-3.png" style="max-width: 60px" alt="" data-rowdata='${data.id}'>
                                     <h6 class="m-b-0 m-l-10">${data.nameProduct}</h6>
                                 </div>
                             </td>
@@ -151,11 +138,21 @@
                     }
                 }
             },
-            { data: 'mauSac' },
-            { data: 'size' },
-            { data: 'loai' },
-            { data: 'chatLieu' },
-            { data: 'soLuongTon' },
+            {
+                data: 'mauSac'
+            },
+            {
+                data: 'size'
+            },
+            {
+                data: 'loai'
+            },
+            {
+                data: 'chatLieu'
+            },
+            {
+                data: 'soLuongTon'
+            },
             {
                 data: 'giaBan',
                 render: function (data, type, full, meta) {
@@ -214,200 +211,67 @@
                 }
             },
         ],
+            initComplete: function (settings, json) {
+            $('#tabe_ViewProduct').on('draw.dt', function () {
+                $('.for_check_box').each(function () {
+                    const id = $(this).attr('id').replace('check-item-', '');
+                    if (selectedCheckboxes[id]) {
+                        $(this).prop('checked', true);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
+                });
+            });
 
+            $('#check-all').on('change', function () {
+                const isCheckedAll = $(this).prop('checked');
+                    $('input[type="checkbox"].for_check_box').each(function () {
+                        const id = $(this).attr('id').replace('check-item-', '');
 
+                        $(this).prop('checked', isCheckedAll);
+                        if (isCheckedAll) {
+                            selectedCheckboxes[id] = true;
+                        } else {
+                            delete selectedCheckboxes[id];
+                        }
+                    //checkToshowConfirm();
+                });
+            });
 
+            $('#tabe_ViewProduct').on('change', 'input[type="checkbox"]', function () {
+                const id = $(this).attr('id').replace('check-item-', '');
+                if ($(this).prop('checked')) {
+                    selectedCheckboxes[id] = true;
+                } else {
+                    delete selectedCheckboxes[id];
+                }
+
+                const totalCheckboxes = $('#tabe_ViewProduct').find('input[type="checkbox"]').length;
+                const totalChecked = $('#tabe_ViewProduct').find('input[type="checkbox"]:checked').length;
+
+                console.log(totalCheckboxes);
+                console.log(totalChecked);
+
+                $('#check-all').prop('checked', totalChecked === totalCheckboxes);
+                //checkToshowConfirm();
+            });
+        }
     });
    });
     $(document).on('click', '.clickable-image', function () {
         var rowData = $(this).data('rowdata');
-        yourFunction(rowData);
+        showProductDetail(rowData);
     })
-    const modalTT = (name, image, giaNhap, giaBan, size, loai, chatLieu, soLuongTon, trangThai, moTa) => {
-        let trangThaiHtml = '';
-        let anhHtml = '';
-        if (image) {
-            anhHtml = `<img src="/images/anhsanpham/${image}" alt="">`
-        } else {
-            anhHtml = `<img src="/Admin_assets/images/others/login-3.png" alt="">`
-        }
-        if (trangThai == 0) {
-            trangThaiHtml = `
-                    < tr>
-                        <td>Status:</td>
-                        <td>
-                            <span class="badge badge-pill badge-cyan">Active</span>
-                        </td>
-                    </tr >
-            `
-        } else {
-            `
-                    < tr >
-                        <td>Status:</td>
-                        <td>
-                            <span class="badge badge-pill badge-cyan">No Active</span>
-                        </td>
-                    </tr >
-            `
-        }
-        const formattedGiaNhap = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(giaNhap);
-        const formattedGiaBan = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(giaBan);
 
-
-        return     `
-    <div class="modal fade bd-example-modal-xl" id="myModal">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title h4">Thông tin sản phẩm</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <i class="anticon anticon-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="main-content" style="padding:0px">
-                        <div class="page-header no-gutters has-tab">
-                            <div class="d-md-flex m-b-15 align-items-center justify-content-between">
-                                <div class="media align-items-center m-b-15">
-                                    <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-                                        ${anhHtml}
-                                    </div>
-                                    <div class="m-l-15">
-                                        <h4 class="m-b-0">${name}</h4>
-                                        <p class="text-muted m-b-0">Code: #5325</p>
-                                    </div>
-                                </div>
-                                <div class="m-b-15">
-                                    <button class="btn btn-primary">
-                                        <i class="anticon anticon-edit"></i>
-                                        <span>Edit</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#product-overview">Overview</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#product-images">Product Images</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="tab-content m-t-15">
-                                <div class="tab-pane fade active show" id="product-overview" style="height: auto;">
-
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h4 class="card-title">Thông tin</h4>
-                                            <div class="table-responsive">
-                                                <table class="product-info-table m-t-20">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Giá nhập:</td>
-                                                            <td class="text-dark font-weight-semibold">${formattedGiaNhap}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Giá bán:</td>
-                                                            <td class="text-dark font-weight-semibold">${formattedGiaBan}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Size:</td>
-                                                            <td>${size}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Loại:</td>
-                                                            <td>${loai}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Chất liệu:</td>
-                                                            <td>${chatLieu}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Số lượng tồn:</td>
-                                                            <td>${soLuongTon}</td>
-                                                        </tr>
-                                                        ${trangThaiHtml}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Product Description</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        ${moTa}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="product-images">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row showImage">
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    `
-    }
-
-    const itemImage = (nameImage) => `<div class="col-md-3 mt-2">
-    <img class="img-fluid" src="/images/anhsanpham/${nameImage}" alt="" style="height: 180px">
-</div>`
-
-    function yourFunction(rowData) {
-        console.log(rowData);
-        const container = $('#modal');
-        container.empty();
-        container.append(modalTT(rowData.nameProduct, rowData.lstTenAnh[0], rowData.giaNhap, rowData.giaBan, rowData.size, rowData.loai, rowData.chatLieu, rowData.soLuongTon, rowData.trangThai, rowData.moTa));
-        if (rowData.lstTenAnh.length > 0) {
-            const imageContainer = container.find('.showImage');
-
-            Array.from(rowData.lstTenAnh).forEach(item=> imageContainer.append(itemImage(item)))
-        }
-        container.find('input').hide();
-
-        $('#myModal').modal('show');
-        
-    }
-
-    $('#DataTables_Table_0').on('click', '.delete-button', function () {
-        const item = $(this)
-        const id = $(this).data('id');
-        const UrlDelete = '@Url.Action("Delete", "ProductDetails", new { area = "Admin" })';
-
-        var data = new FormData();
-        data.append('id', id);
+    function showProductDetail(rowData) {
         $.ajax({
-            url: UrlDelete,
-            type: 'POST',
-            data: data,
-            contentType: false,
-            processData: false,
+            url: '/Admin/ProductDetails/LoadPartialViewChiTietSanPham?id=' + rowData,
+            type: 'GET',
             success: function (result) {
-                var container = item.closest("tr").find('.trangThai');
-                console.log(container);
-                container.empty();
-                container.append(`
-           <td>
-    <div class="d-flex align-items-center">
-        <div class="badge badge-danger badge-dot m-r-10"></div>
-        <div>No Active</div>
-    </div>
-</td>
-`)
+                const modal = $('#modalSanPham');
+                modal.empty();
+                modal.html(result);
+                modal.modal("show")
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText);
@@ -417,10 +281,56 @@
             }
         });
 
+    }
 
-
+    $('#tabe_ViewProduct').on('click', '.delete-button', function () {
+        const item = $(this)
+        const id = $(this).data('id');
+        const UrlDelete = '@Url.Action("Delete", "ProductDetails", new { area = "Admin" })';
+        var data = new FormData();
+        data.append('id', id);
+        $.ajax({
+            url: UrlDelete,
+            type: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                item.closest("tr").remove()
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
     });
+    $(document).on('click', '#update', function () {
+        const keys = Object.keys(selectedCheckboxes).filter(item => item !== "check-all");
+        console.log(keys);
+        const container = $("#body_parent").empty();
 
+        var dataGet = {
+            LstGuid: keys,
+        };
+        $.ajax({
+            url: '/Admin/ProductDetails/LoadPartialviewDanhSachUpdate',
+            type: 'Post',
+            data: JSON.stringify(dataGet),
+            contentType: 'application/json',
+            success: function (result) {
+                container.append(result);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+
+    })
 </script>
 
 @section Scripts {
@@ -429,4 +339,6 @@
     <script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js" defer></script>
     <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
     <script src="~/Admin_assets/js/pages/datatables.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.8.1/autoNumeric.min.js"></script>
 }

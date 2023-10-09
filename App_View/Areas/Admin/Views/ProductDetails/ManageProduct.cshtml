@@ -24,9 +24,9 @@
         </div>
         <div class="m-b-15" style="margin-bottom: 30px">
             <div class="row">
-                <div class="col-4" style="margin-top: 10px">
+                <div id="sanpham" class="col-4" style="margin-top: 10px">
                     <label>NameProduct</label>
-                    <select id="IdProduct" class="select2" name="IdProduct">
+                    <select id="IdProduct" class="select2-active" name="IdProduct">
                         @foreach (var item in (SelectList)ViewData["IdProduct"])
                         {
                             <option value="@item.Value">@item.Text</option>
@@ -110,28 +110,47 @@
     const selectedFiles = {};
     const lstAnhRemove = {};
 
+    $(() => {
+        $(".select2-active").select2();
+        $('#sanpham').find('input.select2-input').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                var inputValue = $(this).val();
+                if (inputValue) {
+                    $.ajax({
+                        url: 'CreateNameProduct',
+                        type: 'GET',
+                        data: {
+                            nameProduct: inputValue,
+                        },
+                        contentType: 'application/json',
+                        success: function (result) {
+                            var $select2 = $("[name='IdProduct']");
+                            var selectedValue = $select2.val();
+                            if (selectedValue && selectedValue.length > 0) {
+                                $select2.val(null).trigger('change');
+                            }
+                            var newOption = new Option(result.tenSanPham, result.idSanPham, true, true);
+                            $select2.append(newOption).trigger('change');
 
+                            $(this).val('');
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            }
+        });
+    })
 
     const AddEditor = () => {
         var lstThucThe = $('.accordion').find('.moTa');
         lstThucThe.each(function (index, item) {
-            new Quill(item, {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'], // Kiểu văn bản
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Danh sách
-                        [{ 'align': [] }], // Căn chỉnh văn bản
-                        ['link', 'image'], // Liên kết và hình ảnh
-                        [{ 'font': [] }], // Thêm tùy chọn font
-                        [{ 'size': ['small', false, 'large', 'huge'] }] // Thêm tùy chọn kích thước font
-                    ],
-                    
-                },
-            });
+            $(item).summernote();
         });
-        
-
     }
 
 
@@ -147,90 +166,89 @@
     const ItemTemplate = (index, isUpdate, idProduct, idcolor, idsize, Title, giaNhap, giaBan, soLuong, moTa) => {
         //const escapedMoTa = escape(moTa);
         return         `
-<div class="card item-accordion" data-update="${isUpdate}" data-idproductdetail="${idProduct}">
-    <div class="card-header d-flex">
-        <h5 class="card-title">
-            <a data-toggle="collapse" data-IdColor="${idcolor}" data-IdSize="${idsize}"
-               href="#collapseOneBorderless${index}">
-                <span>${Title}</span>
-            </a>
-        </h5>
-        <button class="btn btn-icon btn-primary btn-rounded btn-tone btnn-close">
-            <i class="anticon anticon-close"></i>
-        </button>
-    </div>
-    <div id="collapseOneBorderless${index}" class="collapse" data-parent="#accordion-borderless">
+            <div class="card item-accordion" data-update="${isUpdate}" data-idproductdetail="${idProduct}">
+                <div class="card-header d-flex">
+                    <h5 class="card-title">
+                        <a data-toggle="collapse" data-IdColor="${idcolor}" data-IdSize="${idsize}"
+                           href="#collapseOneBorderless${index}">
+                            <span>${Title}</span>
+                        </a>
+                    </h5>
+                    <button class="btn btn-icon btn-primary btn-rounded btn-tone btnn-close">
+                        <i class="anticon anticon-close"></i>
+                    </button>
+                </div>
+                <div id="collapseOneBorderless${index}" class="collapse" data-parent="#accordion-borderless">
 
-        <div class="d-flex">
-            <ul class="nav nav-tabs flex-column" id="myTabVertical" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-vertical" data-toggle="tab" href="#home-vertical${index}"
-                       role="tab" aria-controls="home-vertical${index}" aria-selected="true">Information</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
-                       role="tab" aria-controls="profile-${index}" aria-selected="false">Image</a>
-                </li>
-            </ul>
+                    <div class="d-flex">
+                        <ul class="nav nav-tabs flex-column" id="myTabVertical" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab-vertical" data-toggle="tab" href="#home-vertical${index}"
+                                   role="tab" aria-controls="home-vertical${index}" aria-selected="true">Information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-vertical" data-toggle="tab" href="#profile-vertical${index}"
+                                   role="tab" aria-controls="profile-${index}" aria-selected="false">Image</a>
+                            </li>
+                        </ul>
 
-            <div class="tab-content m-l-15" id="myTabContentVertical">
-                <div class="tab-pane fade show active" id="home-vertical${index}" role="tabpanel"
-                     aria-labelledby="home-tab-vertical${index}">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-4">
-                                <label>Giá Nhập</label>
-                                <input type="number" min="1" class="form-control" name="GiaNhap" value="${giaNhap}"
-                                       placeholder="">
-                            </div>
-                            <div class="form-group col-4">
-                                <label>Giá Bán</label>
-                                <input type="number" min="1" class="form-control" name="GiaBan" value="${giaBan}"
-                                       placeholder="">
-                            </div>
-                            <div class="form-group col-4">
-                                <label>Số lượng</label>
-                                <input type="number" min="1" class="form-control" name="SoLuongTon" value="${soLuong}">
-                            </div>
-                            <div class="col-12">
-                                    <div class="form-group d-flex align-items-center">
-                                        <div class="switch m-r-10">
-                                            <input type="checkbox" id="switch-${index}" class="switch-2">
-                                            <label for="switch-${index}"></label>
+                        <div class="tab-content m-l-15" id="myTabContentVertical">
+                            <div class="tab-pane fade show active" id="home-vertical${index}" role="tabpanel"
+                                 aria-labelledby="home-tab-vertical${index}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="form-group col-4">
+                                            <label>Giá Nhập</label>
+                                            <input min="1" class="form-control formatPrice" name="GiaNhap" value="${giaNhap}"
+                                                   placeholder="">
                                         </div>
-                                        <label>Nổi bật</label>
+                                        <div class="form-group col-4">
+                                            <label>Giá Bán</label>
+                                            <input min="1" class="form-control formatPrice" name="GiaBan" value="${giaBan}"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label>Số lượng</label>
+                                            <input min="1" class="form-control formatNumber" name="SoLuongTon" value="${soLuong}">
+                                        </div>
+                                        <div class="col-12">
+                                                <div class="form-group d-flex align-items-center">
+                                                    <div class="switch m-r-10">
+                                                        <input type="checkbox" id="switch-${index}" class="switch-2">
+                                                        <label for="switch-${index}"></label>
+                                                    </div>
+                                                    <label>Nổi bật</label>
+                                                </div>
+                                            </div>
+
+                                        <div class="form-group col-12">
+                                            <div class="m-b-5" style="margin-top: 10px;">
+                                                <label style="display: block; margin-bottom: 5px;">
+                                                    Mô tả sản phẩm
+                                                </label>
+                                                <div class="moTa" style="width: 100%; " name="MoTa">${moTa}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                            <div class="form-group col-12">
-                                <div class="m-b-5" style="margin-top: 10px;">
-                                    <label style="display: block; margin-bottom: 5px;">
-                                        Mô tả sản phẩm
-                                    </label>
-                                    <div class="moTa" style="width: 100%; "
-                                              placeholder="Nhập mô tả của bạn" name="MoTa">${moTa}</div>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="profile-vertical${index}" role="tabpanel"
-                     aria-labelledby="profile-tab-vertical${index}">
-                    <div class="card-body">
-                        <div class="upload">
-                            <button name="choseFile" class="custom-btn mb-2">
-                                Choose file
-                            </button>
-                            <input type="file" class="fileInput default-btn 1" multiple hidden>
-                            <div class="container-file" style="display: flex;">
+                            <div class="tab-pane fade" id="profile-vertical${index}" role="tabpanel"
+                                 aria-labelledby="profile-tab-vertical${index}">
+                                <div class="card-body">
+                                    <div class="upload">
+                                        <button name="choseFile" class="custom-btn mb-2">
+                                            Choose file
+                                        </button>
+                                        <input type="file" class="fileInput default-btn 1" multiple hidden>
+                                        <div class="container-file" style="display: flex;">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
         `;
     }
 
@@ -305,7 +323,7 @@
                 const promise = getProductDetail(data);
                 promise.then((respose) => {
                     if (respose.success) {
-                       
+
                         const itemAppend = $(ItemTemplate(index, true, respose.data.Id, lstColor[i].value, lstSize[j].value, lstColor[i].text + ' - ' + lstSize[j].text, respose.data.GiaNhap, respose.data.GiaBan, respose.data.SoLuongTon, respose.data.MoTa))
                         container.append(itemAppend)
                         if (respose.data.IsNoiBat) {
@@ -373,6 +391,25 @@
         }
 
         await Promise.all(ajaxPromises);
+        $(".formatPrice").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                currencySymbol: " ₫",
+                currencySymbolPlacement: "s",
+                minimumValue: 0
+            });
+        });
+
+        $(".formatNumber").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                minimumValue: 0
+            });
+        });
         $('#preloader').hide();
         AddEditor();
     }
@@ -510,18 +547,18 @@
                 $('#preloader').hide();
                 if (checkSS > 0) {
                     var toastHTML = `<div class="toast fade hide" data-delay="3000">
-    <div class="toast-header">
-        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-        <strong class="mr-auto">Bootstrap</strong>
-        <small>1 second ago</small>
-        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="toast-body">
-        ${checkSS} thực thể được cập nhật thành công
-    </div>
-</div>`
+                                        <div class="toast-header">
+                                            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                            <strong class="mr-auto">Bootstrap</strong>
+                                            <small>1 second ago</small>
+                                            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="toast-body">
+                                            ${checkSS} thực thể được cập nhật thành công
+                                        </div>
+                                    </div>`
 
                     $('#notification-toast').append(toastHTML)
                     $('#notification-toast .toast').toast('show');
@@ -533,19 +570,19 @@
 
                 if (checkErr > 0) {
                     var toastHTML = `<div class="toast fade hide" data-delay="3000">
-        <div class="toast-header">
-            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-            <strong class="mr-auto">Bootstrap</strong>
-            <small>1 second ago</small>
-            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="toast-body">
-            Một vài thực thể dữ liệu chưa được nhập.
-            Vui lòng nhập để tiếp tục
-        </div>
-    </div>`
+                                        <div class="toast-header">
+                                            <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                            <strong class="mr-auto">Bootstrap</strong>
+                                            <small>1 second ago</small>
+                                            <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="toast-body">
+                                            Một vài thực thể dữ liệu chưa được nhập.
+                                            Vui lòng nhập để tiếp tục
+                                        </div>
+                                    </div>`
 
                     $('#notification-toast').append(toastHTML)
                     $('#notification-toast .toast').toast('show');
@@ -570,8 +607,14 @@
                 if (fieldType === "checkbox" || fieldType === "radio") {
                     fieldValue = $(this).is(":checked");
                 } else {
-                    fieldValue = $(this).val();
+                    if ($(this).hasClass("formatPrice") || $(this).hasClass("formatNumber")) {
+                        var fieldValue = $(this).val();
+                        fieldValue = BigInt(fieldValue.replace(/₫|,|\s/g, '')).toString();
+                    } else {
+                        fieldValue = $(this).val();
+                    }
                 }
+
                 if (fieldName) {
                     dataBienThe[fieldName] = fieldValue;
                 }
@@ -587,7 +630,7 @@
                 }
             });
 
-            const moTa = {MoTa: currentItem.find('.moTa').html()}
+            const moTa = { MoTa: currentItem.find('.moTa').summernote('code') }
             if (isUpdate === 'true') {
                 const key = currentItem.find('.collapse').attr('id');
 
@@ -710,16 +753,15 @@
                             console.log(xhr);
                         }
                     });
-                } else {
+                }
+                else
+                {
                     checkErr++;
                     currentIndex++;
                     processNextItem();
                 }
-
             }
-
         }
-
         processNextItem();
     }
 </script>
@@ -727,6 +769,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/Admin_assets/vendors/select2/select2.min.js" defer></script>
-    <script src="~/Admin_assets/vendors/quill/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.8.1/autoNumeric.min.js"></script>
     <script src="~/Admin_assets/js/pages/form-elements.js"></script>
 }

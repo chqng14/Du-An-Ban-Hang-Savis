@@ -11,6 +11,7 @@ namespace App_Api.Helpers.Mapings
         public MappingProfiles()
         {
             CreateMap<ProductDetailDTO, ProductDetails>().ReverseMap();
+            CreateMap<ProductUpdateDTO, ProductDetails>().ReverseMap();
         }
     }
 }
