@@ -52,7 +52,6 @@ namespace App_View.Areas.Admin.Controllers
         }
 
 
-
         public async Task<ActionResult> Create()
         {
 
@@ -60,12 +59,15 @@ namespace App_View.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(Voucher voucher)
+        public async Task<ActionResult> Create(VoucherDTO voucher)
         {
-            if (await voucherServices.AddVoucherAsync(voucher))
+            if (ModelState.IsValid)
             {
-                TempData["MessageForCreate"] = "Thêm thành công";
-                return RedirectToAction("ShowAllVoucher");
+                if (await voucherServices.AddVoucherAsync(voucher))
+                {
+                    TempData["MessageForCreate"] = "Thêm thành công";
+                    return RedirectToAction("ShowAllVoucher");
+                }
             }
             return View();
         }
@@ -79,11 +81,15 @@ namespace App_View.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(VoucherDTO voucher)
         {
-            if (await voucherServices.EditVoucher(voucher))
+            if (ModelState.IsValid)
             {
-                TempData["AlertMessage"] = "Cập nhật thành công";
-                return RedirectToAction("ShowAllVoucher");
+                if (await voucherServices.EditVoucher(voucher))
+                {
+                    TempData["AlertMessage"] = "Cập nhật thành công";
+                    return RedirectToAction("ShowAllVoucher");
+                }
             }
+
 
             return View(); ;
         }

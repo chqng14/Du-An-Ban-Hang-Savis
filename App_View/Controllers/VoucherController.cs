@@ -31,7 +31,7 @@ namespace App_View.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync(Voucher voucher)
         {
-            await voucherServices.AddVoucherAsync(voucher);
+
             return RedirectToAction("ShowAllVoucher");
         }
         public async Task<ActionResult> EditAsync(Guid id)
