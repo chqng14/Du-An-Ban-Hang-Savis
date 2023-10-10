@@ -289,7 +289,17 @@
                         <div class="item">
                             <div class="product-thumb clearfix mb_30">
                                 <div class="image product-imageblock">
-                                    <a href="ProductDetails/Details/@item.Id"> <img style="height:220px" data-name="product_image" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> </a>
+                                    @if(@item.LstTenAnh.Count >=2){
+                                    <a href="ProductDetails/Details/@item.Id"> <img style="height:220px" data-name="product_image" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> </a>
+                                    }
+                                    else if(@item.LstTenAnh.Count==1)
+                                    {
+                                    <a href="ProductDetails/Details/@item.Id"> <img style="height:220px" data-name="product_image" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> </a>
+                                    }
+                                    else if(@item.LstTenAnh.Count==0)
+                                    {
+                                    <a href="ProductDetails/Details/@item.Id"> <img style="height:220px" data-name="product_image" src="/images/anhsanpham/noAnh.png" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> <img style="height:220px" src="/images/anhsanpham/noAnh.png" alt="iPod Classic" title="iPod Classic" class="img-responsive" /> </a>
+                                    }
                                     <div class="button-group text-center">
                                         <div class="add-to-cart" onclick="window.location.href = '/ProductDetails/Details/@item.Id'" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="/ProductDetails/Details/@item.Id"><span>Add to cart</span></a></div>
                                     </div>

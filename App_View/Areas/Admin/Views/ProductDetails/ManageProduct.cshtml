@@ -126,10 +126,12 @@
                         success: function (result) {
                             var $select2 = $("[name='IdProduct']");
                             var selectedValue = $select2.val();
+
                             if (selectedValue && selectedValue.length > 0) {
                                 $select2.val(null).trigger('change');
                             }
-                            var newOption = new Option(result.tenSanPham, result.idSanPham, true, true);
+                            console.log(result);
+                            var newOption = new Option(result.ten, result.id, true, true);
                             $select2.append(newOption).trigger('change');
 
                             $(this).val('');

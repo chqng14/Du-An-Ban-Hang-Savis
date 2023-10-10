@@ -35,8 +35,13 @@ namespace App_View.Areas.Admin.Controllers
         //GET: Admin/ProductDetails
         public async Task<IActionResult> Index()
         {
-            
-            return View(await _productDetailService.GetListProductViewModelAsync());
+            return View();
+        }
+
+        //GET: Admin/ProductDetails
+        public async Task<IActionResult> DanhSachSanPhamNgungKinhDoanh()
+        {
+            return View();
         }
 
 
