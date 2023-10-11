@@ -1,35 +1,59 @@
-﻿@model IEnumerable<App_Data.Models.Voucher>
+﻿@using App_Data.Models;
+@using System.Globalization;
+@model IEnumerable<App_Data.Models.Voucher>
 
 @{
     ViewData["Title"] = "ShowAllVoucher";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    DbContextModel context = new DbContextModel();
 }
 
 <h1>Voucher</h1>
 
-<a asp-action="Create" class="btn btn-primary">
-    <i class="anticon anticon-plus-circle m-r-5"></i>
-    <span>Create New</span>
-</a>
+<div class="d-md-flex">
+    <div class="row w-100 m-b-30">
+        <div class="col-lg-8">
+            <form asp-action="ShowAllVoucher" method="post">
+                <div class="d-md-flex">
+                    <div class="m-b-10">
+                        <select id="trangThai" name="trangThai" class="custom-select">
+                            <option value="tatCa">Tất cả</option>
+                            <option value="hoatDong">Hoạt động</option>
+                            <option value="khongHoatDong">Không hoạt động</option>
+                            <option value="chuaBatDau">Chưa bắt đầu</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10 ml-1">
+                        <button type="submit" class="btn btn-primary">Lọc</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4 text-right">
+            <h1>  <a class="btn btn-primary" asp-action="Create"><i class="anticon anticon-plus-circle"></i> Tạo mới</a></h1>
 
+        </div>
+    </div>
+</div>
+@* <div class="d-md-flex">
+    <form asp-action="ShowAllVoucher" method="post">
+        <div class="form-group">
+            <label for="trangThai">Chọn trạng thái:</label>
+            <select id="trangThai" name="trangThai" class="custom-select">
+                <option value="tatCa">Tất cả</option>
+                <option value="hoatDong">Hoạt động</option>
+                <option value="khongHoatDong">Không hoạt động</option>
+                <option value="chuaBatDau">Chưa bắt đầu</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Lọc</button>
+        </div>
+
+    </form>
+</div> *@
 
 <table id="data-table" class="table" style="text-align:center">
     <thead>
-        <div class="d-md-flex">
-            <form asp-action="ShowAllVoucher" method="post">
-                <div class="form-group">
-                    <label for="trangThai">Chọn trạng thái:</label>
-                    <select id="trangThai" name="trangThai" class="custom-select">
-                        <option value="tatCa">Tất cả</option>
-                        <option value="hoatDong">Hoạt động</option>
-                        <option value="khongHoatDong">Không hoạt động</option>
-                        <option value="chuaBatDau">Chưa bắt đầu</option>
-                    </select>
-                        <button type="submit" class="btn btn-primary">Lọc</button>
-                </div>
-             
-            </form>
-        </div>
+      
         <tr class="clickable-row">
             <th>
                 Mã Voucher
@@ -42,9 +66,6 @@
             </th>
             <th>
                 Mức ưu đãi
-            </th>
-            <th>
-                Phạm vi
             </th>
             <th>
                 Điều kiện
@@ -100,24 +121,15 @@
                     }
                     else
                     {
-                        int mucUuDai = int.Parse(item.MucUuDai.ToString());
-                        string mucUuDaiVND = mucUuDai.ToString("C0"); // Định dạng giá trị thành tiền VND.
-                        @mucUuDaiVND
+                        @string.Format("{0:N0}đ", item.MucUuDai)
                     }
                 </td>
-            <td>
-                    <span>      @item.PhamVi
-
-            </span>
-            </td>
+           
             <td>
                     <span>  @item.DieuKien</span>
             </td>
             <td>
                     <span>    @item.SoLuongTon</span>
-            </td>
-            <td>
-                    <span>  @item.SoLanSuDung</span>
             </td>
             <td>
                     <span>   @item.NgayBatDau</span>

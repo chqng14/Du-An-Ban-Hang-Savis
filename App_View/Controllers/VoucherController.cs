@@ -13,9 +13,9 @@ namespace App_View.Controllers
 
 
 
-        public VoucherController()
+        public VoucherController(IVoucherServices voucherServices)
         {
-            voucherServices = new VoucherServices();
+            this.voucherServices = voucherServices;
         }
 
         public async Task<IActionResult> ShowAllVoucher()
@@ -40,13 +40,13 @@ namespace App_View.Controllers
             return View(a);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(Voucher voucher)
-        {
-            await voucherServices.EditVoucher(voucher);
-            return RedirectToAction("ShowAllVoucher");
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> EditAsync(Voucher voucher)
+        //{
+        //    await voucherServices.EditVoucher(voucher);
+        //    return RedirectToAction("ShowAllVoucher");
+        //}
 
 
         public async Task<ActionResult> DetailsAsync(Guid id)

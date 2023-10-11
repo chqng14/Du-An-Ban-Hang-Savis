@@ -1,4 +1,5 @@
 ﻿using App_Data.Models;
+using App_Data.ViewModels.Voucher;
 
 namespace App_View.IServices
 {
@@ -8,6 +9,7 @@ namespace App_View.IServices
         public Task<Voucher> GetVoucherAsync(string item);
         public Task<bool> AddVoucherAsync(Voucher item);
         public Task<bool> RemoveVoucher(Voucher item);
-        public Task<bool> EditVoucher(Voucher item);
+        public Task<bool> EditVoucher(VoucherDTO item);
+        Task<VoucherDTO> GetVoucherDTOById(Guid id);
     }
 }

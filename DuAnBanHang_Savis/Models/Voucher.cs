@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace App_Data.Models
 {
-    public partial class Voucher
+    public class Voucher
     {
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Phải nhập tên")]
@@ -15,7 +15,6 @@ namespace App_Data.Models
 
         [CustomMucUuDaiValidation]
         public decimal MucUuDai { get; set; }
-        public string? PhamVi { get; set; }
         [Required(ErrorMessage = "Điều kiện là trường bắt buộc.")]
         [Range(1, int.MaxValue, ErrorMessage = "Điều kiện phải là số nguyên không âm.")]
         public int? DieuKien { get; set; }
@@ -23,8 +22,6 @@ namespace App_Data.Models
         [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn phải lớn hơn hoặc bằng 0.")]
         public int? SoLuongTon { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Số lần sử dụng phải lớn hơn hoặc bằng 0.")]
-        public int? SoLanSuDung { get; set; }
 
         [Display(Name = "Ngày bắt đầu")]
         [Required(ErrorMessage = "Ngày bắt đầu không được để trống.")]
@@ -50,23 +47,23 @@ namespace App_Data.Models
                 {
                     if (value is double mucUuDai && mucUuDai <= 0)
                     {
-                        return new ValidationResult("Mức ưu đãi phải lớn hơn 0 khi LoaiHinhUuDai là 0.");
+                        return new ValidationResult("Số tiền giảm phải lớn hơn 0.");
                     }
                 }
                 else if (model.LoaiHinhKm == 1)
                 {
                     if (value is double mucUuDai && (mucUuDai <= 0 || mucUuDai > 100))
                     {
-                        return new ValidationResult("Mức ưu đãi phải nằm trong khoảng từ 0 đến 100 khi LoaiHinhUuDai là 1.");
+                        return new ValidationResult("% Giảm phải nằm trong khoảng từ 0 đến 100.");
                     }
                 }
                 else if (model.LoaiHinhKm == 2)
                 {
-                    // Kiểm tra mức ưu đãi theo điều kiện riêng cho LoaiHinhUuDai là 2
+                    // Kiểm tra Số tiền giảm theo điều kiện riêng cho LoaiHinhUuDai là 2
                     // Điều kiện này tương tự với khi LoaiHinhUuDai là 0
                     if (value is double mucUuDai && mucUuDai <= 0)
                     {
-                        return new ValidationResult("Mức ưu đãi phải lớn hơn 0 khi LoaiHinhUuDai là 2.");
+                        return new ValidationResult("Số tiền giảm phải lớn hơn 0.");
                     }
                 }
 

@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.TrangThai)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ChiTietSp)
+                @Html.DisplayNameFor(model => model.Sale)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sale)
+                @Html.DisplayNameFor(model => model.Product)
             </th>
             <th></th>
         </tr>
@@ -38,10 +38,10 @@
                 @Html.DisplayFor(modelItem => item.TrangThai)
             </td>
             <td>
-                 @Html.DisplayFor(modelItem => item.ChiTietSp)
+                 @Html.DisplayFor(modelItem => item.Sale)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sale)
+                    @Html.DisplayFor(modelItem => item.Product)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,4 +1,5 @@
-﻿using App_Data.ViewModels.ProductDetail;
+﻿using App_Data.Models;
+using App_Data.ViewModels.ProductDetail;
 using App_View.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
@@ -40,7 +41,7 @@ namespace App_View.Services
             return await _httpClient.GetFromJsonAsync<List<ProductViewModel>>("/api/ProductDetail/get-list-productdetail");
         }
 
-        public async Task UpdateProdutDetailAsync(ProductDetailDTO productDetailDTO)
+        public async Task UpdateProductDetailAsync(ProductDetailDTO productDetailDTO)
         {
             try
             {
@@ -111,6 +112,34 @@ namespace App_View.Services
                 throw;
             }
             
+        }
+
+        public Task<Product?> CreateProductAsynsc(string nameSanPham)
+        {
+            return _httpClient.GetFromJsonAsync<Product?>($"/api/ProductDetail/create-product/{nameSanPham}");
+        }
+
+        public async Task UpdateProductAsync(ProductUpdateDTO productUpdateDTO)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync("/api/ProductDetail/update-productDTO", productUpdateDTO);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Delete successful. Response: " + responseContent);
+                }
+                else
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Delete failed. Response: " + responseContent);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex);
+            }
         }
     }
 }

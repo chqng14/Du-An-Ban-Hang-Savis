@@ -2,8 +2,10 @@
 using App_Data.Models;
 using App_Data.Repositories;
 using App_Data.ViewModel;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,15 +20,16 @@ namespace App_Api.Controllers
         private readonly IAllRepo<Product> ProductRepos;
         private readonly IAllRepo<ProductDetails> productDTRepos;
         private DbContextModel context = new DbContextModel();
-
-        public SaleDetailController()
+        DbSet<SaleDetail> _SaleDetail;
+        private readonly IMapper _mapper;
+        public SaleDetailController(IMapper mapper)
         {
-            DbSet<SaleDetail> SaleDetail = context.DetailSales;
+            _SaleDetail = context.DetailSales;
             DbSet<Sale> Sale = context.Sales;
             DbSet<Product> Product = context.Products;
             DbSet<ProductDetails> productDetails = context.ProductDetails;
-
-            SaleDetailRepos = new AllRepo<SaleDetail>(context, SaleDetail);
+            _mapper = mapper;
+            SaleDetailRepos = new AllRepo<SaleDetail>(context, _SaleDetail);
             SaleRepos = new AllRepo<Sale>(context, Sale);
             ProductRepos = new AllRepo<Product>(context, Product);
             productDTRepos = new AllRepo<ProductDetails>(context, productDetails);
@@ -35,17 +38,9 @@ namespace App_Api.Controllers
         [HttpGet]
         public IEnumerable<SaleDTViewModel> Get()
         {
-            var saleDetail = SaleDetailRepos.GetAll();
-            var saleDetails = saleDetail.Select(pd => new SaleDTViewModel
-            {
-                Id = pd.Id,
-                Sale = SaleRepos.GetAll().FirstOrDefault(sale => sale.Id == pd.IdSale)?.Ten,
-                ChiTietSp = ProductRepos.GetAll().FirstOrDefault(x => x.Id == productDTRepos.GetAll().FirstOrDefault(p => p.Id == pd.IdChiTietSp).IdProduct).Ten,
-                MoTa = pd.MoTa,
-                TrangThai = pd.TrangThai,
-                
-            });
-            return saleDetails;
+            var allSale =  ( _SaleDetail.Include(c => c.Sale).Include(c => c.ProductDetail).ThenInclude(y => y.Products)).ToList();
+            var allSaleDTO =  _mapper.Map<List<SaleDTViewModel>>(allSale);
+            return allSaleDTO;
         }
 
         [HttpPost]

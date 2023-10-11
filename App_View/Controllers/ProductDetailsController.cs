@@ -35,7 +35,6 @@ namespace App_View.Controllers
         [HttpPost]
         public async Task<IActionResult> GetDetails([FromBody]DataProductDetailVm dataProductDetailVm)
         {
-            var a = dataProductDetailVm;
             return Json(await _productDetailService.GetProductDetailRespoAsync(dataProductDetailVm));
         }
 

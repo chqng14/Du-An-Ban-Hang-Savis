@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Details</h1>
@@ -11,16 +12,16 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Ma)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Ma)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ten)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ten)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LoaiHinhKm)
@@ -34,6 +35,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MucUuDai)
         </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DieuKien)
         </dt>
@@ -67,6 +69,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="ShowAllVoucher">Back to List</a>
 </div>

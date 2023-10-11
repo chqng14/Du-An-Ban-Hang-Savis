@@ -15,7 +15,6 @@ namespace App_Data.Models
         public Guid? IdSize { get; set; }
         public Guid? IdTypeProduct { get; set; }
         public Guid? IdMaterial { get; set; }
-        public string? BaoHanh { get; set; }
         public string? MoTa { get; set; }
         public int SoLuongTon { get; set; }
         public int SoLuongDaBan { get; set; }
@@ -23,6 +22,7 @@ namespace App_Data.Models
         public bool IsNoiBat { get; set; }  
         public decimal? GiaNhap { get; set; }
         public decimal? GiaBan { get; set; }
+        public decimal? GiaThucTe { get; set; }
         public int? TrangThai { get; set; }
 
         public virtual Product Products { get; set; }

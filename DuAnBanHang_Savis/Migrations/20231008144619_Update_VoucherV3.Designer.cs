@@ -4,6 +4,7 @@ using App_Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(DbContextModel))]
-    partial class DbContextModelModelSnapshot : ModelSnapshot
+    [Migration("20231008144619_Update_VoucherV3")]
+    partial class Update_VoucherV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,13 +281,13 @@ namespace App_Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("BaoHanh")
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<decimal?>("GiaBan")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("GiaNhap")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("GiaThucTe")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid?>("IdColor")
