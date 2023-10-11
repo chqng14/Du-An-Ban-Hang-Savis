@@ -62,7 +62,6 @@ namespace App_Api.Controllers
             return new ProductDetailResponseVM
             {
                 Id = item.Id,
-                BaoHanh = item.BaoHanh,
                 ChatLieu = _allRepoMaterial.GetAll().FirstOrDefault(x => x.Id == item.IdMaterial)?.Ten,
                 GiaBan = item.GiaBan,
                 GiaNhap = item.GiaNhap,
@@ -137,7 +136,6 @@ namespace App_Api.Controllers
             return new ProductDetailVM
             {
                 Id = item.Id,
-                BaoHanh = item.BaoHanh,
                 ChatLieu = _allRepoMaterial.GetAll().FirstOrDefault(x => x.Id == item.IdMaterial)?.Ten,
                 GiaBan = item.GiaBan,
                 Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
@@ -176,7 +174,6 @@ namespace App_Api.Controllers
             return new ProductViewModel
             {
                 Id = item.Id,
-                BaoHanh = item.BaoHanh,
                 ChatLieu = _allRepoMaterial.GetAll().FirstOrDefault(x => x.Id == item.IdMaterial)?.Ten,
                 GiaBan = item.GiaBan,
                 GiaNhap = item.GiaNhap,
@@ -327,5 +324,55 @@ namespace App_Api.Controllers
             }
 
         }
+
+        [HttpPut("update-productDTO")]
+        public bool UpdateListProductDTO([FromBody] ProductUpdateDTO productUpdateDetailDTO)
+        {
+            try
+            {
+                var existingProductDetail = GetProductDetail(productUpdateDetailDTO.Id);
+                if (existingProductDetail == null)
+                {
+                    return false;
+                }
+                _mapper.Map(productUpdateDetailDTO, existingProductDetail);
+                return _allRepoProductDetail.EditItem(existingProductDetail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+
+        }
+
+        //Add sản phẩm
+        [HttpGet("create-product/{productName}")]
+        public Product? CreateProduct(string productName)
+        {
+            try
+            {
+                var product = new Product()
+                {
+                    Id = Guid.NewGuid(),
+                    Ma = _allRepoProduct.GetAll().Any() ? "SP1" : "SP" + (_allRepoProduct.GetAll().Count() + 1),
+                    ProductDetails = null,
+                    Ten = productName,
+                    TrangThai = 0
+                };
+                if (_allRepoProduct.AddItem(product))
+                {
+                    return product;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+
     }
 }

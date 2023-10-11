@@ -1,0 +1,408 @@
+﻿@model IEnumerable<App_Data.ViewModels.ProductDetail.ProductViewModel>
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>QUẢN LÝ SẢN PHẨM</a>
+            <a class="breadcrumb-item" href="#">Cập nhật sản phẩm</a>
+        </nav>
+    </div>
+</div>
+
+<div class="accordion" id="accordion-default">
+    @foreach (var sp in Model)
+    {
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="card-title">
+                    <a class="collapsed" data-toggle="collapse" href="#collapseTwoDefault-@sp.Id">
+                        <span>@sp.Loai @sp.NameProduct (@sp.ChatLieu - @sp.MauSac - @sp.Size) _____ @sp.Id  </span>
+                    </a>
+                </h5>
+                <button class="btn btn-tone rounded-circle btn-delete btn-close">X</button>
+            </div>
+            <div id="collapseTwoDefault-@sp.Id" class="collapse" data-parent="#accordion-default">
+                <div class="card-body">
+                    <input class="d-none" name="Id" value="@sp.Id"/>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home-@sp.Id" role="tab"
+                               aria-controls="home-@sp.Id" aria-selected="true">Thông tin sản phẩm</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile--@sp.Id" role="tab"
+                               aria-controls="profile--@sp.Id" aria-selected="false">Ảnh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact-@sp.Id" role="tab"
+                               aria-controls="contact-@sp.Id" aria-selected="false">Mô tả</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content m-t-15" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home-@sp.Id" role="tabpanel" aria-labelledby="home-tab" style="height: 200px">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row mt-2">
+
+                                        <div class="form-group col-4">
+                                            <label class="font-weight-semibold" for="productBrand">Giá nhập</label>
+                                            <input type="text" class="form-control formatPrice" name="GiaNhap" value="@sp.GiaNhap">
+                                        </div>
+
+                                        <div class="form-group col-4">
+                                            <label class="font-weight-semibold" for="productBrand">Giá bán</label>
+                                            <input type="text" class="form-control formatPrice" name="GiaBan" value="@sp.GiaBan">
+                                        </div>
+
+                                        <div class="form-group col-4">
+                                            <label class="font-weight-semibold" for="productBrand">Số lượng tồn</label>
+                                            <input type="text" class="form-control formatNumber" name="SoLuongTon" value="@sp.SoLuongTon">
+                                        </div>
+
+                                        <div class="form-group d-flex align-items-center col-2">
+                                            <div class="switch m-r-10">
+                                                @if (sp.IsNoiBat == true)
+                                                {
+                                                    <input type="checkbox" name="IsNoiBat" id="switch-trangthai-@sp.Id" class="switch-2-isnoibat" checked>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="IsNoiBat" id="switch-isnoibat-@sp.Id" class="switch-2-isnoibat">
+                                                }
+                                                <label class="font-weight-semibold" for="switch-isnoibat-@sp.Id"></label>
+                                            </div>
+                                            <label class="font-weight-semibold">Dây</label>
+                                        </div>
+
+                                        <div class="form-group d-flex align-items-center col-2">
+                                            <div class="switch m-r-10">
+                                                @if (sp.TrangThai == 0)
+                                                {
+                                                    <input type="checkbox" name="TrangThai" id="switch-trangthai-@sp.Id" class="switch-2-trangthai" checked>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" name="TrangThai" id="switch-trangthai-@sp.Id" class="switch-2-trangthai">
+                                                }
+                                                <label class="font-weight-semibold" for="switch-trangthai-@sp.Id"></label>
+                                            </div>
+                                            <label class="font-weight-semibold">Đang kinh doanh</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile--@sp.Id" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="upload">
+                                <button name="choseFile" class="custom-btn mb-2">
+                                    Choose file
+                                </button>
+                                <input type="file" class="fileInput default-btn 1" multiple hidden>
+                                <div class="container-file" style="display: flex;">
+                                    @foreach (var img in sp.LstTenAnh!)
+                                    {
+                                        <div class="wrapper-file">
+                                            <div class="image">
+                                                <img class="file-image"
+                                                     src="/images/anhsanpham/@img"><i class="fas fa-times close-icon"></i>
+                                            </div>
+                                            <div class="content">
+                                                <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                            </div>
+                                            <div class="cancel-btn"><i class="fas fa-times"></i></div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact-@sp.Id" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="form-group col-12">
+                                <div class="m-b-5" style="margin-top: 10px;">
+                                    <label class="font-weight-semibold" style="display: block; margin-bottom: 5px;">
+                                        Mô tả sản phẩm
+                                    </label>
+                                    <div class="moTa w-100" style="height: 400px" name="MoTa">@Html.Raw(@sp.MoTa)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="confirm" class="mt-2 mb-2">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-tone update-sp" onclick="window.location.reload()">Quay lại danh sách</button>
+        <button class="btn btn-warning update-sp">Cập nhật</button>
+    </div>
+</div>
+
+<script>
+    const selectedFiles = {};
+    const lstAnhRemove = {};
+    const URL_UPDATE_PRODUCT_DETAIL = '/Admin/ProductDetails/UpdateProductDTO';
+    const URL_DELETE_LIST_IMAGE = '@Url.Action("DeleteImage", "Images", new { area = "Admin" })';
+    const URL_CREATE_IMAGE ='@Url.Action("CreateImage", "Images", new { area = "Admin" })';
+    $(() => {
+
+        $('.moTa').summernote();
+        $(".formatPrice").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                currencySymbol: " ₫",
+                currencySymbolPlacement: "s",
+                minimumValue: 0
+            });
+        });
+
+        $(".formatNumber").each(function () {
+            var autoNumeric = new AutoNumeric(this, {
+                decimalCharacter: ".",
+                digitGroupSeparator: ",",
+                decimalPlaces: 0,
+                minimumValue: 0
+            });
+        });
+    })
+
+    $(document).on('click', '.btn-delete', function () {
+        $(this).closest('.card').remove();
+    })
+
+    $(document).on('click', '[name= "choseFile"]', function () {
+        $(this).closest('.upload').find('.fileInput').click()
+    })
+
+    $(document).on("click", ".file-image", function () {
+        const key = $(this).closest('.collapse').attr('id').replace("collapseTwoDefault-", "");
+        changeImage($(this), $(this).attr('src').replace("/images/anhsanpham/", ""), key)
+    })
+
+    $(document).on("click", ".close-icon", function () {
+        const wrapper = $(this).closest('.wrapper-file');
+        const key = wrapper.closest('.collapse').attr('id').replace("collapseTwoDefault-", "")
+        console.log(key);
+        const nameFile = wrapper.find('.file-image').attr('src')
+        if (!nameFile.startsWith("blob:https://localhost")) {
+            if (!lstAnhRemove[key]) {
+                lstAnhRemove[key] = []
+            }
+            lstAnhRemove[key].push(nameFile.replace("/images/anhsanpham/", ""))
+            console.log(lstAnhRemove[key]);
+        } else {
+            var name = wrapper.find('.image').attr('data-file')
+            const indexDelete = selectedFiles[key].findIndex(item => item.key === name);
+            selectedFiles[key].splice(indexDelete, 1);
+        }
+        wrapper.remove();
+    })
+
+    $(document).on('change', '.fileInput', function () {
+        const imageList = $(this).closest('.upload').find('.container-file');
+        const key = imageList.closest('.collapse').attr('id').replace("collapseTwoDefault-", "");
+
+        Array.from(this.files).map((file) => {
+            if (file.type.startsWith("image")) {
+                const wrapper = $('<div>').addClass('wrapper-file');
+                const image = $('<div>').addClass('image');
+                const imageElement = $('<img>').addClass('file-image').attr('src', URL.createObjectURL(file));
+                image.attr('data-file', file.name);
+                if (!selectedFiles[key]) {
+                    selectedFiles[key] = []
+                }
+                selectedFiles[key].push({ key: "them", data: file });
+
+                const closeIcon = $('<i>').addClass('fas fa-times close-icon');
+
+
+                image.append(imageElement);
+                image.append(closeIcon);
+
+                const content = $('<div>').addClass('content');
+                const icon = $('<div>').addClass('icon');
+                icon.html('<i class="fas fa-cloud-upload-alt"></i>');
+                content.append(icon);
+
+                var cancelBtn = $('<div>').addClass('cancel-btn');
+                cancelBtn.html('<i class="fas fa-times"></i>');
+
+                wrapper.append(image);
+                wrapper.append(content);
+                wrapper.append(cancelBtn);
+                imageList.append(wrapper);
+                return;
+            }
+            this.files = "";
+            alert('Vui lòng chọn đúng định dạng');
+        });
+    })
+
+    const changeImage = (imageElement, file, key) => {
+        const newInputFile = $('<input>').attr('type', 'file').css('display', 'none');
+        newInputFile.off('change')
+        newInputFile.on('change', function () {
+            if (!lstAnhRemove[key]) {
+                lstAnhRemove[key] = []
+            }
+            const newFile = this.files[0]
+            if (newFile) {
+                const container = imageElement.closest('.wrapper-file')
+                var fileName = container.find('.image').attr('data-file')
+                console.log(fileName);
+                container.append(newInputFile)
+
+                if (newFile && newFile.type.startsWith('image/')) {
+
+                    if (file.startsWith('blob:https:')) {
+                        console.log(selectedFiles[key]);
+                        const CheckIndex = selectedFiles[key].findIndex(file => file.data.name === newFile.name);
+                        if (CheckIndex !== -1) {
+                            alert('File này đã tồn tại')
+                        } else {
+                            container.find('.image').attr('data-file', newFile.name)
+                            const indexChange = fileName ? selectedFiles[key].findIndex(item => item.data.name === fileName) : selectedFiles[key].findIndex(item => item.data.name === file.name);
+                            imageElement.attr('src', URL.createObjectURL(newFile));
+                            selectedFiles[key][indexChange] = { key: "them", data: newFile };
+                            console.log(selectedFiles[key]);
+                        }
+                        console.log(selectedFiles[key]);
+                    } else {
+                        if (!selectedFiles[key]) {
+                            selectedFiles[key] = []
+                            selectedFiles[key].push({ key: "them", data: newFile });
+                            imageElement.attr('src', URL.createObjectURL(newFile));
+                            container.find('.image').attr('data-file', newFile.name)
+                            console.log(file);
+                            lstAnhRemove[key].push(file)
+                        } else {
+                            if (Array.from(selectedFiles[key]).find(item => item.data.name === newFile.name)) {
+                                alert('File này đã được chọn trước đó!')
+                            } else {
+                                const foundIndexItem = selectedFiles[key].findIndex(item => item.data.name === file);
+                                console.log(foundIndexItem);
+                                if (foundIndexItem === -1) {
+                                    console.log(file);
+                                    lstAnhRemove[key].push(file)
+                                    selectedFiles[key].push({ key: "them", data: newFile })
+                                    container.find('.image').attr('data-file', newFile.name)
+                                    imageElement.attr('src', URL.createObjectURL(newFile))
+                                    console.log(selectedFiles[key]);
+                                }
+                            }
+                        }
+
+                    }
+                    console.log(lstAnhRemove[key]);
+                    console.log(selectedFiles[key]);
+                }
+            }
+        })
+        newInputFile.click()
+    }
+
+    $('.update-sp').click(function () {
+        const cards = $(".accordion > .card");
+        Array.from(cards).forEach(item => {
+            const key = $(item).find('.collapse').attr('id').replace("collapseTwoDefault-", "");
+            console.log($(item));
+            var data = {};
+            $(item).find("input, select, textarea").each(function () {
+                var fieldType = $(this).attr("type");
+                var fieldName = $(this).attr("name");
+                var fieldValue;
+                if (fieldName) {
+                    if (fieldName === "TrangThai") {
+                        fieldValue = $(this).val()?0:1;
+                    } else {
+                        if (fieldType === "checkbox" || fieldType === "radio") {
+                            fieldValue = $(this).is(":checked");
+                        } else {
+                            if ($(this).hasClass("formatPrice") || $(this).hasClass("formatNumber")) {
+                                const value = $(this).val()
+                                fieldValue = value.replace(/₫|,|\s/g, "")
+                            } else {
+                                fieldValue = $(this).val();
+                            }
+                        }
+                    }
+                   
+
+                    data[fieldName] = fieldValue;
+                }
+            });
+
+            data.MoTa = $(item).find('[name="MoTa"]').summernote('code');
+            console.log(data);
+            $.ajax({
+                url: URL_UPDATE_PRODUCT_DETAIL,
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (result) {
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    console.log(status);
+                    console.log(error);
+                    console.log(xhr);
+                }
+            });
+            console.log('check');
+            console.log(key);
+            console.log(selectedFiles[key]);
+            if (selectedFiles[key] && Array.from(selectedFiles[key]).length > 0) {
+                var data = new FormData();
+                Array.from(selectedFiles[key]).map(item => data.append('lstIFormFile', item.data))
+                data.append('idProductDetail', key);
+                $.ajax({
+                    url: URL_CREATE_IMAGE,
+                    type: 'POST',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        console.log(status);
+                        console.log(error);
+                        console.log(xhr);
+                    }
+                });
+            }
+
+            if (lstAnhRemove[key] && Array.from(lstAnhRemove[key]).length > 0) {
+                const data = new FormData();
+                lstAnhRemove[key].map(item => data.append('lstImageRemove', item))
+                data.append('idProductDetail', key)
+                fetch(URL_DELETE_LIST_IMAGE, {
+                    method: 'POST',
+                    body: data
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            if (response.headers.get("content-length") !== "0") {
+                                return response.json();
+                            } else {
+                                return null;
+                            }
+                        }
+                        throw new Error('Network response was not ok.');
+                    })
+                    .then(data => {
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+        })
+        //window.location.reload();
+    })
+
+</script>

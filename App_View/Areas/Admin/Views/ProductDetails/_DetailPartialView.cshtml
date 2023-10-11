@@ -1,0 +1,131 @@
+﻿@model  App_Data.ViewModels.ProductDetail.ProductViewModel
+<div class="modal-dialog modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Thông tin sản phẩm</h5>
+            <button type="button" class="close" data-dismiss="modal">
+                <i class="anticon anticon-close"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="page-header no-gutters has-tab">
+                    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+                        <div class="media align-items-center m-b-15">
+                            <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                                <img src="/images/anhsanpham/@Model.LstTenAnh[0]" alt="">
+                            </div>
+                            <div class="m-l-15">
+                                <h4 class="m-b-0">@Model.NameProduct</h4>
+                                <p class="text-muted m-b-0">Code: #5325</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Thông tin cơ bản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#product-edit-option">Ảnh</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#product-edit-description">Mô tả</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content m-t-15">
+                    <div class="tab-pane fade active show" style="height: auto" id="product-edit-basic">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Thông tin cơ bản</h4>
+                                <div class="table-responsive">
+                                    <table class="product-info-table m-t-20">
+                                        <tbody>
+                                            <tr>
+                                                <td>Giá bán:</td>
+                                                <td class="text-dark font-weight-semibold">
+                                                    @Model.GiaBan?.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Giá nhập:</td>
+                                                <td class="text-dark font-weight-semibold">
+                                                    @Model.GiaNhap?.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Chất liệu:</td>
+                                                <td class="text-dark font-weight-semibold">@Model.ChatLieu</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loại giầy:</td>
+                                                <td class="text-dark font-weight-semibold">@Model.Loai</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Màu sắc:</td>
+                                                <td class="text-dark font-weight-semibold">@Model.MauSac</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kích cỡ:</td>
+                                                <td class="text-dark font-weight-semibold">@Model.Size</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Số lượng tồn:</td>
+                                                <td class="text-dark font-weight-semibold">@Model.SoLuongTon</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Số đã bán:</td>
+                                                <td class="text-dark font-weight-semibold">@Model.SoLuongDaBan</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" style="height: auto" id="product-edit-option">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    @foreach (var item in Model.LstTenAnh)
+                                    {
+                                        <div class="col-md-3">
+                                            <img style="height: 220px" class="img-fluid" src="/images/anhsanpham/@item" alt="">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" style="height: auto" id="product-edit-description">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-header">
+                                    <h4 class="card-title">Mô tả sản phẩm</h4>
+                                </div>
+                                <div class="card-body">
+                                    @Html.Raw(Model.MoTa)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+<script>
+    function formatNumber(number) {
+        if (number >= 1000) {
+            const formattedNumber = (number / 1000).toFixed(1) + 'k';
+            return formattedNumber.replace('.0', '');
+        }
+        return number.toString();
+    }
+
+    $(() => $('.soLuong').text(formatNumber('@Model.SoLuongTon')))
+</script>
