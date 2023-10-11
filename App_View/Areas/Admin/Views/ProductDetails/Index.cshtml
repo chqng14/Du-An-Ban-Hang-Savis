@@ -13,8 +13,28 @@
     }
 </style>
 <div id="body_parent">
+    <div class="notification-toast top-right" id="notification-toast"></div>
     <div id="modal"></div>
     <div class="modal fade" id="modalSanPham"></div>
+    <div class="modal fade" id="confirm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #129dc1;">
+                    <h5 class="modal-title" id="exampleModalLabel">XÁC NHẬN</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="anticon anticon-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #d3f6ff;">
+                    <span id="thongBao"></span>
+                </div>
+                <div class="modal-footer" style="background: #d0dae3">
+                    <button type="button" class="btn btn-primary">Đồng ý</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <button class="btn btn-tone rounded-circle" id="update">Update</button>
     <div class="card">
         <div class="card-body">
@@ -39,7 +59,7 @@
                             </select>
                         </div>
                         <div class="m-b-10 ml-1">
-                            <button class="btn btn-tone"  onclick="window.location.href = '@Url.Action("DanhSachSanPhamNgungKinhDoanh", "ProductDetails")'">Sản phẩm ngừng kinh doanh</button>
+                            <button class="btn btn-tone" onclick="window.location.href = '@Url.Action("DanhSachSanPhamNgungKinhDoanh", "ProductDetails")'">Sản phẩm ngừng kinh doanh</button>
                         </div>
                         <div class="m-b-10 ml-1">
                             <button class="btn btn-tone">Import Excel</button>
@@ -74,7 +94,7 @@
                         <th>Số Lượng</th>
                         <th>Giá bán</th>
                         <th>Trạng thái</th>
-                        <th>Action</th>
+                        <th>###</th>
                     </tr>
                 </thead>
             </table>
@@ -84,7 +104,9 @@
 </div>
 <script>
     var selectedCheckboxes = {};
+    var table;
     $(document).ready(function () {
+        table =
         $('#tabe_ViewProduct').DataTable({
         ajax: {
             url: '@Url.Action("GetProducts", "ProductDetails", new { area = "Admin" })',
@@ -267,7 +289,7 @@
             });
         }
     });
-   });
+});
     $(document).on('click', '.clickable-image', function () {
         var rowData = $(this).data('rowdata');
         showProductDetail(rowData);
@@ -296,26 +318,58 @@
     $('#tabe_ViewProduct').on('click', '.delete-button', function () {
         const item = $(this)
         const id = $(this).data('id');
-        const UrlDelete = '@Url.Action("Delete", "ProductDetails", new { area = "Admin" })';
-        var data = new FormData();
-        data.append('id', id);
-        $.ajax({
-            url: UrlDelete,
-            type: 'POST',
-            data: data,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                item.closest("tr").remove()
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText);
-                console.log(status);
-                console.log(error);
-                console.log(xhr);
-            }
-        });
+        $('#confirm').find('#thongBao').text("Bạn có muốn ngừng kinh doanh mặt hàng này?");
+        $('#confirm').modal('show');
+        $('#confirm').off('click', '.btn-primary');
+        $('#confirm').one('click', '.btn-primary', function () {
+            const UrlDelete = '@Url.Action("Delete", "ProductDetails", new { area = "Admin" })';
+            var data = new FormData();
+            data.append('id', id);
+            $.ajax({
+                url: UrlDelete,
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    item.closest("tr").remove()
+                    delete selectedCheckboxes[id];
+                    $('#confirm').modal('hide');
+                    showToastDeleteSucsess();
+                    table.draw();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    console.log(status);
+                    console.log(error);
+                    console.log(xhr);
+                }
+            });
+        })
     });
+
+    function showToastDeleteSucsess() {
+        var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                    <div class="toast-header">
+                        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                        <strong class="mr-auto">Thông báo</strong>
+                        <small>1 seconds ago</small>
+                        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        <span>Đã ngừng kinh doanh một mặt hàng!</span>
+                    </div>
+                </div>`
+
+        $('#notification-toast').append(toastHTML)
+        $('#notification-toast .toast').toast('show');
+        setTimeout(function () {
+            $('#notification-toast .toast:first-child').remove();
+        }, 3000);
+    }
+
     $(document).on('click', '#update', function () {
         const keys = Object.keys(selectedCheckboxes).filter(item => item !== "check-all");
         console.log(keys);

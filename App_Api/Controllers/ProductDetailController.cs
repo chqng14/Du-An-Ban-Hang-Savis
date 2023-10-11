@@ -237,6 +237,14 @@ namespace App_Api.Controllers
             return CreateDetailProduct(item!);
         }
 
+        [HttpGet("get-list-ProductViewModel-Ngung-kinh-doanh")]
+        public List<ProductViewModel> GetListProductNgungKinhDoanh()
+        {
+            var listProductDetailViewModelNgungKinhDoanh = _allRepoProductDetail.GetAll().Where(sp => sp.TrangThai == 1).Select(item => CreatProductViewModel(item)).ToList();
+            return listProductDetailViewModelNgungKinhDoanh!;
+
+        }
+
         [HttpGet("get-list-productdetail")]
         public IActionResult GetListProductDetail()
         {
