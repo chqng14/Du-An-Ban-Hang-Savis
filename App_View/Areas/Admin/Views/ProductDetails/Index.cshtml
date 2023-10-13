@@ -8,11 +8,33 @@
     .clickable-image {
         cursor: pointer
     }
-    tr{
+
+    tr {
         margin-top: 2px;
     }
 </style>
+
 <div id="body_parent">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>QUẢN LÝ SẢN PHẨM</a>
+                <a class="breadcrumb-item" href="#">QUẢN LÝ THỰC THỂ SẢN PHẨM</a>
+            </nav>
+        </div>
+    </div>
+    <div id="confirm-ds" class="mt-2 mb-2" style="">
+        <div style=" position: fixed; top: 90px; right: 26px; z-index: 100;">
+            <button class="btn btn-warning ngung_kinh_doanh">
+                <i class="fas fa-ban"></i>
+                <span>Ngừng kinh doanh</span>
+            </button>
+            <button class="btn btn-primary thaotac" id="update">
+                <i class="far fa-edit"></i>
+                <span>Cập nhật</span>
+            </button>
+        </div>
+    </div>
     <div class="notification-toast top-right" id="notification-toast"></div>
     <div id="modal"></div>
     <div class="modal fade" id="modalSanPham"></div>
@@ -35,7 +57,7 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-tone rounded-circle" id="update">Update</button>
+
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -70,7 +92,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 text-right">
-                    <button class="btn btn-primary" onclick="window.location.href = '@Url.Action("ManageProduct", "ProductDetails")'">
+                    <button class="btn btn-tone" onclick="window.location.href = '@Url.Action("ManageProduct", "ProductDetails")'">
                         <i class="anticon anticon-plus-circle m-r-5"></i>
                         <span>Quản lý sản phẩm</span>
                     </button>
@@ -105,6 +127,15 @@
 <script>
     var selectedCheckboxes = {};
     var table;
+    $(() => checkToshowConfirm())
+    const checkToshowConfirm = () => {
+        const sumCheck = $('input[type="checkbox"]:checked');
+        if (sumCheck.length > 0) {
+            $('#confirm-ds').show()
+        } else {
+            $('#confirm-ds').hide()
+        }
+    }
     $(document).ready(function () {
         table =
         $('#tabe_ViewProduct').DataTable({
@@ -266,7 +297,7 @@
                         } else {
                             delete selectedCheckboxes[id];
                         }
-                    //checkToshowConfirm();
+                    checkToshowConfirm();
                 });
             });
 
@@ -285,7 +316,7 @@
                 console.log(totalChecked);
 
                 $('#check-all').prop('checked', totalChecked === totalCheckboxes);
-                //checkToshowConfirm();
+                checkToshowConfirm();
             });
         }
     });
