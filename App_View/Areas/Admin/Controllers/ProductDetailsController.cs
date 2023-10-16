@@ -4,6 +4,7 @@ using App_View.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace App_View.Areas.Admin.Controllers
@@ -50,6 +51,64 @@ namespace App_View.Areas.Admin.Controllers
         {
             return PartialView("_DetailPartialView", await _productDetailService.GetProductVMsAsync(id));
         }
+
+        //#region ExportToExcel
+        //public async Task<IActionResult> ExportToExcel()
+        //{
+        //    var lstProduct = await _productDetailService.GetListProductViewModelAsync();
+        //    using (var package = new ExcelPackage())
+        //    {
+        //        var worksheet = package.Workbook.Worksheets.Add("ProductList");
+
+        //        using (var range = worksheet.Cells[1, 1, 1, 15])
+        //        {
+        //            range.Style.Font.Bold = true;
+        //            range.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        //            range.Style.Font.Size = 12;
+        //        }
+        //        worksheet.Cells["A1:L1"].AutoFilter = true;
+
+        //        worksheet.Cells[1, 1].Value = "Id";
+        //        worksheet.Cells[1, 2].Value = "Sản phẩm";
+        //        worksheet.Cells[1, 3].Value = "Loại";
+        //        worksheet.Cells[1, 4].Value = "Chất liệu";
+        //        worksheet.Cells[1, 5].Value = "Màu sắc";
+        //        worksheet.Cells[1, 6].Value = "Size";
+        //        worksheet.Cells[1, 7].Value = "Số lượng tồn";
+        //        worksheet.Cells[1, 8].Value = "Số lượng đã bán";
+        //        worksheet.Cells[1, 9].Value = "Giá nhập";
+        //        worksheet.Cells[1, 10].Value = "Giá bán";
+        //        worksheet.Cells[1, 11].Value = "Nổi bật";
+        //        worksheet.Cells[1, 12].Value = "Ảnh";
+
+
+        //        for (int i = 0; i < lstProduct!.Count(); i++)
+        //        {
+        //            worksheet.Cells[i + 2, 1].Value = lstProduct[i].Id;
+        //            worksheet.Cells[i + 2, 2].Value = lstProduct[i].NameProduct;
+        //            worksheet.Cells[i + 2, 3].Value = lstProduct[i].Loai;
+        //            worksheet.Cells[i + 2, 4].Value = lstProduct[i].ChatLieu;
+        //            worksheet.Cells[i + 2, 5].Value = lstProduct[i].MauSac;
+        //            worksheet.Cells[i + 2, 6].Value = lstProduct[i].Size;
+        //            worksheet.Cells[i + 2, 7].Value = lstProduct[i].SoLuongTon;
+        //            worksheet.Cells[i + 2, 8].Value = lstProduct[i].SoLuongDaBan;
+        //            worksheet.Cells[i + 2, 9].Value = lstProduct[i].GiaBan;
+        //            worksheet.Cells[i + 2, 10].Value = lstProduct[i].GiaNhap;
+        //            worksheet.Cells[i + 2, 11].Value = lstProduct[i].IsNoiBat;
+        //            worksheet.Cells[i + 2, 12].Value = string.Join(",", lstProduct[i].LstTenAnh!);
+        //        }
+
+        //        byte[] excelBytes = package.GetAsByteArray();
+
+        //        string fileName = $"ProductList_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
+
+        //        return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        //    }
+
+        //}
+        //#endregion
+
+
 
         public class ListGuidDTO
         {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - App_View</title>
+    <title>Store - Shop</title>
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/App_View.styles.css" asp-append-version="true" />*@
@@ -247,7 +247,6 @@
             </div>
         </header>
         <!-- =====  HEADER END  ===== -->
-
         <!-- =====  CONTAINER START  ===== -->
         <div class="container">
             <!-- =====  SUB BANNER  STRAT ===== -->
@@ -432,6 +431,11 @@
     <script src="~/js/jquery.magnific-popup.js"></script>
     <script src="~/js/jquery.firstVisitPopup.js"></script>
     <script src="~/js/custom.js"></script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger intent="WELCOME"
+                  chat-title="NewAgent"
+                  agent-id="e51d12f3-3cc3-4257-8817-646b7e8e18c6"
+                  language-code="vi"></df-messenger>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

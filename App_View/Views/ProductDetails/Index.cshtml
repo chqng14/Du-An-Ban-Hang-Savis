@@ -308,7 +308,11 @@
                                     <h6 data-name="product_name" class="product-name mt_20"><a href="/ProductDetails/Details/@item.Id" title="Casual Shirt With Ruffle Hem">@item.NameProduct</a></h6>
                                     <div class="rating"> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span> <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span> </div>
                                     <span class="price">
-                                        <span class="amount"><span class="currencySymbol">$</span>@item.GiaBan</span>
+                                        <span class="amount">
+                                            <span class="currencySymbol">
+                                                @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", item.GiaBan)
+                                            </span>
+                                        </span>
                                     </span>
                                     <p class="product-desc mt_20 mb_60"> More room to move. With 80GB or 160GB of storage and up to 40 hours of battery life, the new iPod classic lets you enjoy up to 40,000 songs or up to 200 hours of video or any combination wherever you go.Cover Flow. Browse through your music collection by flipping..</p>
                                 </div>
