@@ -316,7 +316,7 @@
                 <div class="col-md-6" id="container-img">
                     <div><a class="thumbnails image-main"> <img style="height: 300px" data-name="product_image" src="/images/anhsanpham/@Model?.LstTenAnh[0]" alt="" /></a></div>
                     <div id="product-thumbnail" class="owl-carousel">
-                        @foreach (var item in Model.LstTenAnh)
+                        @foreach (var item in Model!.LstTenAnh!)
                         {
                             <div class="item">
                                 <div class="image-additional">
@@ -339,7 +339,8 @@
                         <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span>
                     </div>
                     <span class="price mb_20">
-                        <span class="amount"><span class="currencySymbol">$</span><span name="giaBan">@Model.GiaBan</span></span>
+                        <span class="amount"><span class="currencySymbol"></span><span name="giaBan">@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", @Model.GiaBan)</span></span>
+                        
                     </span>
                     <hr>
                     <div id="product">
@@ -395,7 +396,7 @@
                                 </div>
                             </div>
                             <div class="button-group mt_30 col-md-6">
-                                <div class="add-to-cart"><a href="#"><span>Add to cart</span></a></div>
+                                <button class="btn btn--e-brand-shadow">Thêm vào giỏ hàng</button>
                             </div>
                             <hr />
                             <div>

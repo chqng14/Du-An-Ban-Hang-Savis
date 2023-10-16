@@ -19,5 +19,6 @@ namespace App_View.IServices
         Task<ProductDetailVM> GetDetailProductAsync(Guid id);
         Task<ProductDetailResponseVM?> GetProductDetailRespoAsync(DataProductDetailVm dataProductDetailVm);
         Task<Product?> CreateProductAsynsc(string nameSanPham);
+        Task<List<ProductViewModel>> GetLstProductDetailViewModelNgungKinhDoanhAynsc();
     }
 }

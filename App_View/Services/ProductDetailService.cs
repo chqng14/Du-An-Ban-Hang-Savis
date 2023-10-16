@@ -4,6 +4,7 @@ using App_View.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace App_View.Services
@@ -140,6 +141,11 @@ namespace App_View.Services
 
                 Console.WriteLine(ex);
             }
+        }
+
+        public async Task<List<ProductViewModel>> GetLstProductDetailViewModelNgungKinhDoanhAynsc()
+        {
+            return (await _httpClient.GetFromJsonAsync<List<ProductViewModel>>("/api/ProductDetail/get-list-ProductViewModel-Ngung-kinh-doanh"))!;
         }
     }
 }
