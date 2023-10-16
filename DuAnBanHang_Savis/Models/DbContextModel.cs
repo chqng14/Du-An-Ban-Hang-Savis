@@ -41,12 +41,21 @@ namespace App_Data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=MSI;Initial Catalog=Savis;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=LAPTOP-CUA-DUYY\SQLEXPRESS;Initial Catalog=Savis;Integrated Security=True");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.
                 ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.Entity<Role>().HasData(
+               new Role { Id = Guid.Parse("7430128c-674e-4c3d-9f6a-9c4025ae22fe"), Ma = "ADMIN", Ten = "admin", TrangThai = 0 },
+               new Role { Id = Guid.NewGuid(),Ma = "USER", Ten = "user", TrangThai = 0 }
+               //new Role { Id = Guid.NewGuid(),Ma = "STAFF", Ten = "staff", TrangThai = 0 }
+               );
+            modelBuilder.Entity<User>().HasData(
+                new User{Id = Guid.NewGuid(), IdRole = Guid.Parse("7430128c-674e-4c3d-9f6a-9c4025ae22fe"), Ma = "ADMIN", Ten = "Admin", GioiTinh = 0, NgaySinh = DateTime.Now, DiaChi = " ", Sdt = "0987654321", TaiKhoan = "admin", MatKhau = "admin", Email = "admin@gmail.com", TrangThai = 0  }
+                );
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

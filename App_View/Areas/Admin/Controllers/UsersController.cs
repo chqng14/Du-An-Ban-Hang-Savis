@@ -17,17 +17,20 @@ namespace App_View.Areas.Admin.Controllers
     {
         private IUserService _iUserService;
         private IRoleService _iRoleService;
+        DbContextModel _dbContextModel;
 
         public UsersController()
         {
             _iUserService = new UserService();
             _iRoleService = new RoleService();
+            _dbContextModel = new DbContextModel();
         }
 
         // GET: Admin/Users
         public async Task<IActionResult> Index()
         {
-            if(SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginAdmin") == null) return RedirectToAction("Login","Home", new { area =""});
+            if(SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginAdmin") == null && SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginUser") == null) return RedirectToAction("Login","Home", new { area =""});
+            if(SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginAdmin") == null && SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginUser") != null) return RedirectToAction("Error", "Home", new { area = "" });
             ViewBag.Role = await _iRoleService.GetRolesAsync();
             ViewBag.Roles = new SelectList(await _iRoleService.GetRolesAsync(), "Id", "Ten");
             return View(await _iUserService.GetUsersAsync());
@@ -112,6 +115,27 @@ namespace App_View.Areas.Admin.Controllers
             var result = await _iUserService.DeleteUserAsync(id);
             if(result) return RedirectToAction("Index");
             return View();
+        }
+        public async Task<JsonResult> GetRoleForCheckBox()
+        {
+            return new JsonResult(await _iRoleService.GetRolesAsync());
+        }
+        [HttpGet]
+        public async Task<JsonResult> ChangeRole(Guid id)
+        {
+            var data = await _iUserService.GetUserByIdAsync(id);
+            return new JsonResult(data);
+        }
+        [IgnoreAntiforgeryToken]
+        [HttpPost]
+        public async Task<JsonResult> UpdateRole(User obj)
+        {
+            var user = _iUserService.GetUsersAsync().Result.FirstOrDefault(c => c.Ten.Contains(obj.Ten));
+            user.IdRole = obj.IdRole;
+            _dbContextModel.Users.Update(user);
+            await _dbContextModel.SaveChangesAsync();
+            return new JsonResult("Them thanh cong");
+
         }
     }
 }
