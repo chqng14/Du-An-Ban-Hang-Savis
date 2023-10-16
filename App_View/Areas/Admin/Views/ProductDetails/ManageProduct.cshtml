@@ -20,34 +20,34 @@
     <div class="card-body" id="formGen">
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <h5 style="margin: 0;">QUẢN LÝ SẢN PHẨM</h5>
-            <button onclick="generate()" class="btn btn-warning">Tạo thực thể</button>
+            <button onclick="generate()" class="btn btn-warning">Tạo các biển thể</button>
         </div>
         <div class="m-b-15" style="margin-bottom: 30px">
             <div class="row">
                 <div id="sanpham" class="col-4" style="margin-top: 10px">
-                    <label>NameProduct</label>
+                    <label>Tên sản phẩm</label>
                     <select id="IdProduct" class="select2-active" name="IdProduct">
-                        @foreach (var item in (SelectList)ViewData["IdProduct"])
+                        @foreach (var item in (SelectList)ViewData["IdProduct"]!)
                         {
                             <option value="@item.Value">@item.Text</option>
                         }
                     </select>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px">
-                    <label>TypeProduct</label>
-                    <select id="IdTypeProduct" class="select2" name="IdTypeProduct">
-                        @foreach (var item in (SelectList)ViewData["IdTypeProduct"])
+                <div id="thuonghieu" class="col-4" style="margin-top: 10px">
+                    <label>Thương hiệu</label>
+                    <select id="IdTypeProduct" class="select2-active" name="IdTypeProduct">
+                        @foreach (var item in (SelectList)ViewData["IdTypeProduct"]!)
                         {
                             <option value="@item.Value">@item.Text</option>
                         }
                     </select>
                 </div>
 
-                <div class="col-4" style="margin-top: 10px">
-                    <label>Material</label>
-                    <select class="select2" id="IdMaterial" name="IdMaterial">
-                        @foreach (var item in (SelectList)ViewData["IdMaterial"])
+                <div id="chatlieu" class="col-4" style="margin-top: 10px">
+                    <label>Chất liệu</label>
+                    <select class="select2-active" id="IdMaterial" name="IdMaterial">
+                        @foreach (var item in (SelectList)ViewData["IdMaterial"]!)
                         {
                             <option value="@item.Value">@item.Text</option>
                         }
@@ -56,13 +56,13 @@
             </div>
 
             <div class="row">
-                <div class="col-6" style="margin-top: 10px">
-                    <label>Color</label>
+                <div id="mausac" class="col-6" style="margin-top: 10px">
+                    <label>Màu sắc</label>
                     <div class="row">
                         <div class="col-12">
-                            <select id="IdColor" class="select2"
+                            <select id="IdColor" class="select2-active"
                                     multiple="multiple">
-                                @foreach (var item in (SelectList)ViewData["IdColor"])
+                                @foreach (var item in (SelectList)ViewData["IdColor"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
@@ -71,13 +71,13 @@
                     </div>
                 </div>
 
-                <div class="col-6" style="margin-top: 10px">
+                <div id="kichco" class="col-6" style="margin-top: 10px">
                     <label>Size</label>
                     <div class="row">
                         <div class="col-12">
-                            <select id="IdSize" class="select2"
+                            <select id="IdSize" class="select2-active"
                                     multiple="multiple">
-                                @foreach (var item in (SelectList)ViewData["IdSize"])
+                                @foreach (var item in (SelectList)ViewData["IdSize"]!)
                                 {
                                     <option value="@item.Value">@item.Text</option>
                                 }
@@ -115,21 +115,151 @@
         $('#sanpham').find('input.select2-input').on('keyup', function (e) {
             if (e.keyCode === 13) {
                 var inputValue = $(this).val();
+
                 if (inputValue) {
                     $.ajax({
                         url: 'CreateNameProduct',
-                        type: 'GET',
-                        data: {
-                            nameProduct: inputValue,
-                        },
+                        type: 'POST',
+                        data: JSON.stringify({
+                            'nameProduct': inputValue,
+                        }),
                         contentType: 'application/json',
                         success: function (result) {
                             var $select2 = $("[name='IdProduct']");
                             var selectedValue = $select2.val();
+
                             if (selectedValue && selectedValue.length > 0) {
                                 $select2.val(null).trigger('change');
                             }
-                            var newOption = new Option(result.tenSanPham, result.idSanPham, true, true);
+                            var newOption = new Option(result.ten, result.id, true, true);
+                            $select2.append(newOption).trigger('change');
+
+                            $(this).val('');
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            }
+        });
+        $('#thuonghieu').find('input.select2-input').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                var inputValue = $(this).val();
+
+                if (inputValue) {
+                    $.ajax({
+                        url: 'CreateNameTypeProduct',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            'nameTypeProduct': inputValue,
+                        }),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            var $select2 = $("[name='IdTypeProduct']");
+                            var selectedValue = $select2.val();
+
+                            if (selectedValue && selectedValue.length > 0) {
+                                $select2.val(null).trigger('change');
+                            }
+                            var newOption = new Option(result.name, result.id, true, true);
+                            $select2.append(newOption).trigger('change');
+
+                            $(this).val('');
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            }
+        });
+        $('#chatlieu').find('input.select2-input').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                var inputValue = $(this).val();
+
+                if (inputValue) {
+                    $.ajax({
+                        url: 'CreateNameMaterial',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            'nameMaterial': inputValue,
+                        }),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            var $select2 = $("[name='IdMaterial']");
+                            var selectedValue = $select2.val();
+
+                            if (selectedValue && selectedValue.length > 0) {
+                                $select2.val(null).trigger('change');
+                            }
+                            var newOption = new Option(result.name, result.id, true, true);
+                            $select2.append(newOption).trigger('change');
+
+                            $(this).val('');
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            }
+        });
+        $('#mausac').find('input.select2-input').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                var inputValue = $(this).val();
+                if (inputValue) {
+                    var data = {
+                        nameColor: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateNameColor',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            var $select2 = $("#IdColor");
+
+                            var newOption = new Option(result.name, result.id, true, true);
+                            $select2.append(newOption).trigger('change');
+
+                            $(this).val('');
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+            }
+        });
+        $('#kichco').find('input.select2-input').on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                var inputValue = $(this).val();
+                if (inputValue) {
+                    var data = {
+                        nameSize: inputValue,
+                    };
+                    $.ajax({
+                        url: 'CreateNameSize',
+                        type: 'POST',
+                        data: JSON.stringify(data),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            var $select2 = $("#IdSize");
+
+                            var newOption = new Option(result.name, result.id, true, true);
                             $select2.append(newOption).trigger('change');
 
                             $(this).val('');

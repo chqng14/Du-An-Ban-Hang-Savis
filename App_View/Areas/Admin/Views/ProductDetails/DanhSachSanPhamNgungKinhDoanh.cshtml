@@ -13,51 +13,11 @@
         margin-top: 2px;
     }
 </style>
-
 <div id="body_parent">
-    <div class="page-header">
-        <div class="header-sub-title">
-            <nav class="breadcrumb breadcrumb-dash">
-                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>QUẢN LÝ SẢN PHẨM</a>
-                <a class="breadcrumb-item" href="#">QUẢN LÝ THỰC THỂ SẢN PHẨM</a>
-            </nav>
-        </div>
-    </div>
-    <div id="confirm-ds" class="mt-2 mb-2" style="">
-        <div style=" position: fixed; top: 90px; right: 26px; z-index: 100;">
-            <button class="btn btn-warning ngung_kinh_doanh">
-                <i class="fas fa-ban"></i>
-                <span>Ngừng kinh doanh</span>
-            </button>
-            <button class="btn btn-primary thaotac" id="update">
-                <i class="far fa-edit"></i>
-                <span>Cập nhật</span>
-            </button>
-        </div>
-    </div>
-    <div class="notification-toast top-right" id="notification-toast"></div>
     <div id="modal"></div>
     <div class="modal fade" id="modalSanPham"></div>
-    <div class="modal fade" id="confirm">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background: #129dc1;">
-                    <h5 class="modal-title" id="exampleModalLabel">XÁC NHẬN</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <i class="anticon anticon-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body" style="background: #d3f6ff;">
-                    <span id="thongBao"></span>
-                </div>
-                <div class="modal-footer" style="background: #d0dae3">
-                    <button type="button" class="btn btn-primary">Đồng ý</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <div class="notification-toast top-right" id="notification-toast"></div>
+    <button class="btn btn-tone rounded-circle" id="update">Update</button>
     <div class="card">
         <div class="card-body">
             <div class="row m-b-30">
@@ -80,21 +40,12 @@
                                 <option value="outOfStock">Out of Stock</option>
                             </select>
                         </div>
-                        <div class="m-b-10 ml-1">
-                            <button class="btn btn-tone" onclick="window.location.href = '@Url.Action("DanhSachSanPhamNgungKinhDoanh", "ProductDetails")'">Sản phẩm ngừng kinh doanh</button>
-                        </div>
-                        <div class="m-b-10 ml-1">
-                            <button class="btn btn-tone">Import Excel</button>
-                        </div>
-                        <div class="m-b-10 ml-1">
-                            <button class="btn btn-tone" onclick="window.location.href='/Admin/ProductDetails/ExportToExcel'">Export Excel</button>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 text-right">
-                    <button class="btn btn-tone" onclick="window.location.href = '@Url.Action("ManageProduct", "ProductDetails")'">
-                        <i class="anticon anticon-plus-circle m-r-5"></i>
-                        <span>Quản lý sản phẩm</span>
+                    <button class="btn btn-primary" onclick="window.location.href = '/Admin/ProductDetails'">
+                        <i class="anticon anticon-arrow-left m-r-5"></i>
+                        <span>Quay lại danh sánh</span>
                     </button>
                 </div>
             </div>
@@ -127,20 +78,11 @@
 <script>
     var selectedCheckboxes = {};
     var table;
-    $(() => checkToshowConfirm())
-    const checkToshowConfirm = () => {
-        const sumCheck = $('input[type="checkbox"]:checked');
-        if (sumCheck.length > 0) {
-            $('#confirm-ds').show()
-        } else {
-            $('#confirm-ds').hide()
-        }
-    }
     $(document).ready(function () {
         table =
         $('#tabe_ViewProduct').DataTable({
         ajax: {
-            url: '@Url.Action("GetProducts", "ProductDetails", new { area = "Admin" })',
+            url: '@Url.Action("GetProductsNgungKinhDoanh", "ProductDetails", new { area = "Admin" })',
             type: 'GET',
             dataType: 'json',
             data: function (d) {
@@ -264,11 +206,8 @@
                 render: function (data, type, full, meta) {
                     const iddata = data.id
                     return `<td class="text-right">
-                        <button class="btn btn-icon btn-hover btn-sm btn-rounded pull-right">
-                            <i class="anticon anticon-edit"></i>
-                        </button>
-                        <button class="btn btn-icon btn-hover btn-sm btn-rounded delete-button" data-id="${iddata}">
-                            <i class="anticon anticon-delete"></i>
+                        <button class="btn btn-icon btn-hover btn-sm btn-rounded khoi_phuc" data-id="${iddata}">
+                            <i class="fas fa-undo-alt"></i>
                         </button>
                     </td>`;
                 }
@@ -297,7 +236,7 @@
                         } else {
                             delete selectedCheckboxes[id];
                         }
-                    checkToshowConfirm();
+                    //checkToshowConfirm();
                 });
             });
 
@@ -316,11 +255,11 @@
                 console.log(totalChecked);
 
                 $('#check-all').prop('checked', totalChecked === totalCheckboxes);
-                checkToshowConfirm();
+                //checkToshowConfirm();
             });
         }
     });
-});
+   });
     $(document).on('click', '.clickable-image', function () {
         var rowData = $(this).data('rowdata');
         showProductDetail(rowData);
@@ -346,53 +285,47 @@
 
     }
 
-    $('#tabe_ViewProduct').on('click', '.delete-button', function () {
-        const item = $(this)
-        const id = $(this).data('id');
-        $('#confirm').find('#thongBao').text("Bạn có muốn ngừng kinh doanh mặt hàng này?");
-        $('#confirm').modal('show');
-        $('#confirm').off('click', '.btn-primary');
-        $('#confirm').one('click', '.btn-primary', function () {
-            const UrlDelete = '@Url.Action("Delete", "ProductDetails", new { area = "Admin" })';
-            var data = new FormData();
-            data.append('id', id);
-            $.ajax({
-                url: UrlDelete,
-                type: 'POST',
-                data: data,
-                contentType: false,
-                processData: false,
-                success: function (result) {
-                    item.closest("tr").remove()
-                    delete selectedCheckboxes[id];
-                    $('#confirm').modal('hide');
-                    showToastDeleteSucsess();
-                    table.draw();
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr.responseText);
-                    console.log(status);
-                    console.log(error);
-                    console.log(xhr);
-                }
-            });
-        })
-    });
+    $('#tabe_ViewProduct').on('click', '.khoi_phuc', function () {
+    const item = $(this)
+    const id = $(this).data('id');
+        const UrlDelete = '@Url.Action("KhoiPhucKinhDoanh", "ProductDetails", new { area = "Admin" })';
+
+        $.ajax({
+            url: UrlDelete,
+            type: 'GET',
+            data: {
+                'IdSanPham': id
+            },
+            success: function (result) {
+                item.closest("tr").remove()
+                delete selectedCheckboxes[id];
+                $('#confirm').modal('hide');
+                showToastDeleteSucsess();
+                table.draw();
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    })
 
     function showToastDeleteSucsess() {
         var toastHTML = `<div class="toast fade hide" data-delay="3000">
-                    <div class="toast-header">
-                        <i class="anticon anticon-info-circle text-primary m-r-5"></i>
-                        <strong class="mr-auto">Thông báo</strong>
-                        <small>1 seconds ago</small>
-                        <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="toast-body">
-                        <span>Đã ngừng kinh doanh một mặt hàng!</span>
-                    </div>
-                </div>`
+                            <div class="toast-header">
+                                <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                <strong class="mr-auto">Thông báo</strong>
+                                <small>1 seconds ago</small>
+                                <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="toast-body">
+                                <span>Đã khôi phục kinh doanh một mặt hàng!</span>
+                            </div>
+                        </div>`
 
         $('#notification-toast').append(toastHTML)
         $('#notification-toast .toast').toast('show');
@@ -400,7 +333,6 @@
             $('#notification-toast .toast:first-child').remove();
         }, 3000);
     }
-
     $(document).on('click', '#update', function () {
         const keys = Object.keys(selectedCheckboxes).filter(item => item !== "check-all");
         console.log(keys);

@@ -4,6 +4,7 @@ using App_Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data.Migrations
 {
     [DbContext(typeof(DbContextModel))]
-    partial class DbContextModelModelSnapshot : ModelSnapshot
+    [Migration("20231011075709_update_productDetail")]
+    partial class update_productDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,22 +358,6 @@ namespace App_Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("7430128c-674e-4c3d-9f6a-9c4025ae22fe"),
-                            Ma = "ADMIN",
-                            Ten = "admin",
-                            TrangThai = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("85d5a399-ceae-4323-8754-674d50690bbd"),
-                            Ma = "USER",
-                            Ten = "user",
-                            TrangThai = 0
-                        });
                 });
 
             modelBuilder.Entity("App_Data.Models.Sale", b =>
@@ -557,23 +543,6 @@ namespace App_Data.Migrations
                     b.HasIndex("IdRole");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8e63ebc5-838e-44e9-bf74-f15471a842d8"),
-                            DiaChi = " ",
-                            Email = "admin@gmail.com",
-                            GioiTinh = 0,
-                            IdRole = new Guid("7430128c-674e-4c3d-9f6a-9c4025ae22fe"),
-                            Ma = "ADMIN",
-                            MatKhau = "admin",
-                            NgaySinh = new DateTime(2023, 10, 12, 15, 29, 0, 555, DateTimeKind.Local).AddTicks(483),
-                            Sdt = "0987654321",
-                            TaiKhoan = "admin",
-                            Ten = "Admin",
-                            TrangThai = 0
-                        });
                 });
 
             modelBuilder.Entity("App_Data.Models.Voucher", b =>

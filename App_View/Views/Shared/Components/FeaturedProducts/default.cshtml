@@ -25,13 +25,18 @@
                                                  title="iPod Classic" class="img-responsive"> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]"
                                                                                                    alt="iPod Classic" title="iPod Classic" class="img-responsive">
                                         }
-                                        else
+                                        else if (item.LstTenAnh?.Count == 1)
                                         {
-                                            <img style="height:220px" data-name="product_image" src="~/images/product/product9.jpg" alt="iPod Classic"
-                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/product/product9-1.jpg"
+                                            <img style="height:220px" data-name="product_image" src="~/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/anhsanpham/@item.LstTenAnh[0]"
                                                                                                    alt="iPod Classic" title="iPod Classic" class="img-responsive">
                                         }
-
+                                        else
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="~/images/anhsanpham/noAnh.png" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/anhsanpham/noAnh.png"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
                                     </a>
                                     <div class="button-group text-center">
                                         <div class="add-to-cart" onclick="window.location.href = '/ProductDetails/Details/@item.Id'" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="#"><span>Add to cart</span></a></div>
@@ -56,7 +61,11 @@
                                            title="Casual Shirt With Ruffle Hem">@item.NameProduct</a>
                                     </h6>
                                     <span class="price">
-                                        <span class="amount"><span class="currencySymbol">$</span>@item.GiaBan</span>
+                                        <span class="amount">
+                                            <span class="currencySymbol">
+                                                @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", item.GiaBan)
+                                            </span>
+                                        </span>
                                     </span>
                                 </div>
                             </div>
@@ -80,13 +89,18 @@
                                                  title="iPod Classic" class="img-responsive"> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]"
                                                                                                    alt="iPod Classic" title="iPod Classic" class="img-responsive">
                                         }
-                                        else
+                                        else if (item.LstTenAnh?.Count == 1)
                                         {
-                                            <img style="height:220px" data-name="product_image" src="~/images/product/product9.jpg" alt="iPod Classic"
-                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/product/product9-1.jpg"
+                                            <img style="height:220px" data-name="product_image" src="~/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/anhsanpham/@item.LstTenAnh[0]"
                                                                                                    alt="iPod Classic" title="iPod Classic" class="img-responsive">
                                         }
-
+                                        else
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="~/images/anhsanpham/noAnh.png" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/anhsanpham/noAnh.png"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
                                     </a>
                                     <div class="button-group text-center">
                                         <div class="add-to-cart" onclick="window.location.href = '/ProductDetails/Details/@item.Id'" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="#"><span>Add to cart</span></a></div>
@@ -135,13 +149,18 @@
                                                  title="iPod Classic" class="img-responsive"> <img style="height:220px" src="/images/anhsanpham/@item.LstTenAnh[1]"
                                                                                                    alt="iPod Classic" title="iPod Classic" class="img-responsive">
                                         }
-                                        else
+                                        else if (item.LstTenAnh?.Count == 1)
                                         {
-                                            <img style="height:220px" data-name="product_image" src="~/images/product/product9.jpg" alt="iPod Classic"
-                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/product/product9-1.jpg"
+                                            <img style="height:220px" data-name="product_image" src="~/images/anhsanpham/@item.LstTenAnh[0]" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/anhsanpham/@item.LstTenAnh[0]"
                                                                                                    alt="iPod Classic" title="iPod Classic" class="img-responsive">
                                         }
-
+                                        else
+                                        {
+                                            <img style="height:220px" data-name="product_image" src="~/images/anhsanpham/noAnh.png" alt="iPod Classic"
+                                                 title="iPod Classic" class="img-responsive"> <img style="height:220px" src="~/images/anhsanpham/noAnh.png"
+                                                                                                   alt="iPod Classic" title="iPod Classic" class="img-responsive">
+                                        }
                                     </a>
                                     <div class="button-group text-center">
                                         <div class="add-to-cart" onclick="window.location.href = '/ProductDetails/Details/@item.Id'" style="background-color: rgba(0, 128, 0, 0.25);border-radius: 50%;"><a href="#"><span>Add to cart</span></a></div>

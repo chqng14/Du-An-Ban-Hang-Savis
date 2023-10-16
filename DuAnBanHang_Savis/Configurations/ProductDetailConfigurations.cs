@@ -9,7 +9,7 @@ namespace App_Data.Configurations
         public void Configure(EntityTypeBuilder<ProductDetails> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.BaoHanh).HasColumnType("nvarchar(250)").IsRequired(false);
+
             builder.Property(x => x.MoTa).HasColumnType("nvarchar(max)").IsRequired(false);
 
             builder.HasOne(x => x.Products).WithMany(y => y.ProductDetails).

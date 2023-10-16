@@ -316,7 +316,7 @@
                 <div class="col-md-6" id="container-img">
                     <div><a class="thumbnails image-main"> <img style="height: 300px" data-name="product_image" src="/images/anhsanpham/@Model?.LstTenAnh[0]" alt="" /></a></div>
                     <div id="product-thumbnail" class="owl-carousel">
-                        @foreach (var item in Model.LstTenAnh)
+                        @foreach (var item in Model!.LstTenAnh!)
                         {
                             <div class="item">
                                 <div class="image-additional">
@@ -330,7 +330,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 prodetail caption product-thumb">
-                    <h4 data-name="product_name" class="product-name"><a href="#" title="Casual Shirt With Ruffle Hem">@Model.NameProduct</a></h4>
+                    <h4 data-name="product_name" class="product-name"><a href="#" title="Casual Shirt With Ruffle Hem" id="name_product">@Model.NameProduct</a></h4>
                     <div class="rating">
                         <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
                         <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
@@ -339,7 +339,8 @@
                         <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span>
                     </div>
                     <span class="price mb_20">
-                        <span class="amount"><span class="currencySymbol">$</span><span name="giaBan">@Model.GiaBan</span></span>
+                        <span class="amount"><span class="currencySymbol"></span><span name="giaBan">@string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", @Model.GiaBan)</span></span>
+                        
                     </span>
                     <hr>
                     <div id="product">
@@ -395,14 +396,18 @@
                                 </div>
                             </div>
                             <div class="button-group mt_30 col-md-6">
-                                <div class="add-to-cart"><a href="#"><span>Add to cart</span></a></div>
+                                <button class="btn btn--e-brand-shadow">Thêm vào giỏ hàng</button>
                             </div>
                             <hr />
                             <div>
                                 <ul class="list-unstyled product_info mtb_20 col-md-12">
                                     <li>
                                         <label>Loại:</label>
-                                        <span name="loai"> <a href="#">@Model.Loai</a></span>
+                                        <span name="loai"> <a id="loai">@Model.Loai</a></span>
+                                    </li>
+                                    <li>
+                                        <label>Chất liệu:</label>
+                                        <span name="loai"> <a id="chat_lieu">@Model.ChatLieu</a></span>
                                     </li>
                                     <li>
                                         <label>Product Code:</label>
@@ -665,12 +670,13 @@
       $(this).addClass("clickActive");
 
       var dataGet = {
-          NameProduct: '@Model.NameProduct',
-          Loai: '@Model.Loai',
-          ChatLieu: '@Model.ChatLieu',
+          NameProduct: $('#name_product').text(),
+          Loai: $('#loai').text(),
+          ChatLieu: $('#chat_lieu').text(),
           Size: $('.size-by').find('.clickActive').attr('data-size'),
           MauSac: $('.color-by').find('.clickActive').attr('data-color'),
       };
+
       $.ajax({
           url: '@Url.Action("GetDetails", "ProductDetails")',
           type: 'POST',
@@ -719,9 +725,9 @@
       $(this).addClass("clickActive");
 
       var dataGet = {
-          NameProduct: '@Model.NameProduct',
-          Loai: '@Model.Loai',
-          ChatLieu: '@Model.ChatLieu',
+          NameProduct: $('#name_product').text(),
+          Loai: $('#loai').text(),
+          ChatLieu: $('#chat_lieu').text(),
           MauSac: $('.color-by').find('.clickActive').attr('data-color'),
       };
       $.ajax({
@@ -743,8 +749,8 @@
                           `
                               <div class="owl-item active" style="width: 85.25px;"><div class="item">
                           <div class="image-additional"><a class="thumbnail mt-5" href="/images/anhsanpham/${item}" data-fancybox="group1">
-                         <img class="mt-5" style="height:70px" src="/images/anhsanpham/${item}" alt=""></a></div>
-                      </div></div>
+                             <img class="mt-5" style="height:70px" src="/images/anhsanpham/${item}" alt=""></a></div>
+                          </div></div>
                                `
                       )
                   })
