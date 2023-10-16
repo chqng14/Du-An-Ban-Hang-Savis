@@ -50,6 +50,7 @@ Task.Run(() =>
     {
         promotionService.CheckNgayKetThuc();
         promotionService.UpdateExpiredVouchers();
+        promotionService.CapNhatGiaBanThucTe();
         Thread.Sleep(TimeSpan.FromSeconds(5));
     }
 });
