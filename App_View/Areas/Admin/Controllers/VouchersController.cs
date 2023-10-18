@@ -54,8 +54,6 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<ActionResult> Create()
         {
-
-
             return View();
         }
         [HttpPost]
