@@ -12,6 +12,7 @@ namespace App_Data.Models
         [Required(ErrorMessage = "Vui lòng nhập tên")]
         public string? Ten { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập ngày bắt đầu")]
+        public string? DuongDanAnh { get; set; }
         public DateTime? NgayBatDau { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập ngày kết thúc")]
         [Compare(nameof(NgayBatDau), ErrorMessage = "Ngày kết thúc không được nhỏ hơn ngày bắt đầu")]

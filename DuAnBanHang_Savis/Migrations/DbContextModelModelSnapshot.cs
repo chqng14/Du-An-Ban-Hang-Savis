@@ -356,6 +356,22 @@ namespace App_Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7430128c-674e-4c3d-9f6a-9c4025ae22fe"),
+                            Ma = "ADMIN",
+                            Ten = "admin",
+                            TrangThai = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("cb9ed66e-c971-4f2a-851d-088026eee58b"),
+                            Ma = "USER",
+                            Ten = "user",
+                            TrangThai = 0
+                        });
                 });
 
             modelBuilder.Entity("App_Data.Models.Sale", b =>
@@ -364,6 +380,11 @@ namespace App_Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
+
+                    b.Property<string>("DuongDanAnh")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("LoaiHinhKm")
                         .IsRequired()
@@ -384,7 +405,6 @@ namespace App_Data.Migrations
                         .HasDefaultValueSql("((0))");
 
                     b.Property<DateTime?>("NgayBatDau")
-                        .IsRequired()
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("NgayKetThuc")
@@ -541,6 +561,23 @@ namespace App_Data.Migrations
                     b.HasIndex("IdRole");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d5ace288-10ac-4f71-a430-60450d7a1bc4"),
+                            DiaChi = " ",
+                            Email = "admin@gmail.com",
+                            GioiTinh = 0,
+                            IdRole = new Guid("7430128c-674e-4c3d-9f6a-9c4025ae22fe"),
+                            Ma = "ADMIN",
+                            MatKhau = "admin",
+                            NgaySinh = new DateTime(2023, 10, 18, 12, 29, 45, 594, DateTimeKind.Local).AddTicks(564),
+                            Sdt = "0987654321",
+                            TaiKhoan = "admin",
+                            Ten = "Admin",
+                            TrangThai = 0
+                        });
                 });
 
             modelBuilder.Entity("App_Data.Models.Voucher", b =>

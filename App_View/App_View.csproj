@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.2.10" />
     <PackageReference Include="Hangfire" Version="1.8.5" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.22" />
@@ -36,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\anhsanpham\" />
+    <Folder Include="wwwroot\images\AnhSale\" />
   </ItemGroup>
 
 </Project>

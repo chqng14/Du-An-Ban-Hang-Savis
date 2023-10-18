@@ -39,9 +39,9 @@ namespace App_Data.Repositories
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

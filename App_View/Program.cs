@@ -44,8 +44,18 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 var promotionService = new PromotionService();
-RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/5 * * * * *");
-RecurringJob.AddOrUpdate("UpdateVoucher", () => promotionService.UpdateExpiredVouchers(), "*/5 * * * * *");
+Task.Run(() =>
+{
+    while (true)
+    {
+        promotionService.CheckNgayKetThuc();
+        promotionService.UpdateExpiredVouchers();
+        promotionService.CapNhatGiaBanThucTe();
+        Thread.Sleep(TimeSpan.FromSeconds(5));
+    }
+});
+//RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/5 * * * * *");
+//RecurringJob.AddOrUpdate("UpdateVoucher", () => promotionService.UpdateExpiredVouchers(), "*/5 * * * * *");
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
