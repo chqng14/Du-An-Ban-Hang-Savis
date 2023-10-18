@@ -64,6 +64,7 @@ namespace App_View.Services
                         }
                         ctsp.GiaThucTe = ctsp.GiaBan - (ctsp.GiaBan * mangKhuyenMai.Max() / 100);
                         _dbContext.ProductDetails.Update(ctsp);
+                        _dbContext.SaveChanges();
                         check = true;
                         break;
                     }
@@ -74,9 +75,10 @@ namespace App_View.Services
                 {
                     ctsp.GiaThucTe = ctsp.GiaBan;
                     _dbContext.ProductDetails.Update(ctsp);
+                    _dbContext.SaveChanges();
                 }
             }
-            _dbContext.SaveChanges();
+
         }
     }
 }
