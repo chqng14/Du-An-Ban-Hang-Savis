@@ -12,7 +12,7 @@ namespace App_Api.Helpers.Mapings
 
         public MappingProfiles()
         {
-            CreateMap<App_Data.ViewModels.ProductDetail.ProductUpdateDTO, ProductDetails>().ReverseMap();
+            CreateMap<App_Data.ViewModels.ProductDetail.ProductDetailDTO, ProductDetails>().ReverseMap();
 
             CreateMap<App_Data.ViewModel.ProductDetailDTO, ProductDetails>().ReverseMap();
 
