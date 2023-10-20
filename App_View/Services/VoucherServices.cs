@@ -16,28 +16,24 @@ namespace App_View.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> AddVoucherAsync(Voucher item)
+        public async Task<bool> AddVoucherAsync(VoucherDTO item)
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Voucher/AddVoucher?ten={item.Ten}&loaihinhkm={item.LoaiHinhKm}&mucuudai={item.MucUuDai}&dieukien={item.DieuKien}&soluongton={item.SoLuongTon}&ngaybatdau={item.NgayBatDau}&ngayketthuc={item.NgayKetThuc}";
-                var httpclient = new HttpClient();
-                var response = await httpclient.PostAsync(apiUrl, null);
-
+                var response = await _httpClient.PostAsJsonAsync("/api/Voucher/CreateVoucher", item);
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    return await response.Content.ReadAsAsync<bool>();
                 }
                 else
                 {
-                    Console.WriteLine($"Yêu cầu API AddVoucher thất bại với mã trạng thái: {response.StatusCode}");
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"Lỗi xảy ra: {ex}");
-                throw;
+                Console.WriteLine($"Lỗi xảy ra: {e}");
+                return false;
             }
         }
 
