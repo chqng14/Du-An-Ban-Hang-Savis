@@ -160,7 +160,7 @@ namespace App_View.Areas.Admin.Controllers
             {
                 try
                 {
-                    var color = new Color()
+                    var color = new App_Data.Models.Color()
                     {
                         Id = Guid.NewGuid(),
                         Ten = colorDTO.nameColor,
@@ -194,7 +194,7 @@ namespace App_View.Areas.Admin.Controllers
             {
                 try
                 {
-                    var size = new Size()
+                    var size = new App_Data.Models.Size()
                     {
                         Id = Guid.NewGuid(),
                         Size1 = sizeDTO.nameSize,

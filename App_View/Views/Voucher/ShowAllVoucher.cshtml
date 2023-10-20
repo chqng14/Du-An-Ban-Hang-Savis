@@ -1,84 +1,219 @@
-﻿@model IEnumerable<App_Data.Models.Voucher>
+﻿@using System.Globalization;
+@model IEnumerable<App_Data.Models.Voucher>
 
 @{
-    ViewData["Title"] = "ShowAllVoucher";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/LayoutVoucher.cshtml";
+}
+<style>
+    .m-order__list {
+        display: flex;
+        flex-wrap: wrap; /* Cho phép các cột wrap (được xuống dòng) khi không đủ chỗ */
+        overflow: auto;
+    }
+
+    .m-order__get {
+        width: 45%;
+        height: 210px; /* Đặt chiều rộng của mỗi cột là 50% để chúng hiển thị trong cùng một cột */
+        padding: 10px;
+        margin-left: 20px;
+        box-sizing: border-box;
+    }
+</style>
+
+@functions {
+    // Hàm trợ giúp để định dạng số nguyên thành tiền tệ Việt Nam
+
+    // Thay thế 'YourVoucherNguoiDungServices' bằng tên thực của dịch vụ của bạn
+    public string FormatCurrency(int? value)
+    {
+        return string.Format(new CultureInfo("vi-VN"), "{0:C0}", value);
+    }
+    public string FormatDate(DateTime? value)
+    {
+        if (value.HasValue)
+        {
+            string formattedDate = value.Value.ToString("dd.MM.yyyy HH:mm", System.Globalization.CultureInfo.CurrentCulture);
+            return formattedDate;
+        }
+        return string.Empty; // hoặc bạn có thể trả về một giá trị mặc định khác nếu cần
+    }
 }
 
-<h1>ShowAllVoucher</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ma)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoaiHinhKm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MucUuDai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DieuKien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoLuongTon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayBatDau)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayKetThuc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ma)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoaiHinhKm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MucUuDai)
-            </td>
-  
-            <td>
-                @Html.DisplayFor(modelItem => item.DieuKien)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoLuongTon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayBatDau)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayKetThuc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<!-- Modal -->
+
+<!--====== App Content ======-->
+<div class="app-content">
+    <div class="u-s-p-y-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">            
+                    <div class="col-lg-12 col-md-12">
+
+                        <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
+
+                            <div class="dash__pad-2">
+                                <div>
+                                    <span class="shop-p__meta-text-1" style="color: #FF4500; text-align: center;"><h1 class="blinking-text">Voucher khả dụng</h1></span>
+                                </div>
+                                <div class="shop-p" style="margin-top:30px">
+                                    <div class="shop-p__toolbar u-s-m-b-30">
+                                        <div class="shop-p__meta-wrap u-s-m-b-60">
+                                            <div class="shop-p__meta-text-2">
+                                                <img class="u-img-fluid" src="/images/Voucher/Voucher.jpg" width="50%" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="shop-p__collection">
+                                        <div class="row is-grid-active">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="m-order__list">
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="modal fade" id="ModalForVoucherDetails" tabindex="-1" role="dialog" aria-labelledby="ModalForVoucherDetailsTitle" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ModalForVoucherDetailsTitle" style="color:black">Chi tiết voucher</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="modal-body">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="col-lg-3">
+                                                                                    <img src="~/images//Voucher/LogoVoucher.jpg" alt="Logo" class="img-fluid">
+                                                                                </div>
+                                                                                <div class="col-lg-9">
+                                                                                    <p>Giảm @item.MucUuDai</p>
+                                                                                    <p>Đơn Tối Thiểu @item.DieuKien</p>
+                                                                                    <p>Có hiệu lực từ: @item.NgayKetThuc</p>
+                                                                                    <p>Số lượng còn lại: @item.SoLuongTon</p>
+                                                                                    <p>Lưu mã từ: @item.NgayBatDau</p>
+                                                                                    <p>Hạn sử dụng mã</p>
+                                                                                    <p>@item.NgayBatDau - @item.NgayKetThuc</p>
+                                                                                    <p>Ưu đãi</p>
+                                                                                    <p>Lượt sử dụng có hạn. Nhanh tay kẻo lỡ bạn nhé!</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-12">
+                                                                                <!-- Phần hiển thị thông tin thêm về mã giảm giá -->
+                                                                                <p>Mã giảm ngay @item.MucUuDai cho đơn hàng từ @item.DieuKien trở lên trên App. Áp dụng cho 1 số sản phẩm tham gia chương trình nhất định. HSD: 23:59 ngày 26/10/2023. Số lượng có hạn.</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-order__get">
+                                            <div class="manage-o__header u-s-m-b-30">
+                                                <div class="dash-l-r">
+                                                    <div>
+                                                        <div class="manage-o__text-2 u-c-secondary">@item.Ten</div>
+                                                        <div style="color:#FF4500" class="manage-o__text u-c-silver"> 🕛 @FormatDate(item.NgayKetThuc)</div>
+                                                    </div>
+                                                    <div>
+                                                        @if (item.LoaiHinhKm == 0)
+                                                        {
+                                                            <p>Giảm giá theo tiền mặt</p>
+                                                        }
+                                                        @if (item.LoaiHinhKm == 1)
+                                                        {
+                                                            <p>Giảm giá %</p>
+                                                        }
+                                                        @if (item.LoaiHinhKm == 2)
+                                                        {
+                                                            <p>Miễn phí vận chuyển</p>
+                                                        }
+                                                        <div class="dash__link dash__link--brand">
+
+                                                            <a style="float:right" data-toggle="modal" data-target="#ModalForVoucherDetails">Chi tiết</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="manage-o__description">
+                                                <div class="description__container">
+                                                    <div class="description__img-wrap">
+
+                                                        <img class="u-img-fluid" src="/images/Voucher/LogoVoucher.jpg" alt="">
+                                                    </div>
+                                                    <div class="description-title">
+                                                        Mã: <u style="color:red">@item.Ma </u>
+                                                        <p>
+                                                            Giảm
+                                                            @if (item.LoaiHinhKm == 1)
+                                                            {
+                                                                <span> @item.MucUuDai %</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                decimal? mucUuDai = item.MucUuDai;
+                                                                @string.Format("{0:N0}đ", item.MucUuDai)
+                                                            }
+                                                        </p>
+                                                        <p width:40px>Đơn tối thiểu: <br> @FormatCurrency(item.DieuKien)</p>
+                                                    </div>
+
+                                                </div>
+                                                <div class="description__info-wrap">
+                                                    <div class="body_copy">
+                                                        <a class="manage-o__badge badge--delivered copyButton">Sao chép</a>
+                                                        <textarea class="textToCopy" style="display: none;">@item.Ma</textarea>
+                                                    </div>
+                                                </div>
+                                                                                          
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).on('click', '.copyButton', function () {
+        var maVoucher = $(this).closest('.body_copy').find('.textToCopy').val();
+        var tempInput = document.createElement("input");
+        tempInput.value = maVoucher;
+        document.body.appendChild(tempInput);
+
+        // Chọn văn bản trong phần tử input tạm thời
+        tempInput.select();
+        document.execCommand("copy");
+
+        // Xóa phần tử input tạm thời
+        document.body.removeChild(tempInput);
+
+        alert("Đã sao chép mã vào clipboard: " + maVoucher);
+    });
+
+
+</script>
+<!--====== End - App Content ======-->

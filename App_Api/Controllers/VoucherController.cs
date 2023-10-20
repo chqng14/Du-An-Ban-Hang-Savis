@@ -50,23 +50,13 @@ namespace App_Api.Controllers
         }
 
 
-        [HttpPost("AddVoucher")]
-        public bool AddVoucher(string ten, int loaihinhkm, decimal mucuudai, int dieukien, int soluongton, DateTime ngaybatdau, DateTime ngayketthuc)
+        [HttpPost("CreateVoucher")]
+        public bool AddVoucher(VoucherDTO voucherDTO)
         {
-            string randomVoucherCode = GenerateRandomVoucherCode();
+            voucherDTO.Id = Guid.Parse(Guid.NewGuid().ToString());
+            var voucher = _mapper.Map<Voucher>(voucherDTO);
+            voucher.Ma = GenerateRandomVoucherCode();
 
-            var voucher = new Voucher()
-            {
-                Id = Guid.NewGuid(),
-                Ten = ten,
-                Ma = randomVoucherCode,
-                LoaiHinhKm = loaihinhkm,
-                MucUuDai = mucuudai,
-                DieuKien = dieukien,
-                SoLuongTon = soluongton,
-                NgayBatDau = ngaybatdau,
-                NgayKetThuc = ngayketthuc,
-            };
             if (voucher.NgayBatDau > DateTime.Now)
             {
                 voucher.TrangThai = (int)TrangThaiVoucher.ChuaBatDau;

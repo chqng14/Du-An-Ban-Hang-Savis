@@ -31,25 +31,10 @@
         </div>
         <div class="col-lg-4 text-right">
             <h1>  <a class="btn btn-primary" asp-action="Create"><i class="anticon anticon-plus-circle"></i> Tạo mới</a></h1>
-
         </div>
     </div>
 </div>
-@* <div class="d-md-flex">
-    <form asp-action="ShowAllVoucher" method="post">
-        <div class="form-group">
-            <label for="trangThai">Chọn trạng thái:</label>
-            <select id="trangThai" name="trangThai" class="custom-select">
-                <option value="tatCa">Tất cả</option>
-                <option value="hoatDong">Hoạt động</option>
-                <option value="khongHoatDong">Không hoạt động</option>
-                <option value="chuaBatDau">Chưa bắt đầu</option>
-            </select>
-            <button type="submit" class="btn btn-primary">Lọc</button>
-        </div>
 
-    </form>
-</div> *@
 
 <table id="data-table" class="table" style="text-align:center">
     <thead>
@@ -72,9 +57,6 @@
             </th>
             <th>
                 Số lượng
-            </th>
-            <th>
-                Số lần đẫ sử dụng
             </th>
             <th>
                 Ngày bắt đầu
@@ -170,8 +152,11 @@
 <script>
     $(document).ready(function () {
         $('#data-table').DataTable()
-    }
+    });
 </script>
+
+
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
