@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using App_Data.Models;
 using App_View.IServices;
 using App_Data.ViewModels.ProductDetail;
+using App_Data.ViewModels.Filter;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace App_View.Controllers
 {
@@ -21,10 +23,66 @@ namespace App_View.Controllers
         }
 
         // GET: ProductDetails
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string brand, string search)
         {
-            return View(await _productDetailService.GetProductItemShopVMsAsync());
+            var data = (await _productDetailService.GetProductItemShopVMsAsync());
+            if (!string.IsNullOrEmpty(brand))
+            {
+                data = data.Where(x => x.Loai!.ToLower() == brand.ToLower()).ToList();
+            }
+            if (!string.IsNullOrEmpty(search))
+            {
+                data = data.Where(x => x.NameProduct!.ToLower().Contains(search.ToLower())).ToList();
+            }
+            var model = new FilterVM()
+            {
+                Items = data.Take(9).ToList(),
+                PagingInfor = new PagingInfor()
+                {
+                    SoItemTrenMotTrang = 9,
+                    TongSoItem = data.Count,
+                    TrangHienTai = 1
+                }
+            };
+            return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> LoadPartialViewProducts([FromBody] FilterDaTa filterDaTa)
+        {
+            var data = (await _productDetailService.GetProductItemShopVMsAsync());
+
+            var brand = HttpContext.Request.Query["brand"].ToString();
+
+            if (!string.IsNullOrEmpty(brand))
+            {
+                data = data.Where(sp=>sp.Loai!.ToLower().Contains(brand.ToLower())).ToList();
+            }
+
+            data = data.Where(sp => sp.GiaBan > filterDaTa.GiaMin && sp.GiaBan < filterDaTa.GiaMax).ToList();
+            if (filterDaTa.ListCorlor!.Any())
+            {
+                data = data.Where(sp => filterDaTa.ListCorlor!.Contains(sp.MauSac!)).ToList();
+            }
+
+            if (filterDaTa.ListSize!.Any())
+            {
+                data = data.Where(sp => filterDaTa.ListSize!.Contains(sp.Size!)).ToList();
+            }
+
+            return PartialView("_ProductsPartialView", new FilterVM()
+            {
+                Items = data.Skip((filterDaTa.TrangHienTai - 1) * 9).Take(9).ToList(),
+                PagingInfor = new PagingInfor()
+                {
+                    TrangHienTai = filterDaTa.TrangHienTai,
+                    SoItemTrenMotTrang = 9,
+                    TongSoItem = data.Count
+                }
+            });
+
+        }
+
 
         // GET: ProductDetails/Details/5
         public async Task<IActionResult> Details(Guid id)
@@ -33,7 +91,7 @@ namespace App_View.Controllers
             return View(item);
         }
         [HttpPost]
-        public async Task<IActionResult> GetDetails([FromBody]DataProductDetailVm dataProductDetailVm)
+        public async Task<IActionResult> GetDetails([FromBody] DataProductDetailVm dataProductDetailVm)
         {
             return Json(await _productDetailService.GetProductDetailRespoAsync(dataProductDetailVm));
         }

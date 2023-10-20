@@ -19,19 +19,19 @@
         <!-- =====  BANNER STRAT  ===== -->
         <div class="col-sm-12">
             <div class="breadcrumb ptb_20">
-                <h1>New LCDScreen...</h1>
+                <h1>@Model.NameProduct</h1>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="category_page.html">Products</a></li>
-                    <li class="active">New LCDS...</li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/ProductDetails">Products</a></li>
+                    <li class="active">@Model.NameProduct</li>
                 </ul>
             </div>
         </div>
         <!-- =====  BREADCRUMB END===== -->
         <div id="column-left" class="col-sm-4 col-lg-3 hidden-xs">
             @await Component.InvokeAsync("TopCategory")
-            <div class="left_banner left-sidebar-widget mt_30 mb_40"> <a href="#"><img src="/images/left1.jpg" alt="Left Banner" class="img-responsive" /></a> </div>
-            <div class="left-special left-sidebar-widget mb_50">
+            <div class="left_banner left-sidebar-widget mt_30 mb_40"> <a href="#"><img src="/images/Design/Yellow Shoe Drive Charity Instagram Post Temp - Made with PosterMyWall.jpg" alt="Left Banner" class="img-responsive" /></a> </div>
+            @*<div class="left-special left-sidebar-widget mb_50">
                 <div class="heading-part mb_10 ">
                     <h2 class="main_title">Top Products</h2>
                 </div>
@@ -309,12 +309,12 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>*@
         </div>
         <div class="col-sm-8 col-lg-9 mtb_20">
             <div class="row" style="margin-top:-20px">
                 <div class="col-md-6" id="container-img">
-                    <div><a class="thumbnails image-main"> <img style="height: 300px" data-name="product_image" src="/images/anhsanpham/@Model?.LstTenAnh[0]" alt="" /></a></div>
+                    <div><a class="thumbnails image-main"> <img style="height: auto;width: 100%;" data-name="product_image" src="/images/anhsanpham/@Model?.LstTenAnh[0]" alt="" /></a></div>
                     <div id="product-thumbnail" class="owl-carousel">
                         @foreach (var item in Model!.LstTenAnh!)
                         {
@@ -390,13 +390,15 @@
                                 </div>
                             </div>
                             <div class="qty form-group2 col-md-6" style="margin-top:10px">
-                                <label>Qty</label>
+                                <label>Qty</label>Refine Search
                                 <div>
                                     <input name="product_quantity" min="1" value="1" type="number">
                                 </div>
                             </div>
                             <div class="button-group mt_30 col-md-6">
-                                <button class="btn btn--e-brand-shadow">Thêm vào giỏ hàng</button>
+                                <button class="btn btn--e-brand-shadow" style="
+    background: #b0abcc;
+">Thêm vào giỏ hàng</button>
                             </div>
                             <hr />
                             <div>
@@ -484,7 +486,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-12">
                     <div class="heading-part text-center mb_10">
                         <h2 class="main_title mt_50">Related Products</h2>
@@ -650,7 +652,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -702,8 +704,9 @@
                   })
 
               }
-
-              $("[name='giaBan']").text(result.giaBan)
+              var giaBan = result.giaBan;
+              var giaBanVN = giaBan.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+              $("[name='giaBan']").text(giaBanVN)
               $("[name='soLuongTon']").text(result.soLuongTon)
               $("[name='soLuongDaBan']").text(result.soLuongDaBan)
 
@@ -777,7 +780,11 @@
                       }
                   })
               }
-              $("[name='giaBan']").text(result.giaBan)
+              var giaBan = result.giaBan; 
+
+              var giaBanVN = giaBan.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+              $("[name='giaBan']").text(giaBanVN);
               $("[name='soLuongTon']").text(result.soLuongTon)
               $("[name='soLuongDaBan']").text(result.soLuongDaBan)
 

@@ -12,6 +12,8 @@ namespace App_Data.ViewModels.ProductDetail
         public string? NameProduct { get; set; }
         public string? Loai { get; set; }
         public int SoLuongTon { get; set; }
+        public string? MauSac { get; set; }
+        public string? Size { get; set; }
         public bool IsNoiBat { get; set; }
         public int? SoLuongDaBan { get; set; }
         public bool IsNew { get; set; }

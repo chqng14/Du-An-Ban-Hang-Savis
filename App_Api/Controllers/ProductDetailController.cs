@@ -202,7 +202,9 @@ namespace App_Api.Controllers
                 Id = item.Id,
                 GiaBan = item.GiaBan,
                 Loai = _allRepoTypeProduct.GetAll().FirstOrDefault(lo => lo.Id == item.IdTypeProduct)?.Ten,
-                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na => na.Id == item.IdProduct)?.Ten,
+                NameProduct = _allRepoProduct.GetAll().FirstOrDefault(na => na.Id == item.IdProduct)?.Ten + " " + _allRepoColor.GetAll().FirstOrDefault(na => na.Id == item.IdColor)?.Ten + " " + _allRepoSize.GetAll().FirstOrDefault(na => na.Id == item.IdSize)?.Size1,
+                MauSac = _allRepoColor.GetAll().FirstOrDefault(na => na.Id == item.IdColor)?.Ten,
+                Size = _allRepoSize.GetAll().FirstOrDefault(na => na.Id == item.IdSize)?.Size1,
                 SoLuongTon = item.SoLuongTon,
                 IsNoiBat = item.IsNoiBat,
                 IsNew = item.NgayTao >= sevenDaysAgo,
@@ -252,7 +254,10 @@ namespace App_Api.Controllers
         [HttpGet("get-list-productItemShop")]
         public List<ProductItemShopVM> GetListProductItemShop()
         {
-            var listProductVM = _allRepoProductDetail.GetAll().Where(item=>item.TrangThai==0).GroupBy(x => new { x.IdMaterial, x.IdProduct, x.IdTypeProduct }).Select(gr => gr.First()).ToList();
+            var listProductVM = _allRepoProductDetail.GetAll()
+                .Where(item=>item.TrangThai==0)
+                //.GroupBy(x => new { x.IdMaterial, x.IdProduct, x.IdTypeProduct }).Select(gr => gr.First())
+                .ToList();
             var lstItemShop = listProductVM.Select(item => CreatProductShop(item)).ToList();
             return lstItemShop;
         }
