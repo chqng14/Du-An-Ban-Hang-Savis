@@ -20,6 +20,9 @@
                 @Html.DisplayNameFor(model => model.Ten)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DuongDanAnh)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.NgayBatDau)
             </th>
             <th>
@@ -49,6 +52,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Ten)
+                </td>
+                <td>
+                    <img src="/images/AnhSale/@item.DuongDanAnh"></img>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NgayBatDau)

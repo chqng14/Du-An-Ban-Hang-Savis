@@ -34,7 +34,7 @@ namespace App_Api.Controllers
 
 
         // POST api/<SaleController>
-        [HttpPost]
+        [HttpPost("create-sale")]
         public async Task<bool> CreateSaleAsync(string ma, string ten, DateTime ngaybatdau, DateTime ngayketthuc, string LoaiHinhKm, string mota, decimal mucgiam, int trangthai, IFormFile formFile)
         {
             Sale sale = new Sale();
@@ -82,7 +82,7 @@ namespace App_Api.Controllers
                             await image.SaveAsync(outputStream, encoder);
                         }
                         sale.DuongDanAnh = fileName;
-                        repos.AddItem(sale);
+                        
 
                     }
                 }

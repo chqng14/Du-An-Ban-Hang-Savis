@@ -37,6 +37,7 @@ namespace App_Data.Repositories
             {
                 dbset.Add(item);
                 context.SaveChanges();
+                Console.WriteLine("add thành công");
                 return true;
             }
             catch (Exception ex)

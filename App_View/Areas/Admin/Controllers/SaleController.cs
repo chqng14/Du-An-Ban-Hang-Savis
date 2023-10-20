@@ -10,6 +10,8 @@ using App_Data.IRepositories;
 using App_Data.Repositories;
 using App_View.IServices;
 using App_View.Services;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using System.Net.Http;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -20,11 +22,13 @@ namespace App_View.Areas.Admin.Controllers
         DbContextModel context = new DbContextModel();
         DbSet<Sale> sale;
         ISaleService SaleService;
+        HttpClient _httpClient;
         public SaleController()
         {
             sale = context.Sales;
             AllRepo<Sale> all = new AllRepo<Sale>(context, sale);
             repos = all;
+            _httpClient = new HttpClient();
             SaleService = new SaleService();
         }
 
@@ -53,13 +57,54 @@ namespace App_View.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ma,Ten,NgayBatDau,NgayKetThuc,LoaiHinhKm,MucGiam,MoTa,TrangThai")] Sale sale)
+        public async Task<IActionResult> Create(Sale sale, IFormFile formFile)
         {
-            if (await SaleService.CreateSale(sale))
+
+            //using (var content = new MultipartFormDataContent())
+            //{
+            //    // Thêm dữ liệu của Sale vào MultipartFormDataContent
+
+            //    content.Add(new StringContent(sale.Ma), "ma");
+            //    content.Add(new StringContent(sale.Ten), "ten");
+            //    content.Add(new StringContent(sale.NgayBatDau.ToString()), "ngaybatdau");
+            //    content.Add(new StringContent(sale.NgayKetThuc.ToString()), "ngayketthuc");
+            //    content.Add(new StringContent(sale.LoaiHinhKm), "LoaiHinhKm");
+            //    content.Add(new StringContent(sale.MoTa), "mota");
+            //    content.Add(new StringContent(sale.MucGiam.ToString()), "mucgiam");
+            //    content.Add(new StringContent(sale.TrangThai.ToString()), "trangthai");
+
+            //    if (formFile != null && formFile.Length > 0)
+            //    {
+            //        // Tạo StreamContent cho tệp tin ảnh
+            //        var streamContent = new StreamContent(formFile.OpenReadStream());
+            //        //streamContent.Headers.Add("Content-Type", formFile.ContentType);
+            //        content.Add(streamContent, "formFile", formFile.FileName); // 'formFile' phải trùng với tên tham số trong API
+
+            //        var response = await _httpClient.PostAsync("https://localhost:7165/api/Sale/create-sale", content); // Đảm bảo URL là "/api/Sale/create-sale"
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            var responseContent = await response.Content.ReadAsStringAsync();
+            //            Console.WriteLine("Create successful. Response: " + responseContent);
+            //            return RedirectToAction("ShowAllSale");
+            //        }
+            //        else
+            //        {
+            //            var responseContent = await response.Content.ReadAsStringAsync();
+            //            Console.WriteLine("Create failed. Response: " + responseContent);
+            //            return BadRequest();
+            //        }
+            //    }
+            //    return BadRequest();
+            //}
+
+            if (await SaleService.CreateSale(sale, formFile))
             {
                 return RedirectToAction("ShowAllSale");
             }
-            else return BadRequest();
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // GET: Admin/Sale/Edit/5

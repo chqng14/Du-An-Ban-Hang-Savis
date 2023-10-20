@@ -11,7 +11,7 @@ namespace App_View.Services
         {
             httpClient = new HttpClient();
         }
-        public async Task<bool> AddSize(Size size)
+        public async Task<bool> AddSize(App_Data.Models.Size size)
         {
             string url = $"https://localhost:7165/api/Size/createSize?tenSize={size.Size1}&CM={size.Cm}";
             await httpClient.PostAsJsonAsync(url, size);
@@ -25,20 +25,20 @@ namespace App_View.Services
             return true;
         }
 
-        public async Task<bool> EditSize(Size size)
+        public async Task<bool> EditSize(App_Data.Models.Size size)
         {
             string url = $"https://localhost:7165/api/Size/EditSize?id={size.Id}&ten={size.Size1}&CM={size.Cm}&trangthai={size.TrangThai}";
             await httpClient.PutAsJsonAsync(url, size);
             return true;
         }
 
-        public async Task<List<Size>> GetAllSize()
+        public async Task<List<App_Data.Models.Size>> GetAllSize()
         {
             var httpClient = new HttpClient();
             string apiUrl = "https://localhost:7165/api/Size/GetAllSize";
             var response = await httpClient.GetAsync(apiUrl);
             string apiData = await response.Content.ReadAsStringAsync();
-            var sizes = JsonConvert.DeserializeObject<List<Size>>(apiData);
+            var sizes = JsonConvert.DeserializeObject<List<App_Data.Models.Size>>(apiData);
             return sizes;
         }
     }

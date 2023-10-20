@@ -27,7 +27,7 @@ namespace App_View.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Color color)
+        public async Task<IActionResult> Create(App_Data.Models.Color color)
         {
             await colorServices.AddColor(color);
             return RedirectToAction("Index");
@@ -38,7 +38,7 @@ namespace App_View.Controllers
             var editColor = (await colorServices.GetAllColor()).FirstOrDefault(x => x.Id == id);
             return View(editColor);
         }
-        public async Task<IActionResult> Edit(Color color)
+        public async Task<IActionResult> Edit(App_Data.Models.Color color)
         {
             await colorServices.EditColor(color);
             return RedirectToAction("Index");

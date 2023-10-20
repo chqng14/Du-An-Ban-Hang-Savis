@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Ma" class="control-label"></label>
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DuongDanAnh" class="control-label"></label>
-                <input asp-for="DuongDanAnh" class="form-control" />
+                <input type="file" name="formFile" class="form-control" />
                 <span asp-validation-for="DuongDanAnh" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,9 +43,20 @@
                 <span asp-validation-for="LoaiHinhKm" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="MucGiam" class="control-label"></label>
+                <input asp-for="MucGiam" class="form-control" />
+                <span asp-validation-for="MucGiam" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
                 <label asp-for="MoTa" class="control-label"></label>
                 <input asp-for="MoTa" class="form-control" />
                 <span asp-validation-for="MoTa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrangThai" class="control-label"></label>
+                <input asp-for="TrangThai" class="form-control" />
+                <span asp-validation-for="TrangThai" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
