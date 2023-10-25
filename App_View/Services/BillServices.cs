@@ -103,7 +103,6 @@ namespace App_View.Services
 
             return bills;
         }
-
         public async Task<List<Bill>> GetBillsByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             var bills = (await GetAllBillsAsync())
