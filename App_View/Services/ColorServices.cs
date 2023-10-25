@@ -13,7 +13,7 @@ namespace App_View.Services
         {
             httpClient = new HttpClient();
         }
-        public async Task<bool> AddColor(Color color)
+        public async Task<bool> AddColor(App_Data.Models.Color color)
         {
             string url = $"https://localhost:7165/api/Color/createColor?ten={color.Ten}";
             await httpClient.PostAsJsonAsync(url,color);
@@ -27,20 +27,20 @@ namespace App_View.Services
             return true;
         }
 
-        public async Task<bool> EditColor(Color color)
+        public async Task<bool> EditColor(App_Data.Models.Color color)
         {
             string url = $"https://localhost:7165/api/Color/EditColor?id={color.Id}&ma={color.Ma}&ten={color.Ten}&trangthai={color.TrangThai}";
             await httpClient.PutAsJsonAsync(url, color);
             return true;
         }
 
-        public async Task<List<Color>> GetAllColor()
+        public async Task<List<App_Data.Models.Color>> GetAllColor()
         {
             var httpClient = new HttpClient();
             string apiUrl = "https://localhost:7165/api/Color/GetAllColor";
             var response = await httpClient.GetAsync(apiUrl);
             string apiData = await response.Content.ReadAsStringAsync();
-            var Colors = JsonConvert.DeserializeObject<List<Color>>(apiData);
+            var Colors = JsonConvert.DeserializeObject<List<App_Data.Models.Color>>(apiData);
             return Colors;
         }
     }

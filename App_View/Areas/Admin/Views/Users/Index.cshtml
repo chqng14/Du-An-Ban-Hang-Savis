@@ -14,9 +14,9 @@
 <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
 <a asp-controller="Users" asp-area="Admin" asp-action="Create" class="btn btn-info" style="margin-bottom: 30px;">Thêm</a>
 <table id="data-table" class="table">
-    <thead>
-        <tr>
-           <th>
+	<thead>
+		<tr>
+			<th>
 				@Html.DisplayNameFor(model => model.Ma)
 			</th>
 			<th>
@@ -50,12 +50,13 @@
 				@Html.DisplayNameFor(model => model.Roles)
 			</th>
 			<th>Thao Tác</th>
-        </tr>
-    </thead>
-    <tbody>
-       @foreach (var item in Model)
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
 		{
 			<tr>
+				
 				<td>
 					@(item.Ma)
 				</td>
@@ -86,22 +87,23 @@
 				<td>
 					@(item.TrangThai)
 				</td>
-				
-					<td>
-						@(roles.FirstOrDefault(c=>c.Id == item.IdRole).Ten)
-					</td>
 
 				<td>
-					<a asp-action="Edit" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-warning"><i class="anticon anticon-edit"></i></a> 
-					<a asp-action="Details" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-info"><i class="anticon anticon-eye"></i></a> 
-						<a asp-action="Delete" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-danger"><i class="anticon anticon-delete"></i></a>
+					@(roles.FirstOrDefault(c => c.Id == item.IdRole).Ten)
+				</td>
+
+				<td>
+					<a asp-action="Edit" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-warning"><i class="anticon anticon-edit"></i></a>
+					<a asp-action="Details" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-info"><i class="anticon anticon-eye"></i></a>
+					<a asp-action="Delete" asp-controller="Users" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-danger"><i class="anticon anticon-delete"></i></a>
+					<a class="btn btn-primary" data-toggle="modal" onclick="ChangeRole('@item.Id')" data-target="#phanQuyenModal"><i class="anticon anticon-user"></i></a>
 				</td>
 			</tr>
 		}
-    </tbody>
-    <tfoot>
-        <tr>
-             <th>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>
 				@Html.DisplayNameFor(model => model.Ma)
 			</th>
 			<th>
@@ -135,9 +137,122 @@
 				@Html.DisplayNameFor(model => model.Roles)
 			</th>
 			<th>Thao Tác</th>
-        </tr>
-    </tfoot>
+		</tr>
+	</tfoot>
 </table>
 <script>
 	$('#data-table').DataTable();
 </script>
+<div class="modal fade" id="phanQuyenModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">PHÂN QUYỀN</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<i class="anticon anticon-close"></i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h5 id="tenNguoiDung"></h5>
+				<div class="row" id="role">
+					@*<div class="col-sm-6">
+						<div class="checkbox mb-2">
+							<input class="form-check-input" type="checkbox" id="admin">
+							<label class="form-check-label" for="admin">
+								Admin
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="checkbox mb-2">
+							<input class="form-check-input" type="checkbox" id="user">
+							<label class="form-check-label" for="user">
+								User
+							</label>
+						</div>
+					</div>*@
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
+				<button type="button" class="btn btn-primary" id="btnUpdate">Lưu</button>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts{
+	<script>
+		$(document).ready(function(){
+			GetRoleForCheckBox();
+			$('#btnUpdate').click(function UpdateRole() {
+				var idRole = $('.form-check-input:checked').val();
+				var tenNguoiDung = $('#tenNguoiDung').text();
+				var obj = {
+					Ten: tenNguoiDung,
+					IdRole: idRole
+				};
+				$.ajax({
+					url: '/Admin/Users/UpdateRole',
+					type: 'POST',
+					data: obj,
+					success: function () {
+						alert('Đổi chức vụ thành công !');
+						window.location.reload();
+					},
+					error: function () {
+						alert('Đổi chức vụ thất bại !');
+						window.location.reload();
+					}
+				})
+			});
+		});
+		
+		function GetRoleForCheckBox() {
+			$.ajax({
+				url: '/Admin/Users/GetRoleForCheckBox',
+				type: 'GET',
+				dataType: 'json',
+				contentType: 'application/json;charset=utf-8',
+				success: function (result, statu, xhr) {
+					var obj = '';
+					$.each(result, function(i, item){
+						obj += '<div class="col-sm-6">';
+						obj += '<div class="checkbox mb-2">';
+						obj += '<input class="form-check-input" value="' + item.id+'" type="checkbox" id="' + item.ten +'">';
+						obj += '<label class="form-check-label" for="' + item.ten + '">'
+						obj += `${item.ten}`;
+						obj += '</label>';
+						obj += '</div>';
+						obj += '</div>';
+					});
+					$('#role').html(obj);
+					$('.form-check-input').change(function () {
+						$('.form-check-input').not(this).prop('checked', false);
+					});
+					
+				},
+				error: function() {
+					alert('Tai du lieu bi loi');
+				}
+			})
+		}
+		function ChangeRole(id) {
+			$.ajax({
+				url: '/Admin/Users/ChangeRole?id=' + id,
+				type: 'GET',
+				contentType: 'application/json;charset=utf-8;',
+				dataType: 'json',
+				success: function (res) {
+					$('#tenNguoiDung').text(res.ten);
+					$('.form-check-input').prop('checked', false);
+					$('.form-check-input[value="' + res.idRole + '"]').prop('checked', true);
+				},
+				error: function () {
+					alert('not found');
+				}
+			})
+		}
+		
+	</script>
+}

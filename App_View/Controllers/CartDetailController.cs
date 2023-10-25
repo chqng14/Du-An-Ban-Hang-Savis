@@ -41,22 +41,23 @@ namespace App_View.Controllers
         }
         public async Task<ActionResult> ShowCart()
         {
-            //var acc = SessionServices.GetObjFromSession(HttpContext.Session, "acc").TaiKhoan;
-            //var idCart = (await userServices.GetAllUser()).FirstOrDefault(c => c.TaiKhoan == acc).Id;
-            var a = (await cartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == Guid.Parse("36668394-764E-71F5-D3BE-278C8C20C8A1")).ToList();
+            var acc = SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginUser").Id;
+            var idCart = (await userServices.GetUserByIdAsync(acc)).Id;
+            var a = (await cartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == acc).ToList();
             return View(a);
         }
 
         public async Task<ActionResult> CheckOut()
         {
-            var a = (await cartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == Guid.Parse("36668394-764E-71F5-D3BE-278C8C20C8A1")).ToList();
+            var acc = SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginUser").Id;
+            var a = (await cartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == acc).ToList();
             return View(a);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddToCartUser(CartViewModel model)
         {
-            //var acc = SessionServices.GetObjFromSession(HttpContext.Session, "acc");
+            var acc = SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginUser").Id;
             var product = await _productDetailService.GetProductDTOByIdAsync(model.IdProduct);
             //if (acc == null)
             //{
@@ -66,7 +67,7 @@ namespace App_View.Controllers
             //else
             //{
 
-            var IdCart = (await userServices.GetUsersAsync()).FirstOrDefault(c => c.Id == Guid.Parse("36668394-764E-71F5-D3BE-278C8C20C8A1")).Id;
+            var IdCart = (await userServices.GetUsersAsync()).FirstOrDefault(c => c.Id == acc).Id;
             var existing = (await cartDetailServices.GetCartDetailsAsync()).FirstOrDefault(x => x.IdProduct == product.Id && x.IdUser == IdCart);
             if (existing != null)
             {

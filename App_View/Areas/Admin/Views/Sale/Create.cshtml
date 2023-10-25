@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>Create</h1>
@@ -11,17 +10,22 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Ma" class="control-label"></label>
-                <input maxlength="10" asp-for="Ma" class="form-control" />
+                <input asp-for="Ma" class="form-control" />
                 <span asp-validation-for="Ma" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ten" class="control-label"></label>
                 <input asp-for="Ten" class="form-control" />
                 <span asp-validation-for="Ten" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DuongDanAnh" class="control-label"></label>
+                <input type="file" name="formFile" class="form-control" />
+                <span asp-validation-for="DuongDanAnh" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NgayBatDau" class="control-label"></label>
@@ -39,14 +43,15 @@
                 <span asp-validation-for="LoaiHinhKm" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MoTa" class="control-label"></label>
-                <input asp-for="MoTa" class="form-control" />
-                <span asp-validation-for="MoTa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="MucGiam" class="control-label"></label>
                 <input asp-for="MucGiam" class="form-control" />
                 <span asp-validation-for="MucGiam" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="MoTa" class="control-label"></label>
+                <input asp-for="MoTa" class="form-control" />
+                <span asp-validation-for="MoTa" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TrangThai" class="control-label"></label>
@@ -61,9 +66,6 @@
 </div>
 
 <div>
-    <a asp-action="ShowAllSale">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

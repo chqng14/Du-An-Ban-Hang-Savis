@@ -4,9 +4,9 @@ namespace App_View.IServices
 {
     public interface ISizeServices
     {
-        public Task<List<Size>> GetAllSize();
-        public Task<bool> AddSize(Size size);
+        public Task<List<App_Data.Models.Size>> GetAllSize();
+        public Task<bool> AddSize(App_Data.Models.Size size);
         public Task<bool> DeleteSize(Guid id);
-        public Task<bool> EditSize(Size size);
+        public Task<bool> EditSize(App_Data.Models.Size size);
     }
 }

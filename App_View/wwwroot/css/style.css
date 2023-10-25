@@ -1881,7 +1881,7 @@ input#amount {
 ----------------------------------------------- */
 
 .breadcrumb {
-    background-image: url("../images/breadcrumb.jpg");
+    background-image: url("'../images/Background/Luxury background template design - Made with PosterMyWall.jpg'");
     border-radius: 0;
     display: inline-block;
     padding-left: 20px;
@@ -1894,11 +1894,11 @@ input#amount {
     }
 
         .breadcrumb li.active {
-            color: #fff;
+            color: #c89999;
         }
 
     .breadcrumb h1 {
-        color: #fff;
+        color: #c89999;
         float: left;
         font-size: 24px;
         font-weight: 500;

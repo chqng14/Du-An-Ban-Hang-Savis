@@ -651,7 +651,8 @@ body {
 /*--------------------------------------------------------------
 5.0 Components
 --------------------------------------------------------------*/
-/* Breadcrumb Component */
+/* 
+    Component */
 .breadcrumb__wrap {
   background-color: #fbfbfb;
   padding: 1.125rem;

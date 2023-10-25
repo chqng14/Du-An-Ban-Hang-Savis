@@ -100,7 +100,6 @@ namespace App_View.Areas.Admin.Controllers
         {
             var saledetail = await ProductDetailService.GetListProductViewModelAsync();
             ViewData["IdSale"] = new SelectList(context.Sales, "Id", "Ten");
-
             return View(saledetail);
         }
         [HttpPost]

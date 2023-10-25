@@ -3,12 +3,25 @@
 <div id="category-menu" class="navbar collapse in mb_40" aria-expanded="true" style="" role="button">
     <div class="nav-responsive">
         <div class="heading-part">
-            <h2 class="main_title">Top category</h2>
+            <h2 class="main_title">Danh sách thương hiệu</h2>
         </div>
         <ul class="nav  main-navigation collapse in">
+            @{
+                string valueSearch = ViewContext.HttpContext.Request.Query["search"];
+            }
+             <li><a href="@Url.Action("Index", "ProductDetails")">Tất cả</a></li>
             @foreach (var item in Model)
             {
-                <li><a href="#">@item.Ten</a></li>
+
+                @if (!string.IsNullOrEmpty(valueSearch))
+                {
+                    <li><a href="@Url.Action("Index", "ProductDetails", new { search = ViewContext.HttpContext.Request.Query["search"], brand = item.Ten })">@item.Ten</a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action("Index", "ProductDetails", new { brand = item.Ten })">@item.Ten</a></li>
+                }
+
             }
         </ul>
     </div>

@@ -2,12 +2,12 @@
 <div class="list-group">
     <div class="list-group-item mb_10">
         <label>Color</label>
-        <div id="filter-group1">
+        <div id="filter-color">
             @foreach (var item in Model.ListColorVM!)
             {
                 <div class="checkbox">
                     <label>
-                        <input value="" type="checkbox"> @item.Name (@item.Count)
+                        <input value="@item.Name" class="item-filter" type="checkbox"> @item.Name (@item.Count)
                     </label>
                 </div>
             }
@@ -15,16 +15,100 @@
     </div>
     <div class="list-group-item mb_10">
         <label>Size</label>
-        <div id="filter-group3">
+        <div id="filter-size">
             @foreach (var item in Model.ListSizeVM!)
             {
                 <div class="checkbox">
                     <label>
-                        <input value="" type="checkbox"> @item.Name (@item.Count)
+                        <input value="@item.Name" class="item-filter" type="checkbox"> @item.Name (@item.Count)
                     </label>
                 </div>
             }
         </div>
     </div>
-    <button type="button" class="btn">Refine Search</button>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).on("change", ".item-filter",  function () {
+
+        const brandParam = new URLSearchParams(window.location.search).get("brand");
+
+        let lstColor = $('#filter-color').find('input[type="checkbox"]:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        let lstSize = $('#filter-size').find('input[type="checkbox"]:checked').map(function () {
+            return $(this).val();
+        }).get();
+        var currentAmount = $("#amount").val();
+
+        var values = currentAmount.split('-');
+
+        var minValue = values[0].replace(/[^0-9]/g, "");
+        var maxValue = values[1].replace(/[^0-9]/g, "");
+
+
+        var data = {
+            GiaMin: minValue,
+            GiaMax: maxValue,
+            ListCorlor: lstColor,
+            ListSize: lstSize,
+        };
+        $.ajax({
+            url: brandParam != null ? '/ProductDetails/LoadPartialViewProducts?brand=' + brandParam : '/ProductDetails/LoadPartialViewProducts',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (result) {
+                $('.body-products').empty().html(result)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    })
+    $(document).on("click", ".btn-range", function () {
+
+        const brandParam = new URLSearchParams(window.location.search).get("brand");
+
+        let lstColor = $('#filter-color').find('input[type="checkbox"]:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        let lstSize = $('#filter-size').find('input[type="checkbox"]:checked').map(function () {
+            return $(this).val();
+        }).get();
+        var currentAmount = $("#amount").val();
+
+        var values = currentAmount.split('-');
+
+        var minValue = values[0].replace(/[^0-9]/g, "");
+        var maxValue = values[1].replace(/[^0-9]/g, "");
+
+
+        var data = {
+            GiaMin: minValue,
+            GiaMax: maxValue,
+            ListCorlor: lstColor,
+            ListSize: lstSize,
+        };
+        $.ajax({
+            url: brandParam != null ? '/ProductDetails/LoadPartialViewProducts?brand=' + brandParam : '/ProductDetails/LoadPartialViewProducts',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (result) {
+                $('.body-products').empty().html(result)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
+            }
+        });
+    })
+</script>

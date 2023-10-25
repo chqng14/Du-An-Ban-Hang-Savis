@@ -24,7 +24,9 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpContextAccessor();
 
+
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=DESKTOP-8RSAFN0\HKLADOI;Initial Catalog=Savis;Integrated Security=True")); //Đoạn này ai chạy lỗi thì đổi đường dẫn trong này nha
+
 builder.Services.AddHangfireServer();
 
 
@@ -44,8 +46,18 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 var promotionService = new PromotionService();
-RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/5 * * * * *");
-RecurringJob.AddOrUpdate("UpdateVoucher", () => promotionService.UpdateExpiredVouchers(), "*/5 * * * * *");
+Task.Run(() =>
+{
+    while (true)
+    {
+        promotionService.CheckNgayKetThuc();
+        promotionService.UpdateExpiredVouchers();
+        promotionService.CapNhatGiaBanThucTe();
+        Thread.Sleep(TimeSpan.FromSeconds(5));
+    }
+});
+//RecurringJob.AddOrUpdate("CheckPromotions", () => promotionService.CheckNgayKetThuc(), "*/5 * * * * *");
+//RecurringJob.AddOrUpdate("UpdateVoucher", () => promotionService.UpdateExpiredVouchers(), "*/5 * * * * *");
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(

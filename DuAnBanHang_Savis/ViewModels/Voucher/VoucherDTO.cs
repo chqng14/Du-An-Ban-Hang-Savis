@@ -12,18 +12,21 @@ namespace App_Data.ViewModels.Voucher
     public class VoucherDTO
     {
         public Guid Id { get; set; }
-        [Required(ErrorMessage = "Phải nhập tên")]
+        [Required(ErrorMessage = "Tên voucher là trường bắt buộc.")]
+        [StringLength(255, MinimumLength = 5, ErrorMessage = "Tên voucher phải có ít nhất 5 ký tự.")]
+        [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "Tên voucher không được chứa ký tự đặc biệt, ngoại trừ dấu cách.")]
+
         public string? Ten { get; set; }
-        [Required(ErrorMessage = "Phải chọn loại hình")]
+        [Required(ErrorMessage = "Loại hình khuyến mãi là trường bắt buộc.")]
         public int? LoaiHinhKm { get; set; }
 
-        //[CustomMucUuDaiValidation]
+        [CustomMucUuDaiValidation]
         public decimal MucUuDai { get; set; }
         [Required(ErrorMessage = "Điều kiện là trường bắt buộc.")]
         [Range(1, int.MaxValue, ErrorMessage = "Điều kiện phải là số nguyên không âm.")]
         public int? DieuKien { get; set; }
-        [Required(ErrorMessage = "Điều kiện là trường bắt buộc.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng tồn phải lớn hơn hoặc bằng 0.")]
+        [Required(ErrorMessage = "Số lượng là trường bắt buộc.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Số lần sử dụng phải lớn hơn 0.")]
         public int? SoLuongTon { get; set; }
 
 
@@ -32,10 +35,10 @@ namespace App_Data.ViewModels.Voucher
         public DateTime? NgayBatDau { get; set; }
 
         [Required(ErrorMessage = "Ngày kết thúc là trường bắt buộc.")]
-        //[CustomNgayKetThucValidation(ErrorMessage = "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.")]
+        [CustomNgayKetThucValidation(ErrorMessage = "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.")]
         public DateTime? NgayKetThuc { get; set; }
-
         public int? TrangThai { get; set; }
+
 
     }
 
