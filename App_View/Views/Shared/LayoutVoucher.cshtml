@@ -1,5 +1,10 @@
 ﻿@using App_Data.Models;
+@using App_View.Services
 @using Microsoft.AspNetCore.Identity
+@inject IHttpContextAccessor HttpContextAcccesor
+@{
+	var user = SessionService.GetUserFromSession(HttpContextAcccesor.HttpContext.Session, "SaveLoginAdmin") as App_Data.Models.User;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,7 +140,12 @@
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <ul class="header-top-right text-right">
-                                    <li class="account"><a href="login.html">My Account</a></li>
+                                    if(user!= null){
+                                        <li class="account"><a >@(user.Ten)></a></li>
+                                    }else{
+                                         <li class="account"><a asp-area="" asp-controller="Home" asp-action="Login">My Account</a></li>
+                                    }
+                                   
                                     <li class="language dropdown">
                                         <span class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown"
                                               aria-haspopup="true" aria-expanded="false" role="button">

@@ -1,7 +1,7 @@
 ﻿@using App_View.Services
 @inject IHttpContextAccessor HttpContextAcccesor
 @{
-	var user = SessionService.GetUserFromSession(HttpContextAcccesor.HttpContext.Session, "SaveLoginAdmin") as App_Data.Models.User;
+	var user = SessionService.GetUserFromSession(HttpContextAcccesor.HttpContext.Session, "SaveLoginUser") as App_Data.Models.User;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -440,7 +440,7 @@
 
 	<!-- Core Vendors JS -->
 	<script src="~/Admin_assets/js/vendors.min.js"></script>
-
+	<script src="~/Admin_assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<!-- page js -->
 	<script src="~/Admin_assets/vendors/chartjs/Chart.min.js" defer></script>
 	<script src="~/Admin_assets/js/pages/dashboard-crm.js" defer></script>
