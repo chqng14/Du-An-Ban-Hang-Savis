@@ -20,7 +20,7 @@
                         <div class="col-md-8">
                             <h4 class="m-b-10">
                                 @{
-                                    var ten = item.TenBlog;
+                                    var ten = item.TieuDe;
                                     if (ten.Length > 20)
                                     {
                                         ten = ten.Substring(0, 20) + "...";
@@ -35,7 +35,7 @@
                                 <div class="m-l-10">
                                     <span class="text-gray font-weight-semibold">
                                         @{
-                                            var moTa = item.MoTa;
+                                            var moTa = item.MoTaNgan;
                                             if (moTa.Length > 10)
                                             {
                                                 moTa = moTa.Substring(0, 10) + "...";

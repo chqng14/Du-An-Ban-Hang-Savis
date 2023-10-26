@@ -26,13 +26,13 @@
                                 @Html.DisplayNameFor(model => model.Ma)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.TenBlog)
+                                @Html.DisplayNameFor(model => model.TieuDe)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.NoiDung)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.MoTa)
+                                @Html.DisplayNameFor(model => model.MoTaNgan)
                             </th>
                             <th></th>
                         </tr>
@@ -53,7 +53,7 @@
                                 </td>
                                 <td>
                                     @{
-                                        var ten = item.TenBlog;
+                                        var ten = item.TieuDe;
                                         if (ten.Length > 20)
                                         {
                                             ten = ten.Substring(0, 20) + "...";
@@ -73,7 +73,7 @@
                                 </td>
                                 <td>
                                     @{
-                                        var moTa = item.MoTa;
+                                        var moTa = item.MoTaNgan;
                                         if (moTa.Length > 30)
                                         {
                                             moTa = moTa.Substring(0, 30) + "...";

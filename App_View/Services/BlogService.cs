@@ -9,7 +9,7 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Blog?ma={p.Ma}&ten={p.TenBlog}&noidung={p.NoiDung}&mota={p.MoTa}";
+                string apiUrl = $"https://localhost:7165/api/Blog?ma={p.Ma}&ten={p.TieuDe}&noidung={p.NoiDung}&mota={p.MoTaNgan}";
                 var httpClient = new HttpClient();
                 var response = await httpClient.PostAsync(apiUrl, null);
                 if (response.IsSuccessStatusCode)
@@ -57,7 +57,7 @@ namespace App_View.Services
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Blog/{p.Id}?ma={p.Ma}&ten={p.TenBlog}&noidung={p.NoiDung}&mota={p.MoTa}";
+                string apiUrl = $"https://localhost:7165/api/Blog/{p.Id}?ma={p.Ma}&ten={p.TieuDe}&noidung={p.NoiDung}&mota={p.MoTaNgan}";
                 var httpClient = new HttpClient();
                 var response = await httpClient.PutAsync(apiUrl, null);
                 if (response.IsSuccessStatusCode)

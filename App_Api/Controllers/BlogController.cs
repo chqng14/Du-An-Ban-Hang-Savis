@@ -42,10 +42,10 @@ namespace App_Api.Controllers
         public bool CreateSale(string ma, string ten, string noidung, string mota)
         {
             Blog blog = new Blog();
-            blog.TenBlog = ten;
+            blog.TieuDe = ten;
             blog.Ma = ma;
             blog.NoiDung = noidung;
-            blog.MoTa = mota;
+            blog.MoTaNgan = mota;
             blog.Id = Guid.NewGuid();
 
             return repos.AddItem(blog);
@@ -56,10 +56,10 @@ namespace App_Api.Controllers
         public bool Put(Guid id, string ma, string ten, string noidung, string mota)
         {
             var blog = repos.GetAll().First(p => p.Id == id);
-            blog.TenBlog = ten;
+            blog.TieuDe = ten;
             blog.Ma = ma;
             blog.NoiDung = noidung;
-            blog.MoTa = mota;
+            blog.MoTaNgan = mota;
             return repos.EditItem(blog);
         }
 
