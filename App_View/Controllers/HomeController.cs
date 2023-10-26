@@ -30,6 +30,16 @@ namespace App_View.Controllers
             return View();
         }
 
+        public IActionResult Blog()
+        {
+            return View();
+        }
+
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Login()
         {
             return View();
