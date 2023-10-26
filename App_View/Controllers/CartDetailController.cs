@@ -95,7 +95,6 @@ namespace App_View.Controllers
             else
             {
                 var cartDetails = new CartDetails();
-                cartDetails.ID = Guid.NewGuid();
                 cartDetails.IDUser = IdCart;
                 cartDetails.IDCTSP = model.IdProduct;
                 cartDetails.SoLuong = model.SoLuongCart;
