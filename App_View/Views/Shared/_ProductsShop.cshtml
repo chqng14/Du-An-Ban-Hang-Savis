@@ -102,14 +102,18 @@
             <div class="header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-4">
+                        <form method="get" asp-action="Index" asp-controller="ProductDetails" class="col-xs-12 col-sm-4">
                             <div class="main-search mt_40">
-                                <input id="search-input" name="search" value="" placeholder="Search" class="form-control input-lg" autocomplete="off" type="text">
+                                <input id="search-input" name="search" value="" placeholder="Nhập tên sản phẩm ..." class="form-control input-lg" autocomplete="off" type="text">
+                                @if(!string.IsNullOrEmpty(ViewContext.HttpContext.Request.Query["brand"]))
+                                {
+                                <input name="brand" value="@ViewContext.HttpContext.Request.Query["brand"]" hidden/>
+                                }
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
+                                    <button type="submit" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
-                        </div>
+                        </form>
                         <div class="navbar-header col-xs-6 col-sm-4"> <a class="navbar-brand" href="/"> <img alt="themini" src="~/images/logo.png"> </a> </div>
                         <div class="col-xs-6 col-sm-4 shopcart">
                             <div id="cart" class="btn-group btn-block mtb_40">
@@ -294,15 +298,27 @@
             $("#slider-range").slider({
                 range: true,
                 min: 0,
-                max: 500,
-                values: [75, 300],
+                max: 3000000,
+                values: [0, 3000000],
                 slide: function (event, ui) {
-                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                    var minValue = ui.values[0];
+                    var maxValue = ui.values[1];
+                    var formattedMinValue = formatCurrency(minValue);
+                    var formattedMaxValue = formatCurrency(maxValue);
+                    $("#amount").val(formattedMinValue + " - " + formattedMaxValue);
                 }
             });
-            $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-                " - $" + $("#slider-range").slider("values", 1));
+            $("#amount").val(formatCurrency($("#slider-range").slider("values", 0)) + " - " + formatCurrency($("#slider-range").slider("values", 1)));
         });
+
+        function formatCurrency(amount) {
+            var formatter = new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+                minimumFractionDigits: 0,
+            });
+            return formatter.format(amount);
+        }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
