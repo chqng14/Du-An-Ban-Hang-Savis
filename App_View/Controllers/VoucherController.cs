@@ -20,8 +20,16 @@ namespace App_View.Controllers
 
         public async Task<IActionResult> ShowAllVoucher()
         {
-            var lstVoucher = (await voucherServices.GetAllAsync()).Where(c => c.TrangThai == 0).ToList(); 
+            var lstVoucher = (await voucherServices.GetAllAsync()).Where(c => c.TrangThai == 0).ToList();
             return View(lstVoucher);
+        }
+        public async Task<IActionResult> UpdateVoucherAfterUseIt(Guid id)
+        {
+            if (await voucherServices.UpdateVoucherAfterUseIt(id))
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }

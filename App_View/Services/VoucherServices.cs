@@ -145,5 +145,26 @@ namespace App_View.Services
             }
 
         }
+        public async Task<bool> UpdateVoucherAfterUseIt(Guid id)
+        {
+
+            try
+            {
+                var reponse = await _httpClient.PutAsync($"api/Voucher/UpdateVoucherAfterUseIt/{id}", null);
+                if (reponse.IsSuccessStatusCode)
+                {
+                    return await reponse.Content.ReadAsAsync<bool>();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Lỗi xảy ra: {e}");
+                return false;
+            }
+        }
     }
 }

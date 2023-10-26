@@ -11,5 +11,6 @@ namespace App_View.IServices
         public Task<bool> RemoveVoucher(Voucher item);
         public Task<bool> EditVoucher(VoucherDTO item);
         Task<VoucherDTO> GetVoucherDTOById(Guid id);
+        Task<bool> UpdateVoucherAfterUseIt(Guid id);
     }
 }
