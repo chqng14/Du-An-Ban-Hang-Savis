@@ -1,26 +1,27 @@
 ﻿using App_Data.Models;
+using App_Data.ViewModels.Blog;
 using App_View.IServices;
 
 namespace App_View.Services
 {
     public class BlogService : IBlogServices
     {
-        public async Task<bool> CreateBlog(Blog p)
+        public async Task<bool> CreateBlog(BlogDTO blogDTO, IFormFile file)
         {
             try
             {
-                string apiUrl = $"https://localhost:7165/api/Blog?ma={p.Ma}&ten={p.TieuDe}&noidung={p.NoiDung}&mota={p.MoTaNgan}";
-                var httpClient = new HttpClient();
-                var response = await httpClient.PostAsync(apiUrl, null);
+                var _httpClient = new HttpClient();
+                using var content = new MultipartFormDataContent();
+                content.Add(new StringContent(blogDTO.TieuDe!), "TieuDe");
+                content.Add(new StringContent(blogDTO.MoTaNgan!), "MoTaNgan");
+                content.Add(new StringContent(blogDTO.NoiDung!), "NoiDung");
+                content.Add(new StreamContent(file.OpenReadStream()),"file",file.FileName);
+                var response = await _httpClient.PostAsync("https://localhost:7165/api/Blog", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    return await response.Content.ReadAsAsync<bool>();
                 }
-                else
-                {
-                    Console.WriteLine(response.StatusCode);
-                    return false;
-                }
+                return false;
             }
             catch (Exception e)
             {
