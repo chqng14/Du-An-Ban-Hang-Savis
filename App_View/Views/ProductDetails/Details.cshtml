@@ -1,5 +1,9 @@
 ﻿@model App_Data.ViewModels.ProductDetail.ProductDetailVM
-
+@using App_View.Services
+@inject IHttpContextAccessor HttpContextAcccesor
+@{
+    var user = SessionService.GetUserFromSession(HttpContextAcccesor.HttpContext.Session, "SaveLoginUser") as App_Data.Models.User;
+}
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_ProductsShop.cshtml";
@@ -391,16 +395,28 @@
                             </div>
                             <div class="qty form-group2 col-md-6" style="margin-top:10px">
                                 <label>Qty</label>Refine Search
-                                <div>
-                                    <input name="product_quantity" min="1" value="1" type="number">
+                                <div id="get-sp-to-cart">
+                                    <input name="SoLuongCart" min="1" value="1" type="number">
+                                    <input value="@Model.Id" name="IdProduct" hidden />
                                 </div>
                             </div>
                             <div class="button-group mt_30 col-md-6">
-                                <button class="btn btn--e-brand-shadow btn-add-cart" style="
-    background: #b0abcc;
-">
-                                    Thêm vào giỏ hàng
-                                </button>
+                                @if (user != null)
+                                {
+
+
+                                    <button class="btn btn--e-brand-shadow btn-add-cart" style="
+                                        background: #b0abcc;
+                                    ">
+                                        Thêm vào giỏ hàng
+                                    </button>
+                                }
+                                else
+                                {
+                            <a class="btn btn--e-brand-shadow btn-add-cart" href="/home/login">Thêm vào giỏ hàng</a>
+                                }
+
+
                             </div>
                             <hr />
                             <div>
@@ -664,18 +680,46 @@
 
 <script>
     $('.btn-add-cart').click(function () {
-        Swal.fire({
-            title: 'Thông báo',
-            text: 'Thêm vào giỏ hàng thành công!',
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonText: 'Đi đến giỏ hàng',
-            cancelButtonText: 'Go to shop'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '/CartDetail/ShowCart';
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                window.location.href = '/ProductDetails';
+
+
+
+        var data = {};
+        $('#get-sp-to-cart').find("input, select, textarea").each(function () {
+            var fieldType = $(this).attr("type");
+            var fieldName = $(this).attr("name");
+            var fieldValue;
+                fieldValue = $(this).val();
+            data[fieldName] = fieldValue;
+        });
+
+
+        $.ajax({
+            url: '/CartDetail/AddToCartUser',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (result) {
+                console.log(result);
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: 'Thêm vào giỏ hàng thành công!',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Đi đến giỏ hàng',
+                    cancelButtonText: 'Go to shop'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/CartDetail/ShowCart';
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        window.location.href = '/ProductDetails';
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(status);
+                console.log(error);
+                console.log(xhr);
             }
         });
 
