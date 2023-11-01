@@ -1,13 +1,13 @@
 ﻿@model App_Data.ViewModels.Filter.FilterVM
 @if (Model.Items!.Any())
 {
-    <div class="category-page-wrapper mb_30">
+    <!--<div class="category-page-wrapper mb_30">
         <div class="list-grid-wrapper pull-left">
             <div class="btn-group btn-list-grid">
                 <button type="button" id="grid-view" class="btn btn-default grid-view active"></button>
                 <button type="button" id="list-view" class="btn btn-default list-view"></button>
             </div>
-        </div>
+        </div>-->
         @*<div class="page-wrapper pull-right">
                 <label class="control-label" for="input-limit">Show :</label>
                 <div class="limit">
@@ -21,7 +21,7 @@
                 </div>
                 <span><i class="fa fa-angle-down" aria-hidden="true"></i></span>
             </div>*@
-        <div class="sort-wrapper pull-right">
+        @*<div class="sort-wrapper pull-right">
             <label class="control-label" for="input-sort">Sort By :</label>
             <div class="sort-inner">
                 <select id="input-sort" class="form-control">
@@ -37,8 +37,8 @@
                 </select>
             </div>
             <span><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-        </div>
-    </div>
+        </div>*@
+    <!--</div>-->
     <div class="row">
         @foreach (var item in Model.Items)
         {

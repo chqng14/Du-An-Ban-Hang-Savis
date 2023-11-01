@@ -26,6 +26,8 @@ namespace App_Api.Helpers.Mapings
                    opt => opt.MapFrom(src => src.ProductDetail.Products.Ten)
                ).ReverseMap();
             CreateMap<VoucherDTO, Voucher>().ReverseMap();
+
+            CreateMap<App_Data.ViewModels.Blog.BlogDTO, Blog>().ReverseMap();
         }
     }
 }

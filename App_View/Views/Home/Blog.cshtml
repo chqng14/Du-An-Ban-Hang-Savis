@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<App_Data.Models.Blog>
 @{
     ViewData["Title"] = "Blog";
     Layout = "~/Views/Shared/_ProductsShop.cshtml";
@@ -40,7 +40,7 @@
                     <li><a href="#">Outdoors &amp; Sports</a></li>
                 </ul>
             </div>*@
-            <div class="left-blog left-sidebar-widget mb_50">
+            @*<div class="left-blog left-sidebar-widget mb_50">
                 <div class="heading-part mb_20 ">
                     <h2 class="main_title">Latest Post</h2>
                 </div>
@@ -75,135 +75,60 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
-        <div class="col-sm-8 col-lg-9 mtb_20">
-            <div class="row">
-                <div class="three-col-blog text-left">
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_04.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
+        @if (!Model.Any())
+        {
+            <div style=" text-align: center;">
+                <span style="color: red; font-size: 27px;">
+                    Không có Blog nào gần đây!!!
+                </span>
+                <br />
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-8 col-lg-9 mtb_20">
+                <div class="row">
+                    <div class="three-col-blog text-left">
+                        @foreach (var item in Model.ToList())
+                        {
+                            <div class="blog-item col-md-6 mb_30" style="height: 500px">
+                                <div class="post-format">
+                                    <div class="thumb post-img"><a href="/blog/details/@item.Id"> <img src="/images/blog/@item.TenAnh" style="width: 100%" alt="themini"></a></div>
+                                    <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
+                                </div>
+                                <div class="post-info mtb_20 ">
+                                    <h3 class="mb_10"> <a href="/blog/details/@item.Id">@item.TieuDe</a> </h3>
+                                    <p>@item.MoTaNgan.</p>
+                                    <div class="details mtb_20">
+                                        @{
+                                            DateTime? ngayTaoNullable = item.NgayTao;
+                                            string ngayThangNam = ngayTaoNullable.HasValue ? ngayTaoNullable.Value.ToString("dd/MM/yyyy") : "Không có ngày tạo";
+                                        }
+                                        <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>@ngayThangNam</div>
+                                        <div class="more pull-right"> <a href="/blog/details/@item.Id">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_05.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_06.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_07.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_08.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_01.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_02.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="blog-item col-md-6 mb_30">
-                        <div class="post-format">
-                            <div class="thumb post-img"><a href="single_blog.html"> <img src="/images/blog/blog_img_03.jpg" alt="themini"></a></div>
-                            <div class="post-type"><i class="fa fa-music" aria-hidden="true"></i></div>
-                        </div>
-                        <div class="post-info mtb_20 ">
-                            <h3 class="mb_10"> <a href="single_blog.html">Fashions fade, style is eternal</a> </h3>
-                            <p>Aliquam egestas pellentesque est. Etiam a orci Nulla id enim feugiat ligula ullamcorper scelerisque. Morbi eu luctus nisl.</p>
-                            <div class="details mtb_20">
-                                <div class="date pull-left"> <i class="fa fa-calendar" aria-hidden="true"></i>11 May 2017 </div>
-                                <div class="more pull-right"> <a href="single_blog.html">Read more <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></div>
-                            </div>
-                        </div>
+
+                        }
+
                     </div>
                 </div>
+                @*<div class="pagination-nav text-center mtb_20">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    </ul>
+                </div>*@
             </div>
-            <div class="pagination-nav text-center mtb_20">
-                <ul>
-                    <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                </ul>
-            </div>
-        </div>
+        }
+
+
     </div>
 </div>
 

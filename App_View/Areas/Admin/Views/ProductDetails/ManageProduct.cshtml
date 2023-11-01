@@ -709,8 +709,8 @@
                                             </button>
                                         </div>
                                         <div class="toast-body">
-                                            Một vài thực thể dữ liệu chưa được nhập.
-                                            Vui lòng nhập để tiếp tục
+                                            Một vài thực thể dữ liệu chưa được nhập hoặc chưa được chọn ảnh.
+                                            Vui lòng nhập hoặc chọn để tiếp tục
                                         </div>
                                     </div>`
 
@@ -812,29 +812,37 @@
                             console.error(error);
                         });
                 }
-                $.ajax({
-                    url: URL_UPDATE_PRODUCT_DETAIL,
-                    type: 'POST',
-                    data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...{ Id: currentItem.attr('data-idproductdetail') }, ...moTa, ...{ IsNoiBat: currentItem.find('.switch-2').prop('checked') } }),
-                    contentType: 'application/json',
-                    success: function (result) {
-                        checkSS++;
-                        currentItem.remove();
-                        currentIndex++;
-                        processNextItem();
-                    },
-                    error: function (xhr, status, error) {
-                        checkErr++;
-                        console.log(xhr.responseText);
-                        console.log(status);
-                        console.log(error);
-                        console.log(xhr);
-                    }
-                });
-
+                if (dataBienThe.GiaBan != 0 && dataBienThe.GiaNhap != 0 && dataBienThe.SoLuongTon != 0 && currentItem.find('.wrapper-file').length >= 1)
+                {
+                    $.ajax({
+                        url: URL_UPDATE_PRODUCT_DETAIL,
+                        type: 'POST',
+                        data: JSON.stringify({ ...GetDataMain(), ...dataBienThe, ...DataInDataset, ...{ Id: currentItem.attr('data-idproductdetail') }, ...moTa, ...{ IsNoiBat: currentItem.find('.switch-2').prop('checked') } }),
+                        contentType: 'application/json',
+                        success: function (result) {
+                            checkSS++;
+                            currentItem.remove();
+                            currentIndex++;
+                            processNextItem();
+                        },
+                        error: function (xhr, status, error) {
+                            checkErr++;
+                            console.log(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
+                            console.log(xhr);
+                        }
+                    });
+                }
+                else
+                {
+                    checkErr++;
+                    currentIndex++;
+                    processNextItem();
+                }
 
             } else {
-                if (dataBienThe.GiaBan && dataBienThe.GiaNhap && dataBienThe.SoLuongTon) {
+                if (dataBienThe.GiaBan != 0 && dataBienThe.GiaNhap != 0 && dataBienThe.SoLuongTon != 0 && currentItem.find('.wrapper-file').length >= 1) {
                     console.log({
                         ...GetDataMain()
                         , ...dataBienThe

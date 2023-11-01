@@ -4,93 +4,73 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
-<div class="">
-    <div class="card">
-        <div class="card-body">
-            <div class="row m-b-30">
-                <div class="col-lg-8">
-                    <a asp-action="Create">
-                        <button class="btn btn-primary">
-                            <i class="anticon anticon-plus-circle m-r-5"></i>
-                            <span>Add Blog</span>
-                        </button>
-                    </a>
-                </div>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover e-commerce-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Ma)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.TieuDe)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.NoiDung)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.MoTaNgan)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @{
-                                        var ma = item.Ma;
-                                        if (ma.Length > 5)
-                                        {
-                                            ma = ma.Substring(0, 5) + "...";
-                                        }
-                                    }
-                                    @Html.DisplayFor(modelItem => ma)
-                                </td>
-                                <td>
-                                    @{
-                                        var ten = item.TieuDe;
-                                        if (ten.Length > 20)
-                                        {
-                                            ten = ten.Substring(0, 20) + "...";
-                                        }
-                                    }
-                                    @Html.DisplayFor(modelItem => ten)
-                                </td>
-                                <td>
-                                    @{
-                                        var nd = item.NoiDung;
-                                        if (nd.Length > 20)
-                                        {
-                                            nd = nd.Substring(0, 20) + "...";
-                                        }
-                                    }
-                                    @Html.DisplayFor(modelItem => nd)
-                                </td>
-                                <td>
-                                    @{
-                                        var moTa = item.MoTaNgan;
-                                        if (moTa.Length > 30)
-                                        {
-                                            moTa = moTa.Substring(0, 30) + "...";
-                                        }
-                                    }
-                                    @Html.DisplayFor(modelItem => moTa)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>QUẢN LÝ BLOG</a>
+            <a class="breadcrumb-item" href="#">DANH SÁCH BLOG</a>
+        </nav>
     </div>
 </div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a class="btn btn-primary" href="/Admin/Blog/Create">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm blog</span>
+                </a>
+            </div>
+        </div>
+        <table class="table table-hover no-footer" id="DataTables">
+            <thead>
+                <tr role="row">
+                    <th>STT</th>
+                    <th>TT</th>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả ngắn</th>
+                    <th>##</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            #31
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img class="img-fluid rounded" src="/images/blog/@item.TenAnh" style="max-width: 220px" alt="">
+                            </div>
+                        </td>
+                        <td>@item.TieuDe</td>
+                        <td>@item.MoTaNgan</td>
+                        <td class="text-right">
+                            <a href="/Admin/Blog/Delete/@item.Id" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                <i class="anticon anticon-delete"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(() => $('#DataTables').DataTable());
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/Admin_assets/js/pages/e-commerce-order-list.js"></script>
+    <script src="~/Admin_assets/vendors/datatables/jquery.dataTables.min.js" defer></script>
+    <script src="~/Admin_assets/vendors/datatables/dataTables.bootstrap.min.js" defer></script>
+    <script src="~/Admin_assets/js/pages/datatables.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autonumeric/4.8.1/autoNumeric.min.js"></script>
+}

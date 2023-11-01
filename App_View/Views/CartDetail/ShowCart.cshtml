@@ -9,8 +9,15 @@
     <div class="row ">
         <!-- =====  BANNER STRAT  ===== -->
         <!-- =====  BREADCRUMB END===== -->
+        <div class="breadcrumb ptb_20">
+            <h1>Giỏ hàng</h1>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li class="active">Giỏ hàng</li>
+            </ul>
+        </div>
 
-        <div class="col-sm col-lg mtb_20" >
+        <div class="col-sm col-lg mtb_20">
             <form enctype="multipart/form-data" method="post" action="#">
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -31,15 +38,15 @@
                                 var total = item.GiaBan * item.SoLuongCart;
                                 <tr data-row-id="{{@item.Id}}">
                                     <td class="text-center" style="margin-top: auto; margin-bottom: auto;">
-                                        <img src="~/assets//images/others/@item.LinkImage" class="img-fluid rounded-3"
-                                             style="width: 120px;">
+                                        <img src="/images/anhsanpham/@item.LinkImage" class="img-fluid rounded-3"
+                                             style="width: 44px;height: 39px;">
                                     </td>
 
                                     <td class="text-left" style="margin-top: auto; margin-bottom: auto;color:black"><a href="product.html">@Html.ActionLink(item.Name + "-" + item.Color + "-" + item.Size, "ChiTietSP", "Home", new { id = item.IdProduct })</a></td>
 
                                     <td class="text-left" style="margin-top: auto; margin-bottom: auto;">@item.Material</td>
                                     <td class="text-left" style="margin-top: auto; margin-bottom: auto">
-                                         <div style="max-width: 100px;" class="input-group btn-block">
+                                        <div style="max-width: 100px;" class="input-group btn-block">
                                             <input type="number" min="0" name="quantity" value="@item.SoLuongCart" data-product-id="@item.IdProduct" data-cart-id="@item.Id" class="form-control soluong" size="1" style="color:black">
                                             <span class="input-group-btn">
                                             </span>
@@ -103,11 +110,11 @@
             <form action="">
                 <input class="btn pull-left mt_30" type="submit" value="Quay lại Shop" />
             </form>
-            <a class ="btn pull-right mt_30" href="/CartDetail/CheckOut" value="Thanh toán">
-                
-                    thanh toán
+            <a class="btn pull-right mt_30" href="/CartDetail/CheckOut" value="Thanh toán">
+
+                thanh toán
             </a>
-            
+
         </div>
     </div>
 </div>

@@ -13,11 +13,13 @@ namespace App_View.Controllers
         private readonly ILogger<HomeController> _logger;
         IUserService _iUserService;
         IRoleService _iRoleService;
+        IBlogServices _IBlogService;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
             _iUserService = new UserService();
             _iRoleService = new RoleService();
+            _IBlogService = new BlogService();
         }
 
         public IActionResult Index()
@@ -30,9 +32,9 @@ namespace App_View.Controllers
             return View();
         }
 
-        public IActionResult Blog()
+        public async Task<IActionResult> Blog()
         {
-            return View();
+            return View(await _IBlogService.GetAllBlog());
         }
 
         public IActionResult ContactUs()
