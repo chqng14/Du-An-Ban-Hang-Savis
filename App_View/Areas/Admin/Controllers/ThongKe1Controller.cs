@@ -143,6 +143,28 @@ namespace App_View.Areas.Admin.Controllers
             };
             return new JsonResult(thongKe2);
         }
+        [HttpGet]
+        public async Task<IActionResult> ThongKeThang()
+        {
+            var allBills = await _iBillService.GetAllBillsAsync();
+
+            // Trích xuất thông tin về các tháng có hoá đơn
+            var monthsWithBills = allBills
+                .Select(bill => bill.NgayNhan.Value.Month)
+                .Distinct()
+                .OrderBy(month => month);
+
+            // Đếm số lượng hoá đơn cho mỗi tháng
+            var orderData = new int[12]; // Tạo mảng để lưu trữ số lượng hoá đơn cho mỗi tháng, mặc định là 0
+
+            foreach (var bill in allBills)
+            {
+                int month = bill.NgayNhan.Value.Month;
+                orderData[month - 1]++; // Giảm đi 1 vì index của mảng bắt đầu từ 0
+            }
+
+            return Ok(orderData);
+        }
     }
     
 }
