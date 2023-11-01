@@ -53,6 +53,7 @@ Task.Run(() =>
         promotionService.CheckNgayKetThuc();
         promotionService.UpdateExpiredVouchers();
         promotionService.CapNhatGiaBanThucTe();
+        promotionService.CapNhatTrangThaiSaleDetail();
         Thread.Sleep(TimeSpan.FromSeconds(5));
     }
 });
