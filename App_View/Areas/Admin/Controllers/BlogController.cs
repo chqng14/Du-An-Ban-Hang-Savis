@@ -10,6 +10,7 @@ using App_View.IServices;
 using App_View.Services;
 using App_Data.IRepositories;
 using App_Data.Repositories;
+using App_Data.ViewModels.Blog;
 
 namespace App_View.Areas.Admin.Controllers
 {
@@ -86,9 +87,9 @@ namespace App_View.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ma,TenBlog,NoiDung,MoTa")] Blog blog)
+        public async Task<IActionResult> Create(BlogDTO blogDTO, IFormFile file)
         {
-            if (await blogServices.CreateBlog(blog))
+            if (await blogServices.CreateBlog(blogDTO,file))
             {
                 return RedirectToAction("Index");
             }

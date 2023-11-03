@@ -1,6 +1,7 @@
 ﻿using App_Data.IRepositories;
 using App_Data.Models;
 using App_Data.Repositories;
+using App_Data.ViewModels.Blog;
 using App_View.IServices;
 using App_View.Services;
 using Microsoft.AspNetCore.Http;
@@ -45,9 +46,9 @@ namespace App_View.Controllers
         // POST: BlogController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog p)
+        public async Task<IActionResult> Create(BlogDTO blogDTO, IFormFile file)
         {
-            if (await BlogService.CreateBlog(p))
+            if (await BlogService.CreateBlog(blogDTO,file))
             {
                 return RedirectToAction("GetAllBlog");
             }

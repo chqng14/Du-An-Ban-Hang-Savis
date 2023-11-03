@@ -2,47 +2,47 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_ProductsShop.cshtml";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Blog</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ma)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ma)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TenBlog)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TenBlog)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MoTa)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MoTa)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.Id  }) |
-    <a asp-action="GetAllBlog">Back to List</a>
+<div class="container">
+    <div class="row ">
+        <!-- =====  BANNER STRAT  ===== -->
+        <div class="col-sm-12">
+            <div class="breadcrumb ptb_20">
+                <h1>@Model.TieuDe</h1>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/home/blog">blog</a></li>
+                    <li class="active">@Model.TieuDe</li>
+                </ul>
+            </div>
+        </div>
+        <!-- =====  BREADCRUMB END===== -->
+        <div id="column-left" class="col-sm-4 col-lg-3 hidden-xs">
+            @await Component.InvokeAsync("TopCategory")
+            <div class="left_banner left-sidebar-widget mb_50"> <a href="#"><img src="/images/Design/Yellow Shoe Drive Charity Instagram Post Temp - Made with PosterMyWall.jpg" alt="Left Banner" class="img-responsive"></a> </div>
+        </div>
+        <div class="col-sm-8 col-lg-9 mtb_20">
+            <div class="row">
+                <div class="blog-item listing-effect col-md-12 mb_50">
+                    <div class="post-format">
+                        <div class="thumb post-img"><a href="/images/blog/@Model.TenAnh" title="Beautiful Lady"> <img style="width: 100%" src="/images/blog/@Model.TenAnh" alt="themini"></a></div>
+                        <div class="post-type"> <i class="fa fa-picture-o" aria-hidden="true"></i> </div>
+                    </div>
+                    <div class="post-info mtb_20 ">
+                        <h2 class="mb_10"> <a>@Model.TieuDe</a> </h2>
+                        <p>@Model.MoTaNgan</p>
+                    </div>
+                    <blockquote>@Model.NoiDung</blockquote>
+                    <div class="details mtb_20">
+                        @{
+                            DateTime? ngayTaoNullable = Model.NgayTao;
+                            string ngayThangNam = ngayTaoNullable.HasValue ? ngayTaoNullable.Value.ToString("dd/MM/yyyy") : "Không có ngày tạo";
+                        }
+                        <div class="date"> <i class="fa fa-calendar" aria-hidden="true"></i>@ngayThangNam </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

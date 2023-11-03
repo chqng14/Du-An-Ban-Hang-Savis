@@ -181,13 +181,13 @@
 		}
 		<form asp-controller="Home" asp-action="Login">
 			<div class="field">
-				<label asp-for="TaiKhoan" class="control-label">Tài khoản</label>
-				<input asp-for="TaiKhoan" class="form-control" />
+				@*<label asp-for="TaiKhoan" class="control-label">Tài khoản</label>*@
+				<input asp-for="TaiKhoan" class="form-control" placeholder="Tài Khoản" />
 				<span asp-validation-for="TaiKhoan" class="text-danger"></span>
 			</div>
 			<div class="field">
-				<label asp-for="MatKhau" class="control-label"></label>
-				<input type="password" asp-for="MatKhau" class="form-control" />
+				@*<label asp-for="MatKhau" class="control-label"></label>*@
+				<input type="password" asp-for="MatKhau" class="form-control" placeholder="Mật Khẩu"/>
 				<span asp-validation-for="MatKhau" class="text-danger"></span>
 			</div>
 			<div class="content">

@@ -24,7 +24,9 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddHttpContextAccessor();
 
+
 builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=MSI;Initial Catalog=Savis;Integrated Security=True")); //Đoạn này ai chạy lỗi thì đổi đường dẫn trong này nha
+
 builder.Services.AddHangfireServer();
 
 
@@ -51,6 +53,7 @@ Task.Run(() =>
         promotionService.CheckNgayKetThuc();
         promotionService.UpdateExpiredVouchers();
         promotionService.CapNhatGiaBanThucTe();
+        promotionService.CapNhatTrangThaiSaleDetail();
         Thread.Sleep(TimeSpan.FromSeconds(5));
     }
 });

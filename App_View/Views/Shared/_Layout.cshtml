@@ -38,6 +38,7 @@
     <link rel="apple-touch-icon" href="~/images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="~/images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="~/images/apple-touch-icon-114x114.png">
+
     <style>
         body {
             background-color: #eceeef;
@@ -59,7 +60,7 @@
         }
 
         #category-menu, .main-navigation {
-            background: #e2f8e2;
+            background: #eceeef;
         }
 
         span {
@@ -165,15 +166,23 @@
                         </div>
                         <div class="col-xs-6 col-sm-4 shopcart">
                             <div id="cart" class="btn-group btn-block mtb_40">
-                                <button type="button" class="btn" data-target="#cart-dropdown" data-toggle="collapse"
-                                        aria-expanded="true">
-                                    <span id="shippingcart">Giỏ hàng</span><span id="cart-total">
-                                        mặt hàng
-                                        (0)
-                                    </span>
-                                </button>
+                                @if (user != null)
+                                {
+                                    <button style="height: 4rem" type="button" class="btn" onclick="window.location.href='/CartDetail/ShowCart'">
+                                        <span id="shippingcart">Giỏ hàng</span><span id="cart-total">
+                                        </span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" style="height: 4rem" class="btn" onclick="window.location.href='/home/login'">
+                                        <span id="shippingcart">Giỏ hàng</span><span id="cart-total">
+                                        </span>
+                                    </button>
+                                }
+
                             </div>
-                            <div id="cart-dropdown" class="cart-menu collapse">
+                            @*<div id="cart-dropdown" class="cart-menu collapse">
                                 <ul>
                                     <li>
                                         <table class="table table-striped">
@@ -238,7 +247,7 @@
                                         </form>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     @await Html.PartialAsync("_NavbarPartialview")
@@ -271,8 +280,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="brand owl-carousel ptb_20 style="
-    background: #4e42416e;
-"">
+    background: #4e42416e;">
                                 <div class="item text-center">
                                     <a href="#">
                                         <img src="images/brand/brand1.png" alt="Disney"

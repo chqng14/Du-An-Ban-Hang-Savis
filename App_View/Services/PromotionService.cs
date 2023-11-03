@@ -41,42 +41,95 @@ namespace App_View.Services
                 _voucherRepo.EditAllVoucher(expiredVouchers);
             }
         }
-        public void CapNhatGiaBanThucTe()
+        public void CapNhatTrangThaiSaleDetail()
         {
-            var lstKhuyenMaiDangHoatDong = _dbContext.SaleDetails.Where(x => x.TrangThai == 1).ToList();
-            var lstCTSP = _dbContext.ProductDetails.ToList();
-            foreach (var ctsp in lstCTSP)
+            var lstHetHan = _dbContext.Sales.Where(x => x.TrangThai == 0 || x.TrangThai == 3).ToList();
+            var lstDangKhuyenMai = _dbContext.Sales.Where(x => x.TrangThai == 1).ToList();
+            var lstKMCT = _dbContext.SaleDetails.ToList();
+            foreach (var a in lstHetHan)
             {
-                bool check = false;
-
-                foreach (var kmct in lstKhuyenMaiDangHoatDong)
+                foreach (var b in lstKMCT)
                 {
-                    if (kmct.IdChiTietSp == ctsp.Id)
+                    if (b.IdSale == a.Id)
                     {
-                        var giaThucTe = _dbContext.SaleDetails.Where(x => x.IdChiTietSp == ctsp.Id).ToList();
-                        int[] mangKhuyenMai = new int[giaThucTe.Count()];
-                        int temp = 0;
-                        foreach (var khuyenMai in giaThucTe)
-                        {
-                            var a = _dbContext.Sales.FirstOrDefault(x => x.Id == khuyenMai.IdSale);
-                            mangKhuyenMai[temp] = Convert.ToInt32(a.MucGiam);
-                            temp++;
-                        }
-                        ctsp.GiaThucTe = ctsp.GiaBan - (ctsp.GiaBan * mangKhuyenMai.Max() / 100);
-                        _dbContext.ProductDetails.Update(ctsp);
-                        check = true;
-                        break;
+                        b.TrangThai = 0;
                     }
                 }
-
-
-                if (!check)
+            }
+            foreach (var a in lstDangKhuyenMai)
+            {
+                foreach (var b in lstKMCT)
                 {
-                    ctsp.GiaThucTe = ctsp.GiaBan;
-                    _dbContext.ProductDetails.Update(ctsp);
+                    if (b.IdSale == a.Id)
+                    {
+                        b.TrangThai = 1;
+                    }
                 }
             }
             _dbContext.SaveChanges();
+        }
+        public void CapNhatGiaBanThucTe()
+        {
+            var saleDTs = _dbContext.SaleDetails.AsNoTracking().ToList();
+            var lstKhuyenMaiDangHoatDong = _dbContext.SaleDetails.Where(x => x.TrangThai == 1).AsNoTracking().ToList();
+            var lstCTSP = _dbContext.ProductDetails.Where(x => x.TrangThai == 2).ToList();
+            foreach (var ctsp in lstCTSP)
+            {
+
+                var giaThucTe = saleDTs.Where(x => x.IdChiTietSp == ctsp.Id).ToList();
+                if (giaThucTe.Any())
+                {
+                    int[] mangKhuyenMai = new int[giaThucTe.Count()];
+                    int temp = 0;
+                    foreach (var khuyenMai in giaThucTe)
+                    {
+                        var a = _dbContext.Sales.FirstOrDefault(x => x.Id == khuyenMai.IdSale);
+                        mangKhuyenMai[temp] = Convert.ToInt32(a.MucGiam);
+                        temp++;
+                    }
+                    ctsp.GiaThucTe = ctsp.GiaBan - (ctsp.GiaBan * mangKhuyenMai.Max() / 100);
+                    //_dbContext.ProductDetails.Update(ctsp);
+                    //_dbContext.SaveChanges();
+
+                }
+                else
+                {
+                    ctsp.GiaThucTe = ctsp.GiaBan;
+                    //_dbContext.ProductDetails.Update(ctsp);
+                    //_dbContext.SaveChanges();
+                }
+                _dbContext.ProductDetails.UpdateRange(lstCTSP);
+                _dbContext.SaveChanges();
+                //foreach (var kmct in lstKhuyenMaiDangHoatDong)
+                //{
+                //    if (kmct.IdChiTietSp == ctsp.Id)
+                //    {
+
+                //        int[] mangKhuyenMai = new int[giaThucTe.Count()];
+                //        int temp = 0;
+                //        foreach (var khuyenMai in giaThucTe)
+                //        {
+                //            var a = _dbContext.Sales.FirstOrDefault(x => x.Id == khuyenMai.IdSale);
+                //            mangKhuyenMai[temp] = Convert.ToInt32(a.MucGiam);
+                //            temp++;
+                //        }
+                //        ctsp.GiaThucTe = ctsp.GiaBan - (ctsp.GiaBan * mangKhuyenMai.Max() / 100);
+                //        _dbContext.ProductDetails.Update(ctsp);
+                //        _dbContext.SaveChanges();
+                //        check = true;
+                //        break;
+                //    }
+                //}
+
+
+                //if (!check)
+                //{
+                //    ctsp.GiaThucTe = ctsp.GiaBan;
+                //    _dbContext.ProductDetails.Update(ctsp);
+                //    _dbContext.SaveChanges();
+                //}
+            }
+
         }
     }
 }
