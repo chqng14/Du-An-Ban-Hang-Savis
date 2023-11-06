@@ -120,12 +120,12 @@ namespace App_View.Services
             return await _httpClient.GetFromJsonAsync<VoucherDTO>($"/api/Voucher/GetVoucherDTOByMa/{id}");
         }
 
-        public async Task<bool> RemoveVoucher(Voucher item)
+        public async Task<bool> RemoveVoucher(Guid item)
         {
             try
             {
                 var httpClient = new HttpClient();
-                string apiUrl = $"https://localhost:7165/api/Voucher/{item.Id}";
+                string apiUrl = $"https://localhost:7165/api/Voucher/{item}";
                 var response = await httpClient.DeleteAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
@@ -144,6 +144,27 @@ namespace App_View.Services
                 return false;
             }
 
+        }
+        public async Task<bool> UpdateVoucherAfterUseIt(Guid id)
+        {
+
+            try
+            {
+                var reponse = await _httpClient.PutAsync($"api/Voucher/UpdateVoucherAfterUseIt/{id}", null);
+                if (reponse.IsSuccessStatusCode)
+                {
+                    return await reponse.Content.ReadAsAsync<bool>();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Lỗi xảy ra: {e}");
+                return false;
+            }
         }
     }
 }

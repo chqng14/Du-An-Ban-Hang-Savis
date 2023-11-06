@@ -25,7 +25,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpContextAccessor();
 
 
-builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=LAPTOP-CUA-DUYY\SQLEXPRESS;Initial Catalog=Savis;Integrated Security=True")); //Đoạn này ai chạy lỗi thì đổi đường dẫn trong này nha
+builder.Services.AddHangfire(x => x.UseSqlServerStorage(@"Data Source=MSI;Initial Catalog=Savis;Integrated Security=True")); //Đoạn này ai chạy lỗi thì đổi đường dẫn trong này nha
 
 builder.Services.AddHangfireServer();
 

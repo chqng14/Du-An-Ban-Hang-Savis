@@ -8,8 +8,9 @@ namespace App_View.IServices
         public Task<List<Voucher>> GetAllAsync();
         public Task<Voucher> GetVoucherAsync(string item);
         public Task<bool> AddVoucherAsync(VoucherDTO item);
-        public Task<bool> RemoveVoucher(Voucher item);
+        public Task<bool> RemoveVoucher(Guid item);
         public Task<bool> EditVoucher(VoucherDTO item);
         Task<VoucherDTO> GetVoucherDTOById(Guid id);
+        Task<bool> UpdateVoucherAfterUseIt(Guid id);
     }
 }

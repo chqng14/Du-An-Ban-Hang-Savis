@@ -41,8 +41,7 @@ namespace App_Data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=LAPTOP-CUA-DUYY\SQLEXPRESS;Initial Catalog=Savis;Integrated Security=True");
-
+            optionsBuilder.UseSqlServer(@"Data Source=MSI;Initial Catalog=Savis;Integrated Security=True");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

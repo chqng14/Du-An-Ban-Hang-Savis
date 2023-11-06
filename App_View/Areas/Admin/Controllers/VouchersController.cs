@@ -105,7 +105,7 @@ namespace App_View.Areas.Admin.Controllers
 
         public async Task<ActionResult> Delete(Guid id)
         {
-            await voucherServices.RemoveVoucher((await voucherServices.GetAllAsync()).FirstOrDefault(x => x.Id == id));
+            await voucherServices.RemoveVoucher(id);
             TempData["AlertMessage"] = "Xoá thành công";
             return RedirectToAction("ShowAllVoucher");
         }

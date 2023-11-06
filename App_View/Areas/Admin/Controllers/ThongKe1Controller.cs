@@ -12,7 +12,7 @@ namespace App_View.Areas.Admin.Controllers
     {
         IBillServices _iBillService;
         IBillDetailsServices _iBillDetailService;
-        
+
         IUserService _iUserService;
         private readonly IProductDetailService iProductDetailService;
 
@@ -31,7 +31,8 @@ namespace App_View.Areas.Admin.Controllers
         public async Task<JsonResult> CountHoaDon(DateTime? start, DateTime? end)
         {
             int soLuongHoaDon = 0;
-            if (start == null || end == null) {
+            if (start == null || end == null)
+            {
                 soLuongHoaDon = _iBillService.GetAllBillsAsync().Result.Count;
                 return new JsonResult(soLuongHoaDon);
             }
@@ -45,15 +46,15 @@ namespace App_View.Areas.Admin.Controllers
             if (start == null || end == null)
             {
                 var hoaDon = await _iBillService.GetAllBillsAsync();
-                
+
                 foreach (var item in hoaDon)
                 {
                     profit += Convert.ToDecimal(item.TongTien);
                 }
                 return new JsonResult(profit);
             }
-            var hoaDonRange = await _iBillService.GetBillsByDateRangeAsync(Convert.ToDateTime( start),Convert.ToDateTime( end));
-            
+            var hoaDonRange = await _iBillService.GetBillsByDateRangeAsync(Convert.ToDateTime(start), Convert.ToDateTime(end));
+
             foreach (var item in hoaDonRange)
             {
                 profit += Convert.ToDecimal(item.TongTien);
@@ -87,7 +88,7 @@ namespace App_View.Areas.Admin.Controllers
             int soLuongHoaDon = 0;
             decimal profit = 0;
             int soKhachHang = 0;
-            if (start == null || end == null || start>end)
+            if (start == null || end == null || start > end)
             {
                 soLuongHoaDon = _iBillService.GetAllBillsAsync().Result.Count;
                 var hoaDon = await _iBillService.GetAllBillsAsync();
@@ -134,7 +135,7 @@ namespace App_View.Areas.Admin.Controllers
             }
 
             // Sử dụng Count để đếm số lượng khách hàng đã mua hàng
-             soKhachHang = uniqueCustomerIds2.Count;
+            soKhachHang = uniqueCustomerIds2.Count;
             ThongKeViewModel thongKe2 = new ThongKeViewModel()
             {
                 SoLuongHoaDon = soLuongHoaDon,
@@ -143,6 +144,17 @@ namespace App_View.Areas.Admin.Controllers
             };
             return new JsonResult(thongKe2);
         }
+        public async Task<ActionResult> LowInventoryProducts()
+        {
+            // Lấy danh sách sản phẩm có tồn kho thấp
+            ViewBag.lowInventoryProducts = (await iProductDetailService.GetListProductViewModelAsync()).Where(c => c.SoLuongTon <= 5).ToList();
+            int count = (await iProductDetailService.GetListProductViewModelAsync()).Count;
+            for (int i = 0; i < count; i++)
+            {
+                i++;
+            }
+            return View();
+        } 
         [HttpGet]
         public async Task<IActionResult> ThongKeThang()
         {
@@ -166,5 +178,5 @@ namespace App_View.Areas.Admin.Controllers
             return Ok(orderData);
         }
     }
-    
+
 }
