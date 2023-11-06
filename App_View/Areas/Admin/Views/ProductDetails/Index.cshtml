@@ -18,7 +18,7 @@
     <div class="page-header">
         <div class="header-sub-title">
             <nav class="
-                 
+
                  breadcrumb-dash">
                 <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>QUẢN LÝ SẢN PHẨM</a>
                 <a class="breadcrumb-item" href="#">QUẢN LÝ THỰC THỂ SẢN PHẨM</a>
@@ -27,7 +27,7 @@
     </div>
     <div id="confirm-ds" class="mt-2 mb-2" style="">
         <div style=" position: fixed; top: 90px; right: 26px; z-index: 100;">
-            <button class="btn btn-warning ngung_kinh_doanh">
+            <button class="btn btn-warning ngung_kinh_doanh" id="ngung_kinh_doanh_list">
                 <i class="fas fa-ban"></i>
                 <span>Ngừng kinh doanh</span>
             </button>
@@ -377,9 +377,58 @@
         }, 3000);
     }
 
+    $(document).on('click', '#ngung_kinh_doanh_list', function () {
+        const keys = Object.keys(selectedCheckboxes).filter(item => item !== "check-all");
+        $('#confirm').find('#thongBao').text(`Bạn có muốn ngừng kinh doanh ${keys.length} mặt hàng này?`);
+        $('#confirm').modal('show');
+        $('#confirm').off('click', '.btn-primary');
+        $('#confirm').one('click', '.btn-primary', function ()
+        {
+            var dataGet = {
+                LstGuid: keys,
+            };
+            $.ajax({
+                url: '/Admin/ProductDetails/UpdateNgungKinhDoanhForList',
+                type: 'Post',
+                data: JSON.stringify(dataGet),
+                contentType: 'application/json',
+                success: function (result) {
+                    var toastHTML = `<div class="toast fade hide" data-delay="3000">
+                                         <div class="toast-header">
+                                             <i class="anticon anticon-info-circle text-primary m-r-5"></i>
+                                             <strong class="mr-auto">Thông báo</strong>
+                                             <small>1 seconds ago</small>
+                                             <button type="button" class="ml-2 close" data-dismiss="toast" aria-label="Close">
+                                                 <span aria-hidden="true">&times;</span>
+                                             </button>
+                                         </div>
+                                         <div class="toast-body">
+                                             <span>Đã ngừng kinh doanh ${keys.length} mặt hàng!</span>
+                                         </div>
+                                     </div>`
+
+                    $('#notification-toast').append(toastHTML)
+                    $('#notification-toast .toast').toast('show');
+                    setTimeout(function () {
+                        $('#notification-toast .toast:first-child').remove();
+                    }, 3000);
+                    $('#confirm').modal('hide');
+                    table.draw();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    console.log(status);
+                    console.log(error);
+                    console.log(xhr);
+                }
+            });
+        });
+       
+
+    })
+
     $(document).on('click', '#update', function () {
         const keys = Object.keys(selectedCheckboxes).filter(item => item !== "check-all");
-        console.log(keys);
         const container = $("#body_parent").empty();
 
         var dataGet = {

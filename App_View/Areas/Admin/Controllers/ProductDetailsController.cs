@@ -65,6 +65,19 @@ namespace App_View.Areas.Admin.Controllers
             return PartialView("_DanhSachSanPhamUpdate", model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateNgungKinhDoanhForList([FromBody] ListGuidDTO listGuidDTO)
+        {
+            foreach (var IdProduct in listGuidDTO.LstGuid!)
+            {
+                var productGet = _context.ProductDetails.FirstOrDefault(pro => pro.Id == IdProduct);
+                productGet!.TrangThai = 1;
+                _context.ProductDetails.Update(productGet);
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
+        }
+
         #region AddNameProduct
         public class ProductDTO
         {
