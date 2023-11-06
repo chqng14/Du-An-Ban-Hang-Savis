@@ -165,6 +165,7 @@ namespace App_Api.Controllers
             productDetail.TrangThai = 0;
             productDetail.SoLuongDaBan = 0;
             productDetail.NgayTao = DateTime.Now;
+            productDetail.GiaThucTe = productDetailDTO.GiaBan;
             return new OkObjectResult(new { success = _allRepoProductDetail.AddItem(productDetail), id = productDetail.Id });
         }
 
@@ -185,6 +186,7 @@ namespace App_Api.Controllers
                 SoLuongTon = item.SoLuongTon,
                 TrangThai = item.TrangThai,
                 IsNoiBat = item.IsNoiBat,
+                GiaThucTe = item.GiaThucTe,
                 IsNew = item.NgayTao >= sevenDaysAgo,
                 SoLuongDaBan = item.SoLuongDaBan,
                 LstTenAnh = _allImages.GetAll()

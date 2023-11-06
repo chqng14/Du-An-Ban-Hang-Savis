@@ -63,7 +63,12 @@
                                     <span class="price">
                                         <span class="amount">
                                             <span class="currencySymbol">
-                                                @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", item.GiaBan)
+                                                @if (item.GiaBan == item.GiaThucTe)
+
+                                                {
+                                                    @string.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", item.GiaBan)
+
+                                                }
                                             </span>
                                         </span>
                                     </span>
