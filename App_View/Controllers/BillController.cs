@@ -114,7 +114,6 @@ namespace App_View.Controllers
             {
                 await billDetailServices.AddItemAsync(new BillDetails()
                 {
-                    Id = new Guid(),
                     IdBill = bill.Id,
                     IdProductDetail = item.IdProduct,
                     SoLuong = item.SoLuongCart,
