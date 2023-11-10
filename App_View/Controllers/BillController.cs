@@ -131,7 +131,7 @@ namespace App_View.Controllers
                 await ProductDetailServices.UpdateProductAsync(productdto);
             }
 
-            return RedirectToAction("ShowCart", "CartDetail");
+            return Ok();
         }
 
         //public async Task<IActionResult> SearchBill(DateTime startDate, DateTime endDate, string ma)

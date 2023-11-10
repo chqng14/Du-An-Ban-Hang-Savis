@@ -806,9 +806,11 @@
                 url: '/Bill/Pay',
                 data: combinedData,
                 success: function (paymentResponse) {
-                    UpdateVoucher()
+                    if (MucUuDai != "") {
+                        UpdateVoucher()
+                   }
                     // var idHoaDon = paymentResponse.idHoaDon;
-                    window.location.href = "/HoaDon/Order?idHoaDon=" + idHoaDon;
+                    window.location.href = "/CartDetail/ShowCart";
                 },
                 error: function (paymentError) {
                     // Xử lý lỗi nếu cần

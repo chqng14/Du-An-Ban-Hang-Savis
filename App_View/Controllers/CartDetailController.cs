@@ -55,7 +55,7 @@ namespace App_View.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToCartUser(CartViewModel model)
+        public async Task<IActionResult> AddToCartUser([FromBody] CartViewModel model)
         {
             var acc = SessionService.GetUserFromSession(HttpContext.Session, "SaveLoginUser").Id;
             var product = await _productDetailService.GetProductDTOByIdAsync(model.IdProduct);
