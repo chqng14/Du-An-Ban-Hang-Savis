@@ -21,12 +21,18 @@ namespace App_View.Services
         public void CheckNgayKetThuc()
         {
             var ngayKetThucSale = _dbContext.Sales
-                .Where(p => p.NgayKetThuc <= DateTime.Now && p.TrangThai != 5)
+                .Where(p => p.NgayKetThuc <= DateTime.Now && p.TrangThai != (int)TrangThaiSale.KhongHoatDong)
                 .ToList();
-
+            var ngaySale = _dbContext.Sales
+                .Where(p => p.NgayKetThuc >= DateTime.Now && p.TrangThai == (int)TrangThaiSale.KhongHoatDong )
+                .ToList();
             foreach (var sale in ngayKetThucSale)
             {
-                sale.TrangThai = 5;
+                sale.TrangThai = (int)TrangThaiSale.KhongHoatDong;
+            }
+            foreach (var sale in ngaySale)
+            {
+                sale.TrangThai = (int)TrangThaiSale.HoatDong;
             }
             _dbContext.SaveChanges();
         }

@@ -8,63 +8,69 @@
 
 <h4>Sale</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Ma" class="control-label"></label>
-                <input asp-for="Ma" class="form-control" />
-                <span asp-validation-for="Ma" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ten" class="control-label"></label>
-                <input asp-for="Ten" class="form-control" />
-                <span asp-validation-for="Ten" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DuongDanAnh" class="control-label"></label>
-                <input type="file" name="formFile" class="form-control" />
-                <span asp-validation-for="DuongDanAnh" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayBatDau" class="control-label"></label>
-                <input asp-for="NgayBatDau" class="form-control" />
-                <span asp-validation-for="NgayBatDau" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayKetThuc" class="control-label"></label>
-                <input asp-for="NgayKetThuc" class="form-control" />
-                <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LoaiHinhKm" class="control-label"></label>
-                <input asp-for="LoaiHinhKm" class="form-control" />
-                <span asp-validation-for="LoaiHinhKm" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MucGiam" class="control-label"></label>
-                <input asp-for="MucGiam" class="form-control" />
-                <span asp-validation-for="MucGiam" class="text-danger"></span>
-            </div>
-           
-            <div class="form-group">
-                <label asp-for="MoTa" class="control-label"></label>
-                <input asp-for="MoTa" class="form-control" />
-                <span asp-validation-for="MoTa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Ma" class="control-label"></label>
+                        <input asp-for="Ma" class="form-control" />
+                        <span asp-validation-for="Ma" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Ten" class="control-label"></label>
+                        <input asp-for="Ten" class="form-control" />
+                        <span asp-validation-for="Ten" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="DuongDanAnh" class="control-label"></label>
+                        <input type="file" name="formFile" class="form-control" />
+                        <span asp-validation-for="DuongDanAnh" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="NgayBatDau" class="control-label"></label>
+                        <input asp-for="NgayBatDau" class="form-control" />
+                        <span asp-validation-for="NgayBatDau" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="NgayKetThuc" class="control-label"></label>
+                        <input asp-for="NgayKetThuc" class="form-control" />
+                        <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="LoaiHinhKm" class="control-label"></label>
+                        <input asp-for="LoaiHinhKm" class="form-control" />
+                        <span asp-validation-for="LoaiHinhKm" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="MoTa" class="control-label"></label>
+                        <input asp-for="MoTa" class="form-control" />
+                        <span asp-validation-for="MoTa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="TrangThai" class="control-label"></label>
+                        <input asp-for="TrangThai" class="form-control" />
+                        <span asp-validation-for="TrangThai" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <button type="submit" value="Create" class="btn btn-primary bd-0 col-md-6" style="margin-top:30px">Thêm mới</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

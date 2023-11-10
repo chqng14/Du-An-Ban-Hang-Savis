@@ -24,8 +24,8 @@ namespace App_View.Services
                 string uploadDirectory = Path.Combine(rootPath, "App_View", "wwwroot", "images", "AnhSale");
 
                
-                    if (formFile.Length > 0)
-                    {
+                    if (formFile !=null&& formFile.Length > 0)
+                {
                         using (var stream = new MemoryStream())
                         {
                         formFile.CopyTo(stream);

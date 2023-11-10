@@ -140,7 +140,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-8">
                                 <ul class="header-top-right text-right">
-                                    if(user!= null){
+                                    @if(user!= null){
                                         <li class="account"><a >@(user.Ten)></a></li>
                                     }else{
                                          <li class="account"><a asp-area="" asp-controller="Home" asp-action="Login">My Account</a></li>

@@ -101,10 +101,7 @@ namespace App_View.Areas.Admin.Controllers
             {
                 return RedirectToAction("ShowAllSale");
             }
-            else
-            {
-                return BadRequest();
-            }
+            return View();
         }
 
         // GET: Admin/Sale/Edit/5
@@ -167,5 +164,22 @@ namespace App_View.Areas.Admin.Controllers
         //{
         //    return (_context.Sales?.Any(e => e.Id == id)).GetValueOrDefault();
         //}
+        [HttpPost]
+        public JsonResult CapNhatTrangThai(Guid id, int trangThai)
+        {
+            var khuyenMai = context.Sales.Find(id);
+            if (trangThai == (int)TrangThaiSale.KhongHoatDong)
+            {
+                khuyenMai.TrangThai = (int)TrangThaiSale.HoatDong;
+            }
+            else
+            {
+                khuyenMai.TrangThai = (int)TrangThaiSale.KhongHoatDong;
+            }
+            context.Sales.Update(khuyenMai);
+            context.SaveChanges();
+            return Json(new { success = true });
+        }
     }
+
 }

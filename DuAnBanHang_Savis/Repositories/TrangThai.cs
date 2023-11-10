@@ -19,5 +19,12 @@ namespace App_Data.Repositories
         HetVoucher = 3,
 
     }
-
+    public enum TrangThaiSale 
+    {
+        [Description("Hoạt động")]
+        HoatDong = 0,
+        [Description("Không hoạt động")]
+        KhongHoatDong = 1
+    }
+    
 }
