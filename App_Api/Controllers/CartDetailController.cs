@@ -59,7 +59,7 @@ namespace App_Api.Controllers
                 GiaBan = _reposCTSP.GetAll().FirstOrDefault(c => c.Id == pd.IDCTSP).GiaBan,
                 TrangThai = pd.TrangThai,
                 SoLuongCart = pd.SoLuong,
-
+                LinkImage = _reposImage.GetAll().Where(a => a.IdProductDetail == pd.IDCTSP).FirstOrDefault().DuongDan
             });
             return cartDetails;
         }

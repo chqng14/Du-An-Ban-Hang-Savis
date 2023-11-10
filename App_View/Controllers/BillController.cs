@@ -148,14 +148,13 @@ namespace App_View.Controllers
                     DonGia = item.GiaBan,
                     TrangThai = 0
                 });
-                var productdto = new ProductUpdateDTO()
-                {
-                    Id = item.IdProduct,
-                    SoLuongTon = item.SoLuongCart
-                };
+                var productGet = _dbContextModel.ProductDetails.FirstOrDefault(sp => sp.Id == item.IdProduct);
+                productGet.SoLuongTon -= item.SoLuongCart;
+                productGet.SoLuongDaBan += item.SoLuongCart;
+                _dbContextModel.ProductDetails.Update(productGet);
+                _dbContextModel.SaveChanges();
                 await CartDetailServices.DeleteCartDetailAsync(item.Id);
-                var product = await ProductDetailServices.GetProductVMsAsync(item.IdProduct);
-                await ProductDetailServices.UpdateProductAsync(productdto);
+                //var product = await ProductDetailServices.GetProductVMsAsync(item.IdProduct);
             }
 
             return Ok();
