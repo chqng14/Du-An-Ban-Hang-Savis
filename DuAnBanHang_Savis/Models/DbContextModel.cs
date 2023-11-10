@@ -41,7 +41,9 @@ namespace App_Data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             optionsBuilder.UseSqlServer(@"Data Source=LAPTOP-OF-KHAI;Initial Catalog=Savis;Integrated Security=True");
+
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

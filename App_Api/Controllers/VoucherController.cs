@@ -119,5 +119,16 @@ namespace App_Api.Controllers
             var VoucherDTO = _mapper.Map<VoucherDTO>(Voucher);
             return VoucherDTO;
         }
+        [HttpPut("UpdateVoucherAfterUseIt/{id}")]
+        public bool UpdateVoucherAfterUseIt(Guid id)
+        {
+            var voucher = allRepo.GetAll().FirstOrDefault(c => c.Id == id);
+            if (voucher.SoLuongTon > 0)
+            {
+                voucher.SoLuongTon -= 1;
+                allRepo.EditItem(voucher);
+            }
+            return false;
+        }
     }
 }

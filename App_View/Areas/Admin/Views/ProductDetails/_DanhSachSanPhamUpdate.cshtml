@@ -23,7 +23,7 @@
             </div>
             <div id="collapseTwoDefault-@sp.Id" class="collapse" data-parent="#accordion-default">
                 <div class="card-body">
-                    <input class="d-none" name="Id" value="@sp.Id"/>
+                    <input class="d-none" name="Id" value="@sp.Id" />
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home-@sp.Id" role="tab"
@@ -155,7 +155,8 @@
                 decimalPlaces: 0,
                 currencySymbol: " ₫",
                 currencySymbolPlacement: "s",
-                minimumValue: 0
+                minimumValue: 0,
+                maximumValue: 99999999
             });
         });
 
@@ -164,7 +165,8 @@
                 decimalCharacter: ".",
                 digitGroupSeparator: ",",
                 decimalPlaces: 0,
-                minimumValue: 0
+                minimumValue: 0,
+                maximumValue: 9999
             });
         });
     })
@@ -305,6 +307,7 @@
     }
 
     $('.update-sp').click(function () {
+        const promises = [];
         const cards = $(".accordion > .card");
         Array.from(cards).forEach(item => {
             const key = $(item).find('.collapse').attr('id').replace("collapseTwoDefault-", "");
@@ -329,7 +332,7 @@
                             }
                         }
                     }
-                   
+
 
                     data[fieldName] = fieldValue;
                 }
@@ -337,7 +340,7 @@
 
             data.MoTa = $(item).find('[name="MoTa"]').summernote('code');
             console.log(data);
-            $.ajax({
+           const upDateProduct =  $.ajax({
                 url: URL_UPDATE_PRODUCT_DETAIL,
                 type: 'POST',
                 data: JSON.stringify(data),
@@ -351,7 +354,8 @@
                     console.log(error);
                     console.log(xhr);
                 }
-            });
+           });
+            promises.push(upDateProduct)
             console.log('check');
             console.log(key);
             console.log(selectedFiles[key]);
@@ -359,7 +363,7 @@
                 var data = new FormData();
                 Array.from(selectedFiles[key]).map(item => data.append('lstIFormFile', item.data))
                 data.append('idProductDetail', key);
-                $.ajax({
+               const creatImage = $.ajax({
                     url: URL_CREATE_IMAGE,
                     type: 'POST',
                     data: data,
@@ -373,14 +377,15 @@
                         console.log(error);
                         console.log(xhr);
                     }
-                });
+               });
+                promises.push(creatImage)
             }
 
             if (lstAnhRemove[key] && Array.from(lstAnhRemove[key]).length > 0) {
                 const data = new FormData();
                 lstAnhRemove[key].map(item => data.append('lstImageRemove', item))
                 data.append('idProductDetail', key)
-                fetch(URL_DELETE_LIST_IMAGE, {
+                const deleteImage = fetch(URL_DELETE_LIST_IMAGE, {
                     method: 'POST',
                     body: data
                 })
@@ -400,9 +405,15 @@
                     .catch(error => {
                         console.error(error);
                     });
+                    promises.push(deleteImage)
+
             }
         })
-        window.location.reload();
+
+        Promise.all(promises)
+            .then(() => window.location.reload())
+            .catch((err)=>console.error(err))
+
     })
 
 </script>

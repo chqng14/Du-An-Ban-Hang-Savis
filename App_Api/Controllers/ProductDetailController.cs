@@ -93,14 +93,14 @@ namespace App_Api.Controllers
             if (dataProductDetailVm.Size == null)
             {
                 listProductDetailResponseVM = listProductDetailResponseVM.
-                    Where(x => x.NameProduct == dataProductDetailVm.NameProduct && 
-                    x.ChatLieu == dataProductDetailVm.ChatLieu && 
-                    x.Loai == dataProductDetailVm.Loai && 
+                    Where(x => x.NameProduct == dataProductDetailVm.NameProduct &&
+                    x.ChatLieu == dataProductDetailVm.ChatLieu &&
+                    x.Loai == dataProductDetailVm.Loai &&
                     x.MauSac == dataProductDetailVm.MauSac).ToList();
                 productDetailRes = listProductDetailResponseVM.FirstOrDefault();
                 return productDetailRes;
             }
-            
+
             productDetailRes = listProductDetailResponseVM.FirstOrDefault(x => x.NameProduct == dataProductDetailVm.NameProduct && x.ChatLieu == dataProductDetailVm.ChatLieu && x.Size == dataProductDetailVm.Size && x.Loai == dataProductDetailVm.Loai && x.MauSac == dataProductDetailVm.MauSac);
             return productDetailRes;
         }
@@ -165,6 +165,7 @@ namespace App_Api.Controllers
             productDetail.TrangThai = 0;
             productDetail.SoLuongDaBan = 0;
             productDetail.NgayTao = DateTime.Now;
+            productDetail.GiaThucTe = productDetailDTO.GiaBan;
             return new OkObjectResult(new { success = _allRepoProductDetail.AddItem(productDetail), id = productDetail.Id });
         }
 
@@ -185,6 +186,7 @@ namespace App_Api.Controllers
                 SoLuongTon = item.SoLuongTon,
                 TrangThai = item.TrangThai,
                 IsNoiBat = item.IsNoiBat,
+                GiaThucTe = item.GiaThucTe,
                 IsNew = item.NgayTao >= sevenDaysAgo,
                 SoLuongDaBan = item.SoLuongDaBan,
                 LstTenAnh = _allImages.GetAll()
@@ -247,7 +249,7 @@ namespace App_Api.Controllers
         [HttpGet("get-list-productdetail")]
         public IActionResult GetListProductDetail()
         {
-            var listProductDetailViewModel = _allRepoProductDetail.GetAll().Where(sp=>sp.TrangThai==0).Select(item => CreatProductViewModel(item)).ToList();
+            var listProductDetailViewModel = _allRepoProductDetail.GetAll().Where(sp => sp.TrangThai == 0).Select(item => CreatProductViewModel(item)).ToList();
             return new OkObjectResult(listProductDetailViewModel);
         }
 
@@ -255,7 +257,7 @@ namespace App_Api.Controllers
         public List<ProductItemShopVM> GetListProductItemShop()
         {
             var listProductVM = _allRepoProductDetail.GetAll()
-                .Where(item=>item.TrangThai==0)
+                .Where(item => item.TrangThai == 0)
                 //.GroupBy(x => new { x.IdMaterial, x.IdProduct, x.IdTypeProduct }).Select(gr => gr.First())
                 .ToList();
             var lstItemShop = listProductVM.Select(item => CreatProductShop(item)).ToList();
