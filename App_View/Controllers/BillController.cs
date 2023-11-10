@@ -97,7 +97,7 @@ namespace App_View.Controllers
             //var UserID = (await userServices.GetUsersAsync()).FirstOrDefault(c => c.Id == acc).Id;
             var listcart = (await CartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == acc);
             //var IDvoucher = await VoucherServices.GetVoucherAsync(voucher1);
-            VoucherDTO vcDTo = new VoucherDTO()
+            var vcDTo = new Voucher()
             {
                 Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                 DieuKien = 0,
@@ -107,17 +107,20 @@ namespace App_View.Controllers
                 NgayKetThuc = DateTime.Now.AddDays(1),
                 Ten = "voucherMacDinh",
                 SoLuongTon = 999,
-                TrangThai = 0
+                TrangThai = 0,
+                Ma = "VCMACDINH"
             };
             if (_dbContextModel.Vouchers.Any(x => x.Id == vcDTo.Id))
             {
             }
             else
             {
-                await VoucherServices.AddVoucherAsync(vcDTo);
+                _dbContextModel.Add(vcDTo);
+                _dbContextModel.SaveChanges();
             }
             var bill = new Bill()
             {
+                Id = Guid.NewGuid(),
                 IdUser = acc,
                 IdVoucher = hoaDonViewModel.IdVoucher == null ? Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6") : hoaDonViewModel.IdVoucher,
                 NgayTao = DateTime.Now,
