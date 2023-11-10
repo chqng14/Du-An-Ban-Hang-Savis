@@ -104,7 +104,7 @@ namespace App_View.Controllers
             }
 
             //}
-            return RedirectToAction("ChiTietSP", "Home", new { id = product.Id });
+            return RedirectToAction("ShowCart");
 
         }
 

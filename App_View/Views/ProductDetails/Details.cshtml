@@ -344,88 +344,93 @@
                     </span>
                     <hr>
                     <div id="product">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="color-by col-md-12" style="margin-top:10px">
-                                    <label>Select Color</label>
-                                    <div id="container-color">
-                                        @foreach (var item in Model.ListMauSac!)
-                                        {
-                                            if (item == Model.MauSac)
+                        <form method="post" asp-action="AddToCartUser" asp-controller="CartDetail">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="color-by col-md-12" style="margin-top:10px">
+                                        <label>Select Color</label>
+                                        <div id="container-color">
+                                            @foreach (var item in Model.ListMauSac!)
                                             {
-                                                <button class="rounded-circle clickActive selectClick" data-color="@item"
-                                                        style="border: none;border-radius: 50%;width: 32px; height: 32px;background: @item;">
-                                                </button>
+                                                if (item == Model.MauSac)
+                                                {
+                                                    <button class="rounded-circle clickActive selectClick" data-color="@item"
+                                                            style="border: none;border-radius: 50%;width: 32px; height: 32px;background: @item;">
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="rounded-circle selectClick" data-color="@item"
+                                                            style="border: none;border-radius: 50%;width: 32px; height: 32px;background: @item;">
+                                                    </button>
+                                                }
                                             }
-                                            else
+                                        </div>
+                                    </div>
+                                    <div class="size-by col-md-12" style="margin-top:10px">
+                                        <label>Select Size: </label>
+                                        <div id="container-size">
+                                            @foreach (var item in Model.ListSize!)
                                             {
-                                                <button class="rounded-circle selectClick" data-color="@item"
-                                                        style="border: none;border-radius: 50%;width: 32px; height: 32px;background: @item;">
-                                                </button>
+                                                if (item == Model.Size)
+                                                {
+                                                    <button class="rounded-circle clickActive selectClick" data-size="@item"
+                                                            style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
+                                                        @item
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="rounded-circle selectClick" data-size="@item"
+                                                            style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
+                                                        @item
+                                                    </button>
+                                                }
                                             }
-                                        }
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="size-by col-md-12" style="margin-top:10px">
-                                    <label>Select Size: </label>
-                                    <div id="container-size">
-                                        @foreach (var item in Model.ListSize!)
-                                        {
-                                            if (item == Model.Size)
-                                            {
-                                                <button class="rounded-circle clickActive selectClick" data-size="@item"
-                                                        style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
-                                                    @item
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                <button class="rounded-circle selectClick" data-size="@item"
-                                                        style="border: none; width: 32px; height: 32px; font: bold; font-size: 12px; line-height: 1; text-align: center; border-radius: 50%">
-                                                    @item
-                                                </button>
-                                            }
-                                        }
+                                <div class="qty form-group2 col-md-6" style="margin-top:10px">
+                                    <label>Qty</label>Refine Search
+                                    <div>
+                                        <input name="SoLuongCart" min="1" value="1" type="number">
+                                        <input type="hidden" name="IdProduct" value="@Model.Id" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="qty form-group2 col-md-6" style="margin-top:10px">
-                                <label>Qty</label>Refine Search
-                                <div>
-                                    <input name="product_quantity" min="1" value="1" type="number">
-                                </div>
-                            </div>
-                            <div class="button-group mt_30 col-md-6">
-                                <button class="btn btn--e-brand-shadow" style="
+                                <div class="button-group mt_30 col-md-6">
+                                    <button class="btn btn--e-brand-shadow" style="
     background: #b0abcc;
-">Thêm vào giỏ hàng</button>
+" type="submit">
+                                        Thêm vào giỏ hàng
+                                    </button>
+                                </div>
+                                <hr />
+                                <div>
+                                    <ul class="list-unstyled product_info mtb_20 col-md-12">
+                                        <li>
+                                            <label>Loại:</label>
+                                            <span name="loai"> <a id="loai">@Model.Loai</a></span>
+                                        </li>
+                                        <li>
+                                            <label>Chất liệu:</label>
+                                            <span name="loai"> <a id="chat_lieu">@Model.ChatLieu</a></span>
+                                        </li>
+                                        <li>
+                                            <label>Product Code:</label>
+                                            <span> product 20</span>
+                                        </li>
+                                        <li>
+                                            <label>Số lượng tồn:</label>
+                                            <span name="soLuongTon"> @Model.SoLuongTon</span>
+                                        </li>
+                                        <li>
+                                            <label>Số lượng đã bán:</label>
+                                            <span name="soLuongDaBan"> @Model.SoLuongDaBan</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <hr />
-                            <div>
-                                <ul class="list-unstyled product_info mtb_20 col-md-12">
-                                    <li>
-                                        <label>Loại:</label>
-                                        <span name="loai"> <a id="loai">@Model.Loai</a></span>
-                                    </li>
-                                    <li>
-                                        <label>Chất liệu:</label>
-                                        <span name="loai"> <a id="chat_lieu">@Model.ChatLieu</a></span>
-                                    </li>
-                                    <li>
-                                        <label>Product Code:</label>
-                                        <span> product 20</span>
-                                    </li>
-                                    <li>
-                                        <label>Số lượng tồn:</label>
-                                        <span name="soLuongTon"> @Model.SoLuongTon</span>
-                                    </li>
-                                    <li>
-                                        <label>Số lượng đã bán:</label>
-                                        <span name="soLuongDaBan"> @Model.SoLuongDaBan</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

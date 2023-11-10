@@ -2,118 +2,90 @@
 @{
     Layout = "~/Views/Shared/_Cart.cshtml";
 }
-<div class="app-content">
+<div class="u-s-p-b-60" style="margin-top:20px">
 
-    <!--====== Section 1 ======-->
-    <div class="u-s-p-y-60">
+    <!--====== Section Content ======-->
+    <div class="section__content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="checkout-msg-group">
+                        @* <div class="msg u-s-m-b-30">
 
-        <!--====== Section Content ======-->
-        <div class="section__content">
-            <div class="container">
-                <div class="breadcrumb">
-                    <div class="breadcrumb__wrap">
-                        <ul class="breadcrumb__list">
-                            <li class="has-separator">
+                        <span class="msg__text">
+                        Returning customer?
 
-                                <a href="index.html">Home</a>
-                            </li>
-                            <li class="is-marked">
+                        <a class="gl-link" href="#return-customer" data-toggle="collapse">Click here to login</a>
+                        </span>
+                        <div class="collapse" id="return-customer" data-parent="#checkout-msg-group">
+                        <div class="l-f u-s-m-b-16">
 
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--====== End - Section 1 ======-->
-    <!--====== Section 2 ======-->
-    <div class="u-s-p-b-60">
+                        <span class="gl-text u-s-m-b-16">If you have an account with us, please log in.</span>
+                        <form class="l-f__form">
+                        <div class="gl-inline">
+                        <div class="u-s-m-b-15">
 
-        <!--====== Section Content ======-->
-        <div class="section__content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="checkout-msg-group">
-                            <div class="msg u-s-m-b-30">
+                        <label class="gl-label" for="login-email">E-MAIL *</label>
 
-                                <span class="msg__text">
-                                    Returning customer?
+                        <input class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter E-mail">
+                        </div>
+                        <div class="u-s-m-b-15">
 
-                                    <a class="gl-link" href="#return-customer" data-toggle="collapse">Click here to login</a>
-                                </span>
-                                <div class="collapse" id="return-customer" data-parent="#checkout-msg-group">
-                                    <div class="l-f u-s-m-b-16">
+                        <label class="gl-label" for="login-password">PASSWORD *</label>
 
-                                        <span class="gl-text u-s-m-b-16">If you have an account with us, please log in.</span>
-                                        <form class="l-f__form">
-                                            <div class="gl-inline">
-                                                <div class="u-s-m-b-15">
+                        <input class="input-text input-text--primary-style" type="text" id="login-password" placeholder="Enter Password">
+                        </div>
+                        </div>
+                        <div class="gl-inline">
+                        <div class="u-s-m-b-15">
 
-                                                    <label class="gl-label" for="login-email">E-MAIL *</label>
+                        <button class="btn btn--e-transparent-brand-b-2" type="submit">LOGIN</button>
+                        </div>
+                        <div class="u-s-m-b-15">
 
-                                                    <input class="input-text input-text--primary-style" type="text" id="login-email" placeholder="Enter E-mail">
-                                                </div>
-                                                <div class="u-s-m-b-15">
+                        <a class="gl-link" href="lost-password.html">Lost Your Password?</a>
+                        </div>
+                        </div>
 
-                                                    <label class="gl-label" for="login-password">PASSWORD *</label>
+                        <!--====== Check Box ======-->
+                        <div class="check-box">
 
-                                                    <input class="input-text input-text--primary-style" type="text" id="login-password" placeholder="Enter Password">
-                                                </div>
+                        <input type="checkbox" id="remember-me">
+                        <div class="check-box__state check-box__state--primary">
+
+                        <label class="check-box__label" for="remember-me">Remember Me</label>
+                        </div>
+                        </div>
+                        <!--====== End - Check Box ======-->
+                        </form>
+                        </div>
+                        </div>
+                        </div> *@
+                        <div class="msg">
+
+                            <span class="msg__text">
+                                Bạn có Voucher?
+
+                                <a class="gl-link" href="#have-coupon" data-toggle="collapse">Ấn vào đây để sử dụng Voucher</a>
+                            </span>
+                            <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+                                <div class="c-f u-s-m-b-16">
+
+                                    <form class="c-f__form" asp-action="GetVoucherByMa" asp-controller="Voucher">
+                                        <div class="u-s-m-b-16">
+                                            <div class="u-s-m-b-15">
+
+                                                <label for="coupon"></label>
+
+                                                <input class="input-text input-text--primary-style" type="text" id="voucherinput" placeholder="Nhập phiếu giảm giá của bạn ở đây" name="voucher">
+                                                <label id="textvoucher" style="color:red"></label>
                                             </div>
-                                            <div class="gl-inline">
-                                                <div class="u-s-m-b-15">
+                                            <div class="u-s-m-b-15">
 
-                                                    <button class="btn btn--e-transparent-brand-b-2" type="submit">LOGIN</button>
-                                                </div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <a class="gl-link" href="lost-password.html">Lost Your Password?</a>
-                                                </div>
+                                                @* <button class="btn btn--e-transparent-brand-b-2" type="button" id="button-coupon" onclick="applyVoucher()">SỬ DỤNG</button> *@
                                             </div>
-
-                                            <!--====== Check Box ======-->
-                                            <div class="check-box">
-
-                                                <input type="checkbox" id="remember-me">
-                                                <div class="check-box__state check-box__state--primary">
-
-                                                    <label class="check-box__label" for="remember-me">Remember Me</label>
-                                                </div>
-                                            </div>
-                                            <!--====== End - Check Box ======-->
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="msg">
-
-                                <span class="msg__text">
-                                    Have a coupon?
-
-                                    <a class="gl-link" href="#have-coupon" data-toggle="collapse">Click Here to enter your code</a>
-                                </span>
-                                <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
-                                    <div class="c-f u-s-m-b-16">
-
-                                        <span class="gl-text u-s-m-b-16">Enter your coupon code if you have one.</span>
-                                        <form class="c-f__form">
-                                            <div class="u-s-m-b-16">
-                                                <div class="u-s-m-b-15">
-
-                                                    <label for="coupon"></label>
-
-                                                    <input class="input-text input-text--primary-style" type="text" id="coupon" placeholder="Coupon Code">
-                                                </div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <button class="btn btn--e-transparent-brand-b-2" type="submit">APPLY</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -121,168 +93,129 @@
                 </div>
             </div>
         </div>
-        <!--====== End - Section Content ======-->
     </div>
-    <!--====== End - Section 2 ======-->
-    <!--====== Section 3 ======-->
-    <div class="u-s-p-b-60">
+    <!--====== End - Section Content ======-->
+</div>
+<!--====== End - Section 2 ======-->
+<!--====== Section 3 ======-->
+<div class="u-s-p-b-60">
 
-        <!--====== Section Content ======-->
-        <div class="section__content">
-            <div class="container">
-                <div class="checkout-f">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
-                            <form class="checkout-f__delivery">
-                                <div class="u-s-m-b-30">
+    <!--====== Section Content ======-->
+    <div class="section__content">
+        <div class="container">
+            <div class="checkout-f">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h1 class="checkout-f__h1">THÔNG TIN GIAO HÀNG</h1>
+                        <form class="checkout-f__delivery" id="deliveryForm">
+                            <div class="u-s-m-b-30">
+
+
+                                <!--====== First Name, Last Name ======-->
+                                <div class="gl-inline">
                                     <div class="u-s-m-b-15">
 
-                                        <!--====== Check Box ======-->
-                                        <div class="check-box">
+                                        <label class="gl-label" for="billing-fname">TÊN NGƯỜI NHẬN *</label>
 
-                                            <input type="checkbox" id="get-address">
-                                            <div class="check-box__state check-box__state--primary">
-
-                                                <label class="check-box__label" for="get-address">Use default shipping and billing address from account</label>
-                                            </div>
-                                        </div>
-                                        <!--====== End - Check Box ======-->
+                                        <input class="input-text input-text--primary-style" type="text" id="billing-fname" data-bill="" name="TenNguoiNhan">
                                     </div>
+                                </div>
+                                <!--====== End - First Name, Last Name ======-->
+                                <!--====== E-MAIL ======-->
+                                <div class="u-s-m-b-15">
 
-                                    <!--====== First Name, Last Name ======-->
-                                    <div class="gl-inline">
-                                        <div class="u-s-m-b-15">
+                                    <label class="gl-label" for="billing-email">EMAIL *</label>
 
-                                            <label class="gl-label" for="billing-fname">FIRST NAME *</label>
+                                    <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill="">
+                                </div>
+                                <!--====== End - E-MAIL ======-->
+                                <!--====== PHONE ======-->
+                                <div class="u-s-m-b-15">
 
-                                            <input class="input-text input-text--primary-style" type="text" id="billing-fname" data-bill="">
-                                        </div>
-                                        <div class="u-s-m-b-15">
+                                    <label class="gl-label" for="billing-phone">SỐ ĐIỆN THOẠI *</label>
 
-                                            <label class="gl-label" for="billing-lname">LAST NAME *</label>
+                                    <input class="input-text input-text--primary-style" type="text" id="billing-phone" data-bill="" name="SDT">
+                                </div>
+                                <!--====== End - PHONE ======-->
+                                <!--====== Street Address ======-->
+                                <div class="u-s-m-b-15">
 
-                                            <input class="input-text input-text--primary-style" type="text" id="billing-lname" data-bill="">
-                                        </div>
-                                    </div>
-                                    <!--====== End - First Name, Last Name ======-->
-                                    <!--====== E-MAIL ======-->
-                                    <div class="u-s-m-b-15">
+                                    <label class="gl-label" for="billing-street">ĐỊA CHỈ *</label>
 
-                                        <label class="gl-label" for="billing-email">E-MAIL *</label>
+                                    <input class="input-text input-text--primary-style" type="text" id="billing-street" placeholder="Số nhà,số đường" data-bill="" name="DiaChi">
+                                </div>
 
-                                        <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill="">
-                                    </div>
-                                    <!--====== End - E-MAIL ======-->
-                                    <!--====== PHONE ======-->
-                                    <div class="u-s-m-b-15">
 
-                                        <label class="gl-label" for="billing-phone">PHONE *</label>
-
-                                        <input class="input-text input-text--primary-style" type="text" id="billing-phone" data-bill="">
-                                    </div>
-                                    <!--====== End - PHONE ======-->
-                                    <!--====== Street Address ======-->
-                                    <div class="u-s-m-b-15">
-
-                                        <label class="gl-label" for="billing-street">STREET ADDRESS *</label>
-
-                                        <input class="input-text input-text--primary-style" type="text" id="billing-street" placeholder="House name and street name" data-bill="">
-                                    </div>
-                                    <div class="u-s-m-b-15">
-
-                                        <label for="billing-street-optional"></label>
-
-                                        <input class="input-text input-text--primary-style" type="text" id="billing-street-optional" placeholder="Apartment, suite unit etc. (optional)" data-bill="">
-                                    </div>
-                                    <!--====== End - Street Address ======-->
-                                    <!--====== Country ======-->
+                                <div id="InputDropdown">
                                     <div class="u-s-m-b-15">
 
                                         <!--====== Select Box ======-->
 
-                                        <label class="gl-label" for="billing-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="billing-country" data-bill="">
-                                            <option selected value="">Choose Country</option>
-                                            <option value="uae">United Arab Emirate (UAE)</option>
-                                            <option value="uk">United Kingdom (UK)</option>
-                                            <option value="us">United States (US)</option>
+                                        <label class="gl-label" for="city">THÀNH PHỐ *</label><select class="select-box select-box--primary-style" id="city" required>
+                                            <option selected>Chọn thành phố</option>
                                         </select>
                                         <!--====== End - Select Box ======-->
                                     </div>
-                                    <!--====== End - Country ======-->
-                                    <!--====== Town / City ======-->
                                     <div class="u-s-m-b-15">
 
-                                        <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
-
-                                        <input class="input-text input-text--primary-style" type="text" id="billing-town-city" data-bill="">
+                                        <label class="gl-label" for="district">HUYỆN *</label><select class="select-box select-box--primary-style" id="district" required>
+                                            <option selected>Chọn huyện</option>
+                                        </select>
                                     </div>
-                                    <!--====== End - Town / City ======-->
-                                    <!--====== STATE/PROVINCE ======-->
                                     <div class="u-s-m-b-15">
 
                                         <!--====== Select Box ======-->
 
-                                        <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="billing-state" data-bill="">
-                                            <option selected value="">Choose State/Province</option>
-                                            <option value="al">Alabama</option>
-                                            <option value="al">Alaska</option>
-                                            <option value="ny">New York</option>
+                                        <label class="gl-label" for="wards">PHƯỜNG/XÃ *</label><select class="select-box select-box--primary-style" id="wards" required>
+                                            <option selected>Chọn phường/xã</option>
                                         </select>
                                         <!--====== End - Select Box ======-->
                                     </div>
-                                    <!--====== End - STATE/PROVINCE ======-->
-                                    <!--====== ZIP/POSTAL ======-->
-                                    <div class="u-s-m-b-15">
+                                </div>
+                                <div class="u-s-m-b-10">
 
-                                        <label class="gl-label" for="billing-zip">ZIP/POSTAL CODE *</label>
+                                    <!--====== Check Box ======-->
+                                    <div class="check-box">
 
-                                        <input class="input-text input-text--primary-style" type="text" id="billing-zip" placeholder="Zip/Postal Code" data-bill="">
-                                    </div>
-                                    <!--====== End - ZIP/POSTAL ======-->
-                                    <div class="u-s-m-b-10">
+                                        <input type="checkbox" id="make-default-address" data-bill="">
+                                        <div class="check-box__state check-box__state--primary">
 
-                                        <!--====== Check Box ======-->
-                                        <div class="check-box">
-
-                                            <input type="checkbox" id="make-default-address" data-bill="">
-                                            <div class="check-box__state check-box__state--primary">
-
-                                                <label class="check-box__label" for="make-default-address">Make default shipping and billing address</label>
-                                            </div>
-                                        </div>
-                                        <!--====== End - Check Box ======-->
-                                    </div>
-                                    <div class="u-s-m-b-10">
-
-                                        <a class="gl-link" href="#create-account" data-toggle="collapse">Want to create a new account?</a>
-                                    </div>
-                                    <div class="collapse u-s-m-b-15" id="create-account">
-
-                                        <span class="gl-text u-s-m-b-15">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</span>
-                                        <div>
-
-                                            <label class="gl-label" for="reg-password">Account Password *</label>
-
-                                            <input class="input-text input-text--primary-style" type="text" data-bill id="reg-password">
+                                            <label class="check-box__label" for="make-default-address">Chọn làm địa chỉ mặc định</label>
                                         </div>
                                     </div>
-                                    <div class="u-s-m-b-10">
+                                    <!--====== End - Check Box ======-->
+                                </div>
+                                <div class="u-s-m-b-10">
 
-                                        <label class="gl-label" for="order-note">ORDER NOTE</label><textarea class="text-area text-area--primary-style" id="order-note"></textarea>
-                                    </div>
+                                    <a class="gl-link" href="#create-account" data-toggle="collapse">Tạo tài khoản mới?</a>
+                                </div>
+                                <div class="collapse u-s-m-b-15" id="create-account">
+
+                                    <span class="gl-text u-s-m-b-15">Tạo tài khoản mới vui lòng nhập thông tin bên dưới. Nếu bạn đã có tài khoản vui lòng đăng nhập ở góc trên.</span>
                                     <div>
 
-                                        <button class="btn btn--e-transparent-brand-b-2" type="submit">SAVE</button>
+                                        <label class="gl-label" for="reg-password">Mật khẩu *</label>
+
+                                        <input class="input-text input-text--primary-style" type="text" data-bill id="reg-password">
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-lg-6">
-                            <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
+                                <div class="u-s-m-b-10">
 
-                            <!--====== Order Summary ======-->
-                            <div class="o-summary">
+                                    <label class="gl-label" for="order-note">GHI CHÚ</label><textarea class="text-area text-area--primary-style" id="order-note"></textarea>
+                                </div>
+                                @* <div>
+
+                                <button class="btn btn--e-transparent-brand-b-2" id="luu" type="submit">LƯU</button>
+                                </div> *@
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <h1 class="checkout-f__h1">SẢN PHẨM</h1>
+
+                        <!--====== Order Summary ======-->
+                        <div class="o-summary">
+                            <form class="checkout-f__payment" id="paymentForm" asp-action="Pay" asp-controller="Bill">
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__item-wrap gl-scroll">
                                         @foreach (var item in Model)
@@ -291,43 +224,44 @@
                                                 <div class="o-card__flex">
                                                     <div class="o-card__img-wrap">
 
-                                                        <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt="">
+                                                        <img class="u-img-fluid" src="~/assets//images/others/@item.LinkImage" alt="">
                                                     </div>
                                                     <div class="o-card__info-wrap">
 
                                                         <span class="o-card__name">
 
-                                                            <a href="product-detail.html">@Html.ActionLink(item.Name + "-" + item.Color + "-" + item.Size, "ChiTietSP", "Home", new { id = item.IdProduct })</a>
+                                                            <a href="@Url.Action("Details", "SanPhamChiTiets", new { id = item.IdProduct })">@item.Name</a>
                                                         </span>
+                                                        <span class="o-card__quantity">Size: @item.Size Màu: @item.Color</span>
+                                                        <span class="o-card__quantity">Số lượng x @item.SoLuongCart</span>
 
-                                                        <span class="o-card__quantity">Quantity x @item.SoLuongCart</span>
-
-                                                        <span class="o-card__price">@item.GiaBan</span>
+                                                        <span class="o-card__price">@string.Format("{0:N0}đ", item.GiaBan)</span>
                                                     </div>
                                                 </div>
-
-                                                <a class="o-card__del far fa-trash-alt"></a>
+                                              
+                                                <a class="o-card__del far fa-trash-alt" href="@Url.Action("DeleteCartCheckOutNoLogin", "GioHangChiTiets", new { id = item.IdProduct })"></a>
                                             </div>
                                         }
+
+
                                     </div>
                                 </div>
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__box">
-                                        <h1 class="checkout-f__h1">SHIPPING & BILLING</h1>
+                                        <h1 class="checkout-f__h1">ĐỊA CHỈ GIAO HÀNG</h1>
                                         <div class="ship-b">
 
-                                            <span class="ship-b__text">Ship to:</span>
+                                            <span class="ship-b__text">Giao tới:</span>
                                             <div class="ship-b__box u-s-m-b-10">
-                                                <p class="ship-b__p">4247 Ashford Drive Virginia VA-20006 USA (+0) 900901904</p>
-
-                                                <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a>
+                                                <p class="ship-b__p" id="thongtin"></p>
+                                                <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Sửa</a>
                                             </div>
-                                            <div class="ship-b__box">
+                                            @* <div class="ship-b__box">
 
-                                                <span class="ship-b__text">Bill to default billing address</span>
+                                            <span class="ship-b__text">Bill to default billing address</span>
 
-                                                <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a>
-                                            </div>
+                                            <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a>
+                                            </div> *@
                                         </div>
                                     </div>
                                 </div>
@@ -336,134 +270,551 @@
                                         <table class="o-summary__table">
                                             <tbody>
                                                 <tr>
-                                                    <td>SHIPPING</td>
-                                                    <td>$4.00</td>
+                                                    <td>PHÍ SHIP</td>
+                                                    <td id="phiship">0đ</td>
+                                                    <input hidden name="TienShip" />
                                                 </tr>
                                                 <tr>
-                                                    <td>TAX</td>
-                                                    <td>$0.00</td>
+                                                    <td>TIỀN GIẢM</td>
+                                                    <td id="TienGiam">0đ</td>
+                                                    <input hidden name="TienGiam" />
                                                 </tr>
                                                 <tr>
-                                                    <td>SUBTOTAL</td>
-                                                    <td>$379.00</td>
+                                                    <td>TẠM TÍNH</td>
+                                                    <td id="tamtinh">@string.Format("{0:N0}đ", Model.Sum(x => x.SoLuongCart * x.GiaBan))</td>
+
                                                 </tr>
                                                 <tr>
-                                                    <td>GRAND TOTAL</td>
-                                                    <td>$379.00</td>
+                                                    <td>TỔNG TIỀN</td>
+                                                    <td id="tongtien">@string.Format("{0:N0}đ", Model.Sum(x => x.SoLuongCart * x.GiaBan))</td>
+                                                    <input hidden name="TongTien" />
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <input hidden name="MoTa" />
+                                        <input hidden name="IdThongTinGH" />
                                     </div>
                                 </div>
                                 <div class="o-summary__section u-s-m-b-30">
                                     <div class="o-summary__box">
-                                        <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
-                                        <form class="checkout-f__payment">
-                                            <div class="u-s-m-b-10">
+                                        <h1 class="checkout-f__h1">PHƯƠNG THỨC THANH TOÁN</h1>
 
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
+                                        <div class="u-s-m-b-10">
 
-                                                    <input type="radio" id="cash-on-delivery" name="payment">
-                                                    <div class="radio-box__state radio-box__state--primary">
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
 
-                                                        <label class="radio-box__label" for="cash-on-delivery">Cash on Delivery</label>
-                                                    </div>
+                                                <input type="radio" id="cash-on-delivery" name="payment">
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="cash-on-delivery">COD</label>
                                                 </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">Pay Upon Cash on delivery. (This service is only available for some countries)</span>
                                             </div>
-                                            <div class="u-s-m-b-10">
+                                            <!--====== End - Radio Box ======-->
 
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
+                                            <span class="gl-text u-s-m-t-6">Thanh toán bằng tiền mặt khi giao hàng.</span>
+                                        </div>
+                                        @* <div class="u-s-m-b-10">
 
-                                                    <input type="radio" id="direct-bank-transfer" name="payment">
-                                                    <div class="radio-box__state radio-box__state--primary">
+                                            <!--====== Radio Box ======-->
+                                            <div class="radio-box">
 
-                                                        <label class="radio-box__label" for="direct-bank-transfer">Direct Bank Transfer</label>
-                                                    </div>
+                                                <input type="radio" id="direct-bank-transfer" name="payment">
+                                                <div class="radio-box__state radio-box__state--primary">
+
+                                                    <label class="radio-box__label" for="direct-bank-transfer">Momo</label>
                                                 </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</span>
                                             </div>
-                                            <div class="u-s-m-b-10">
+                                            <!--====== End - Radio Box ======-->
 
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
+                                            <span class="gl-text u-s-m-t-6">Khi bạn nhấp vào "Đặt hàng" bên dưới, chúng tôi sẽ chuyển hướng bạn đến trang web của Momo để thiết lập thông tin thanh toán của bạn.</span>
+                                        </div> *@
 
-                                                    <input type="radio" id="pay-with-check" name="payment">
-                                                    <div class="radio-box__state radio-box__state--primary">
+                                        <div class="u-s-m-b-15">
 
-                                                        <label class="radio-box__label" for="pay-with-check">Pay With Check</label>
-                                                    </div>
+                                            <!--====== Check Box ======-->
+                                            <div class="check-box">
+
+                                                <input type="checkbox" id="term-and-condition">
+                                                <div class="check-box__state check-box__state--primary">
+
+                                                    <label class="check-box__label" for="term-and-condition">I consent to the</label>
                                                 </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span>
                                             </div>
-                                            <div class="u-s-m-b-10">
+                                            <!--====== End - Check Box ======-->
 
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
+                                            <a class="gl-link">Terms of Service.</a>
+                                        </div>
+                                        <input hidden name="IdVoucher" />
+                                        <input hidden name="NgayGiaoDuKien" />
+                                        <div>
+                                            <button id="placeOrderButton" class="btn btn--e-brand-b-2" type="submit">ĐẶT HÀNG</button>
+                                        </div>
 
-                                                    <input type="radio" id="pay-with-card" name="payment">
-                                                    <div class="radio-box__state radio-box__state--primary">
-
-                                                        <label class="radio-box__label" for="pay-with-card">Pay With Credit / Debit Card</label>
-                                                    </div>
-                                                </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">International Credit Cards must be eligible for use within the United States.</span>
-                                            </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <!--====== Radio Box ======-->
-                                                <div class="radio-box">
-
-                                                    <input type="radio" id="pay-pal" name="payment">
-                                                    <div class="radio-box__state radio-box__state--primary">
-
-                                                        <label class="radio-box__label" for="pay-pal">Pay Pal</label>
-                                                    </div>
-                                                </div>
-                                                <!--====== End - Radio Box ======-->
-
-                                                <span class="gl-text u-s-m-t-6">When you click "Place Order" below we'll take you to Paypal's site to set up your billing information.</span>
-                                            </div>
-                                            <div class="u-s-m-b-15">
-
-                                                <!--====== Check Box ======-->
-                                                <div class="check-box">
-
-                                                    <input type="checkbox" id="term-and-condition">
-                                                    <div class="check-box__state check-box__state--primary">
-
-                                                        <label class="check-box__label" for="term-and-condition">I consent to the</label>
-                                                    </div>
-                                                </div>
-                                                <!--====== End - Check Box ======-->
-
-                                                <a class="gl-link">Terms of Service.</a>
-                                            </div>
-                                            <div>
-
-                                                <button class="btn btn--e-brand-b-2" type="submit">PLACE ORDER</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
-                            <!--====== End - Order Summary ======-->
+                            </form>
                         </div>
+                        <!--====== End - Order Summary ======-->
                     </div>
                 </div>
             </div>
         </div>
-        <!--====== End - Section Content ======-->
     </div>
-    <!--====== End - Section 3 ======-->
+    <!--====== End - Section Content ======-->
+    <!--====== Shipping Address Add Modal ======-->
+    <div class="modal fade" id="edit-ship-address">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="checkout-modal2">
+                        <div class="u-s-m-b-30">
+                            <div class="dash-l-r">
+                                <h1 class="gl-modal-h1">Địa chỉ giao hàng</h1>
+                            </div>
+                        </div>
+                        <form class="checkout-modal2__form">
+                            <div class="dash__table-2-wrap u-s-m-b-30 gl-scroll">
+                                <table class="dash__table-2">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tên người nhận</th>
+                                            <th>SĐT</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+
+                                                <!--====== Radio Box ======-->
+                                                <div class="radio-box">
+
+                                                    <input type="radio" id="address-1" name="default-address">
+                                                    <div class="radio-box__state radio-box__state--primary">
+
+                                                        <label class="radio-box__label" for="address-1"></label>
+                                                    </div>
+                                                </div>
+                                                <!--====== End - Radio Box ======-->
+                                            </td>
+                                            <td>
+                                                <div class="gl-text">Default Shipping Address</div>
+                                                <div class="gl-text">Default Billing Address</div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="gl-modal-btn-group">
+                                <button class="btn btn--e-brand-b-2" type="submit">LƯU</button>
+                                <button class="btn btn--e-grey-b-2" type="button" data-dismiss="modal">ĐÓNG</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====== End - Shipping Address Add Modal ======-->
 </div>
+
+<script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<a href="~/lib/jquery/dist/jquery.min.map">~/lib/jquery/dist/jquery.min.map</a>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<!--====== Lấy ra địa chỉ ======-->
+<script>
+    var isCalculatingShippingFee = false;
+    var tongtienSanPham = parseInt(document.getElementById("tamtinh").innerText.replace("đ", "").replace(/\,/g, "").replace(/\./g, "").trim());
+    var totalAmountElement = document.getElementById("tongtien");
+    var MucUuDai = "";
+    var phiship = 0;
+    var tongTienSauGiamGia = 0;
+    let hasFunctionRun = false;
+    $(document).ready(function () {
+        $('#phiship').text('0đ');
+        phiship = 0;
+        if (MucUuDai !== null && MucUuDai !== "") {
+            totalAmountElement.innerText = tongTienSauGiamGia.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+            totalAmountElement.value = tongTienSauGiamGia.toString();
+        } else {
+            totalAmountElement.innerText = tongtienSanPham.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+            totalAmountElement.value = tongtienSanPham.toString();
+        }
+        useInputAddressScript();
+
+
+        function useInputAddressScript() {
+            $(document).ready(function () {
+                const apiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province';
+                const token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
+
+                axios.get(apiUrl, {
+                    headers: {
+                        'Token': token
+                    }
+                })
+                    .then(response => {
+                        var selectElement = $('#city');
+                        selectElement.empty();
+
+                        selectElement.append($('<option>').val('').text('Chọn thành phố'));
+
+                        $.each(response.data.data, function (index, item) {
+                            selectElement.append($('<option>').val(item.ProvinceID).text(item.ProvinceName));
+                        });
+
+                        selectElement.val(selectElement.val()).trigger('change');
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
+            $(document).ready(function () {
+                $('#city').on('change', function () {
+                    if ($('#city').val() === null) {
+                        var selectElement = $('#district');
+                        selectElement.empty();
+                        selectElement.val('').trigger('change');
+                        selectElement.append($('<option>').val('').text('Chọn huyện'));
+                    }
+                    const apiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/master-data/district';
+                    const token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
+                    axios.get(apiUrl, {
+                        headers: {
+                            'Token': token
+                        },
+                        params: {
+                            province_id: $('#city').val()
+                        }
+                    })
+                        .then(response => {
+                            var selectElement = $('#district');
+                            selectElement.empty();
+                            selectElement.val('').trigger('change');
+                            selectElement.append($('<option>').val('').text('Chọn huyện'));
+                            $.each(response.data.data, function (index, item) {
+                                selectElement.append($('<option>').val(item.DistrictID).text(item.DistrictName));
+                            });
+                            selectElement.val(selectElement.val()).trigger('change');
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                });
+            });
+
+            $(document).ready(function () {
+                $('#district').on('change', function () {
+                    if ($('#district').val() === null) {
+                        var selectElement = $('#wards');
+                        selectElement.empty();
+                        selectElement.val('').trigger('change');
+                        selectElement.append($('<option>').val('').text('Chọn phường/xã'));
+                    }
+                    const apiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/master-data/ward';
+                    const token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
+                    axios.get(apiUrl, {
+                        headers: {
+                            'Token': token
+                        },
+                        params: {
+                            district_id: $('#district').val()
+                        }
+                    })
+                        .then(response => {
+                            var selectElement = $('#wards');
+                            selectElement.empty();
+                            selectElement.val('').trigger('change');
+                            selectElement.append($('<option>').val('').text('Chọn phường/xã'));
+                            $.each(response.data.data, function (index, item) {
+                                selectElement.append($('<option>').val(item.WardCode).text(item.WardName));
+                            });
+                            selectElement.val(selectElement.val()).trigger('change');
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                });
+            });
+
+            $(document).ready(function () {
+                $('#wards').on('change', function () {
+                    if ($('#wards').val() != null) {
+                        isCalculatingShippingFee = true;
+                        calculateShippingFee();
+                        isCalculatingShippingFee = false;
+                    }
+                });
+            });
+        }
+    });
+
+</script>
+
+<!--====== Tính phí ship và voucher ======-->
+<script>
+    //khi ô input đc thay đổi
+    $('#voucherinput').on('change', function () {
+        MucUuDai = "";
+        voucher(this.value);
+    });
+    //khi ấn enter
+    $('#voucherinput').on('keydown', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            MucUuDai = "";
+            voucher(this.value);
+        }
+    });
+    // Khi chọn ship sau
+    // $('#get-address').on('change', function () {
+    //     var useDefaultAddress = $(this).prop('checked');
+
+    //         totalAmountElement.innerText = tongtienSanPham.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+    //         totalAmountElement.value = tongtienSanPham.toString();
+
+
+    //     // calculateShippingFee();
+    // });
+    // Hàm tính phí ship
+    var serviceid = null
+    // function availableservices() {
+    //     var ApiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services';
+    //     var token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
+    //     var shop_id = 705899;
+    //     return new Promise((resolve, reject) => {
+    //         axios.get(ApiUrl, {
+    //             headers: {
+    //                 'Token': token,
+    //             },
+    //             params: {
+    //                 from_district: 3440,
+    //                 to_district: $('#district').val(),
+    //                 shop_id: shop_id
+    //             }
+    //         })
+    //             .then(response => {
+    //                 response.data.data.forEach(service => {
+    //                     if (service.service_type_id === 2) {
+    //                         serviceid = service.service_id;
+    //                         resolve(); // Báo hiệu rằng availableservices đã hoàn thành
+    //                     }
+    //                 });
+    //             })
+    //             .catch(error => {
+    //                 console.error(error);
+    //                 reject(error); // Báo hiệu rằng có lỗi xảy ra
+    //             });
+    //     });
+    // }
+
+    // function calculateDayShip() {
+    //     availableservices().then(() => {
+    //         var dayshipApiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/leadtime';
+    //         var token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
+    //         var shop_id = 705899;
+
+    //         axios.get(dayshipApiUrl, {
+    //             headers: {
+    //                 'Token': token,
+    //                 'shop_id': shop_id
+    //             },
+    //             params: {
+    //                 service_id: serviceid,
+    //                 to_ward_code: $('#wards').val(),
+    //                 to_district_id: $('#district').val(),
+    //             }
+    //         }).then(response => {
+    //             // Gán tiền ship vào id phiship
+    //             var date = moment.unix(response.data.data.leadtime).format("YYYY-MM-DD HH:mm:ss");
+    //             document.querySelector('input[name="NgayGiaoDuKien"]').value = date;
+    //         })
+    //             .catch(error => {
+    //                 console.error(error);
+    //             });
+    //     }).catch(error => {
+    //         console.error(error);
+    //     });
+    // }
+
+    function calculateShippingFee() {
+        var inputs = document.getElementsByClassName('input-counter__text');
+        var sum = 0;
+        for (var i = 0; i < inputs.length - 1; i++) {
+            var inputValue = parseInt(inputs[i].value);
+            if (!isNaN(inputValue)) {
+                sum += inputValue;
+            }
+        }
+
+        var soLuongDonHang = sum;
+        var length = 20; // Giá trị mặc định cho chiều dài
+        var width = 15; // Giá trị mặc định cho chiều rộng
+        var height = 20;
+        var weight = parseInt((length * width * height) / 5000);
+        var shippingApiUrl = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee';
+        var token = '1194852d-fde8-11ed-8a8c-6e4795e6d902';
+        var shop_id = 705899;
+
+        axios.get(shippingApiUrl, {
+            headers: {
+                'Token': token,
+                'shop_id': shop_id
+            },
+            params: {
+                service_type_id: 2,
+                insurance_value: $('#tamtinh').text().replace(/\D/g, ''),
+                coupon: null,
+                to_ward_code: $('#wards').val(),
+                to_district_id: $('#district').val(),
+                from_district_id: 3440,
+                weight: weight,
+                length: length,
+                width: width,
+                height: height
+            }
+        })
+            .then(response => {
+                // Gán tiền ship vào id phiship
+                phiship = response.data.data.service_fee;
+                console.log(phiship);
+                $('#phiship').text(parseInt(phiship).toLocaleString("vi-VN").replace(/\./g, ',') + "đ");
+
+                // Lấy ra tổng tiền của sản phẩm có trong giỏ hàng
+                if (MucUuDai !== null && MucUuDai !== "") {
+                    var tongTien = tongtienSanPham - MucUuDai + phiship;
+                    document.querySelector('input[name="TongTien"]').value = tongtienSanPham;
+                }
+                else {
+                    var tongTien = tongtienSanPham + phiship;
+                    document.querySelector('input[name="TongTien"]').value = tongtienSanPham;
+                }
+                // Hiển thị tổng tiền
+                totalAmountElement.innerText = tongTien.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+                totalAmountElement.value = tongTien.toString();
+                // Gán giá trị vào input
+                document.querySelector('input[name="TienShip"]').value = phiship;
+                isCalculatingShippingFee = false;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    // Hàm áp dụng voucher
+    // function applyVoucher() {
+    //     var voucherValue = document.getElementById("voucherinput").value;
+    //     voucher(voucherValue);
+    // }
+
+    // Hàm xử lý voucher
+    var IdVoucher = "";
+    function voucher(value) {
+        if (value != null && value.trim() != "") {
+            var ma = { ma: value };
+            $.ajax({
+                url: 'https://localhost:7165/api/Voucher/GetVoucherByMa?ma=' + value,
+                type: 'GET',
+                data: ma,
+                success: function (result) {
+                    console.log(result);
+                    $('#textvoucher').text("");
+                    MucUuDai = result.MucUuDai;
+                    IdVoucher = result.Id;
+                    $('input[name="IdVoucher"]').val(IdVoucher);
+                    // Áp dụng giảm giá từ voucher
+                    applyDiscount(MucUuDai);
+                },
+                error: function (xhr, status, error) {
+                    MucUuDai = "";
+                    $('#textvoucher').text("mã không hợp lệ");
+                    applyDiscount(0);
+                }
+            });
+        } else {
+            $('#textvoucher').text("");
+            // Nếu không có voucher, hiển thị tổng tiền không giảm giá
+            applyDiscount(0);
+        }
+    }
+
+    // Hàm áp dụng giảm giá
+    function applyDiscount(discountAmount) {
+        $('#TienGiam').text(discountAmount.toLocaleString("vi-VN") + "đ");
+        // Tính tổng tiền sau khi giảm giá
+        var tamTinhGiaGiam = tongtienSanPham + parseFloat(phiship);
+        tongTienSauGiamGia = tamTinhGiaGiam - discountAmount;
+        // Hiển thị tổng tiền sau khi giảm giá
+        totalAmountElement.innerText = tongTienSauGiamGia.toLocaleString("vi-VN").replace(/\./g, ',') + "đ";
+        totalAmountElement.value = tongTienSauGiamGia.toString();
+    }
+    function UpdateVoucher() {
+        if (MucUuDai != null) {
+            $.ajax({
+                url: '/Voucher/UpdateVoucherAfterUseIt',
+                type: 'POST',
+                data: { idVoucher: IdVoucher },
+                success: function (result) {
+                    console.log("UpdateVoucherAfterUseIt");
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        } else {
+            $('#textvoucher').text("");
+            // Nếu không có voucher, hiển thị tổng tiền không giảm giá
+            applyDiscount(0);
+        }
+    }
+</script>
+
+<!--====== thanh toán ======-->
+<script>
+    $(document).ready(function () {
+        $('#placeOrderButton').click(function (e) {
+            e.preventDefault();
+            var selectedCity, selectedDistrict, selectedWard, inputAddressBill, DiaChiFull;
+
+
+            // Sử dụng useInputAddressScript
+            selectedCity = $('#city option:selected').text();
+            selectedDistrict = $('#district option:selected').text();
+            selectedWard = $('#wards option:selected').text();
+
+            inputAddressBill = $('#billing-street').val();
+            DiaChiFull = inputAddressBill + ',' + selectedWard + ',' + selectedDistrict + ',' + selectedCity;
+            $('#billing-street').val(DiaChiFull);
+
+            var moTaValue = $("#order-note").val();
+            $('input[name="MoTa"]').val(moTaValue);
+            // $("[name='IdThongTinGH']").val(deliveryResponse.idThongTinGH)
+            var infordata = $('#deliveryForm').serialize();
+            var paymentFormData = $('#paymentForm').serialize();
+            // Gửi dữ liệu thanh toán
+            var mergedData = $.extend({}, infordata, paymentFormData);
+            var combinedData = infordata + '&' + paymentFormData;
+            $.ajax({
+                type: 'POST',
+                url: '/Bill/Pay',
+                data: combinedData,
+                success: function (paymentResponse) {
+                    UpdateVoucher()
+                    // var idHoaDon = paymentResponse.idHoaDon;
+                    window.location.href = "/HoaDon/Order?idHoaDon=" + idHoaDon;
+                },
+                error: function (paymentError) {
+                    // Xử lý lỗi nếu cần
+                }
+            });
+
+        });
+    });
+</script>
