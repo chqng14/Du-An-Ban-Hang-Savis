@@ -9,6 +9,7 @@ using App_Data.Models;
 using System.Linq;
 using App_Data.ViewModels.ProductDetail;
 using App_Data.ViewModel;
+using App_Data.ViewModels.Voucher;
 
 namespace App_View.Controllers
 {
@@ -24,6 +25,10 @@ namespace App_View.Controllers
         private readonly ICartService cartServices;
         private readonly IRoleService roleServices;
         private IBillDetailsServices billDetailServices;
+        private readonly VoucherDTO voucherDTO;
+
+        DbContextModel _dbContextModel;
+
         public BillController(IProductDetailService productDetailService, IVoucherServices voucherServices)
         {
             allRepo = new AllRepo<Bill>();
@@ -37,6 +42,8 @@ namespace App_View.Controllers
 
             cartServices = new CartService();
             roleServices = new RoleService();
+            voucherDTO = new VoucherDTO();
+            _dbContextModel = new DbContextModel();
 
         }
         public async Task<IActionResult> GetAllBill()
@@ -90,10 +97,27 @@ namespace App_View.Controllers
             //var UserID = (await userServices.GetUsersAsync()).FirstOrDefault(c => c.Id == acc).Id;
             var listcart = (await CartDetailServices.GetCartDetailsAsync()).Where(c => c.IdUser == acc);
             //var IDvoucher = await VoucherServices.GetVoucherAsync(voucher1);
-
+            VoucherDTO vcDTo = new VoucherDTO()
+            {
+                Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                DieuKien = 0,
+                LoaiHinhKm = 0,
+                MucUuDai = 0,
+                NgayBatDau = DateTime.Now,
+                NgayKetThuc = DateTime.Now.AddDays(1),
+                Ten = "voucherMacDinh",
+                SoLuongTon = 999,
+                TrangThai = 0
+            };
+            if (_dbContextModel.Vouchers.Any(x => x.Id == vcDTo.Id))
+            {
+            }
+            else
+            {
+                await VoucherServices.AddVoucherAsync(vcDTo);
+            }
             var bill = new Bill()
             {
-                Id = Guid.NewGuid(),
                 IdUser = acc,
                 IdVoucher = hoaDonViewModel.IdVoucher == null ? Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6") : hoaDonViewModel.IdVoucher,
                 NgayTao = DateTime.Now,
@@ -109,12 +133,12 @@ namespace App_View.Controllers
                 MoTa = "0",
                 TrangThai = 0
             };
+           
             await billService.CreateBillAsync(bill);
             foreach (var item in listcart)
             {
                 await billDetailServices.AddItemAsync(new BillDetails()
                 {
-                    Id = new Guid(),
                     IdBill = bill.Id,
                     IdProductDetail = item.IdProduct,
                     SoLuong = item.SoLuongCart,

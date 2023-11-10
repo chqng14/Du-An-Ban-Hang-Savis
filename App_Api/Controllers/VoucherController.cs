@@ -123,6 +123,10 @@ namespace App_Api.Controllers
         public bool UpdateVoucherAfterUseIt(Guid id)
         {
             var voucher = allRepo.GetAll().FirstOrDefault(c => c.Id == id);
+            if(voucher==null)
+            {
+                return false;
+            }
             if (voucher.SoLuongTon > 0)
             {
                 voucher.SoLuongTon -= 1;
