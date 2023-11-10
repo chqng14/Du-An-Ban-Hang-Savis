@@ -23,7 +23,7 @@ namespace App_Api.Controllers
         private readonly IAllRepo<App_Data.Models.Color> _reposColor;
         private readonly IAllRepo<TypeProduct> _reposTypeProduct;
         private readonly IAllRepo<Material> _reposMaterial;
-        private readonly IAllRepo<App_Data.Models.Images> _reposImage;
+        private readonly IAllRepo<Image> _reposImage;
         private readonly IAllRepo<ProductDetails> _reposCTSP;
         private readonly IAllRepo<User> _repoUser;
 
@@ -38,7 +38,7 @@ namespace App_Api.Controllers
             _reposColor = new AllRepo<App_Data.Models.Color>();
             _reposTypeProduct = new AllRepo<TypeProduct>();
             _reposMaterial = new AllRepo<Material>();
-            _reposImage = new AllRepo<App_Data.Models.Images>();
+            _reposImage = new AllRepo<Image>();
             _reposCTSP = new AllRepo<ProductDetails>();
             _repoUser = new AllRepo<User>();
         }
@@ -59,7 +59,7 @@ namespace App_Api.Controllers
                 GiaBan = _reposCTSP.GetAll().FirstOrDefault(c => c.Id == pd.IDCTSP).GiaBan,
                 TrangThai = pd.TrangThai,
                 SoLuongCart = pd.SoLuong,
-                LinkImage = _reposImage.GetAll().Where(a=>a.IdProductDetail == pd.IDCTSP).FirstOrDefault().DuongDan
+                //LinkImage = _reposImage.GetAll().Any(x => x.IdProductDetail == pd.IDCTSP) ? _reposImage.GetAll().Where(pro => pro.IdProductDetail == pd.IDCTSP).FirstOrDefault().TenAnh : null,
             });
             return cartDetails;
         }
