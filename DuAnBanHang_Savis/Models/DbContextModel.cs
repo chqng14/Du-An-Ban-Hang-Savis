@@ -42,7 +42,7 @@ namespace App_Data.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseSqlServer(@"Data Source=LAPTOP-OF-KHAI;Initial Catalog=Savis;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Savis;Integrated Security=True");
 
 
         }

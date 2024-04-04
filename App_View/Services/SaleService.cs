@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using System.Net.Http;
+using SixLabors.ImageSharp.Processing;
 
 namespace App_View.Services
 {
